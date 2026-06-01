@@ -9,51 +9,51 @@ const QUESTIONS = {
 { prompt: "Which statement shows assets and liabilities?", options: ["Income Statement", "Balance Sheet", "Cash Budget", "Sales Report"], answer: 1, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which of these is an asset?", options: ["Bank loan", "Accounts payable", "Cash balance", "Salary expense"], answer: 2, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which of these is a liability?", options: ["Office equipment", "Raw inventory", "Accounts payable", "Retained earnings"], answer: 2, difficulty: 1000, timeLimit: 20 },
-{ prompt: "What does revenue represent?", options: ["Owner investment", "Income from sales", "Amount borrowed", "Operating losses"], answer: 1, difficulty: 1000, timeLimit: 20 },
+{ prompt: "What does revenue represent?", options: ["Income from operations", "Income from sales", "Amount of dividends", "Value of investments"], answer: 1, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which account normally has a debit balance?", options: ["Sales revenue", "Owner capital", "Cash account", "Notes payable"], answer: 2, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which item is a current asset?", options: ["Patent rights", "Factory building", "Inventory stock", "Heavy machinery"], answer: 2, difficulty: 1000, timeLimit: 20 },
-{ prompt: "What is an expense?", options: ["Owner investment", "Cost of operations", "Money borrowed", "Cash collected"], answer: 1, difficulty: 1000, timeLimit: 20 },
+{ prompt: "What is an expense?", options: ["Owner capital investment", "Cost of operations", "Amount of revenues", "Value of assets"], answer: 1, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which document records transactions first?", options: ["General ledger", "Accounting journal", "Trial balance", "Balance sheet"], answer: 1, difficulty: 1000, timeLimit: 20 },
 
 { prompt: "Which financial statement reports company profit?", options: ["Balance Sheet", "Income Statement", "Cash Ledger", "Equity Report"], answer: 1, difficulty: 1100, timeLimit: 20 },
 { prompt: "What is depreciation?", options: ["Increase in asset value", "Allocation of asset cost", "Cash earned from sales", "Reduction in liabilities"], answer: 1, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which account is classified as equity?", options: ["Accounts receivable", "Retained earnings", "Wages expense", "Notes payable"], answer: 1, difficulty: 1100, timeLimit: 20 },
-{ prompt: "What does a trial balance verify?", options: ["Cash flow totals", "Equal debits and credits", "Inventory quantities", "Sales tax records"], answer: 1, difficulty: 1100, timeLimit: 20 },
+{ prompt: "What does a trial balance verify?", options: ["Accuracy of financial records", "Equal debits and credits", "The Completeness of accounts", "The Validity of transactions"], answer: 1, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which account increases with a credit?", options: ["Cash account", "Office equipment", "Sales revenue", "Store supplies"], answer: 2, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which principle matches revenue with expenses?", options: ["Consistency principle", "Matching principle", "Historical principle", "Revenue principle"], answer: 1, difficulty: 1100, timeLimit: 20 },
-{ prompt: "What is gross profit?", options: ["Sales minus expenses", "Sales minus cost of goods", "Revenue minus taxes", "Assets minus liabilities"], answer: 1, difficulty: 1100, timeLimit: 20 },
+{ prompt: "What is gross profit?", options: ["The Sales revenue minus total expenses", "Sales revenue minus cost of goods", "The Revenue earned minus operating expenses", "The Gross income minus tax deductions"], answer: 1, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which item appears on an income statement?", options: ["Factory equipment", "Sales revenue", "Accounts receivable", "Inventory balance"], answer: 1, difficulty: 1100, timeLimit: 20 },
 { prompt: "What does GAAP stand for?", options: ["General Audit Accounting Process", "Generally Accepted Accounting Principles", "Global Accounting Approval Policies", "Government Authorized Accounting Procedures"], answer: 1, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which item is a fixed asset?", options: ["Cash balance", "Inventory stock", "Production machinery", "Accounts receivable"], answer: 2, difficulty: 1100, timeLimit: 20 },
 
-{ prompt: "What is working capital?", options: ["Assets minus equity", "Current assets minus current liabilities", "Cash minus inventory", "Revenue minus expenses"], answer: 1, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What is working capital?", options: ["Total assets minus total equity", "Current assets minus current liabilities", "Total revenue minus total expenses", "Total equity minus total liabilities"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which ratio measures short-term liquidity?", options: ["Debt ratio", "Current ratio", "Profit margin", "Asset turnover"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "What is accounts receivable?", options: ["Money owed by customers", "Money owed to suppliers", "Cash available now", "Interest expense"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which inventory method sells oldest units first?", options: ["LIFO method", "FIFO method", "Average costing", "Specific costing"], answer: 1, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What does accounts payable represent?", options: ["Customer payments due", "Amounts owed to suppliers", "Owner investments", "Cash sales revenue"], answer: 1, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What does accounts payable represent?", options: ["Amounts owed to customers", "Amounts owed to suppliers", "Amounts paid to employees", "Amounts paid to owners"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which account is reduced by depreciation?", options: ["Cash account", "Accumulated depreciation", "Sales revenue", "Accounts payable"], answer: 1, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What is net income?", options: ["Assets minus liabilities", "Revenue minus total expenses", "Cash minus inventory", "Sales minus equity"], answer: 1, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What is net income?", options: ["Total revenue minus total expenses", "Revenue earned minus total expenses", "Gross income minus tax deductions", "Net sales minus total costs"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which account is temporary?", options: ["Land account", "Cash account", "Revenue account", "Capital account"], answer: 2, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What is a ledger?", options: ["Daily transaction book", "Collection of account records", "Annual tax report", "Inventory summary"], answer: 1, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What is a ledger?", options: ["Collection of financial records", "Collection of account records", "Summary of financial transactions", "Detail of accounting entries"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which cost changes with production output?", options: ["Fixed cost", "Variable cost", "Sunk cost", "Historical cost"], answer: 1, difficulty: 1200, timeLimit: 20 },
 
 { prompt: "Which financial statement shows cash inflows and outflows?", options: ["Balance Sheet", "Cash Flow Statement", "Income Statement", "Equity Statement"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which inventory method assumes newest goods sell first?", options: ["FIFO method", "LIFO method", "Average costing", "Specific costing"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "What is the break-even point?", options: ["Revenue equals expenses", "Assets equal liabilities", "Cash exceeds debt", "Profit reaches maximum"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "What does EBITDA stand for?", options: ["Earnings Before Interest, Taxes, Depreciation, and Amortization", "Expenses Before Income, Taxes, Debt, and Assets", "Expected Balance In Total Deposits and Assets", "Equity Balance Including Taxes, Debt, and Amortization"], answer: 0, difficulty: 1300, timeLimit: 20 },
-{ prompt: "Which ratio measures profitability per sales dollar?", options: ["Current ratio", "Net profit margin", "Debt ratio", "Quick ratio"], answer: 1, difficulty: 1300, timeLimit: 20 },
+{ prompt: "Which ratio measures profitability per sales dollar?", options: ["The Ratio of current assets to liabilities", "Ratio of net profit to sales revenue", "The Ratio of debt to total equity", "The Ratio of quick assets to liabilities"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "What is an accrued expense?", options: ["Expense already paid", "Expense incurred but unpaid", "Revenue already earned", "Asset purchased on credit"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which costing method includes fixed manufacturing costs?", options: ["Marginal costing", "Absorption costing", "Direct costing", "Variable costing"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "What does the quick ratio exclude?", options: ["Cash balance", "Inventory stock", "Accounts receivable", "Short-term investments"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "What is retained earnings?", options: ["Unpaid supplier debt", "Accumulated business profits", "Owner salary payments", "Cash held in reserve"], answer: 1, difficulty: 1300, timeLimit: 20 },
-{ prompt: "Which accounting concept assumes business continuity?", options: ["Matching concept", "Going concern concept", "Revenue recognition", "Historical costing"], answer: 1, difficulty: 1300, timeLimit: 20 },
+{ prompt: "Which accounting concept assumes business continuity?", options: ["The Concept of matching revenues and expenses", "Concept of business continuity and going concern", "The Concept of revenue recognition and realization", "The Concept of historical costing and valuation"], answer: 1, difficulty: 1300, timeLimit: 20 },
 
 { prompt: "Which ratio measures ability to repay short-term debt quickly?", options: ["Debt ratio", "Quick ratio", "Profit margin", "Asset turnover"], answer: 1, difficulty: 1400, timeLimit: 20 },
 { prompt: "What is goodwill in accounting?", options: ["Cash reserve amount", "Intangible business value", "Company tax liability", "Accumulated depreciation"], answer: 1, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which account is credited when sales are made in cash?", options: ["Cash account", "Sales revenue", "Inventory account", "Equipment account"], answer: 1, difficulty: 1400, timeLimit: 20 },
 { prompt: "What is the purpose of adjusting entries?", options: ["Close business accounts", "Update account balances", "Record share issues", "Prepare tax invoices"], answer: 1, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which ratio compares debt with shareholder equity?", options: ["Debt-to-equity ratio", "Gross profit ratio", "Quick ratio", "Current ratio"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What is amortization?", options: ["Allocation of intangible asset cost", "Increase in market value", "Reduction in sales revenue", "Payment of cash dividends"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What is amortization?", options: ["Allocation of intangible asset cost", "The Depreciation of tangible assets", "The Amortization of prepaid expenses", "The Accrual of unpaid revenues"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which account is debited when equipment is purchased for cash?", options: ["Cash account", "Equipment account", "Sales revenue", "Accounts payable"], answer: 1, difficulty: 1400, timeLimit: 20 },
 { prompt: "What is a prepaid expense?", options: ["Expense paid in advance", "Expense owed to suppliers", "Revenue earned early", "Future tax liability"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which statement explains changes in owner's equity?", options: ["Cash Flow Statement", "Income Statement", "Equity Statement", "Trial Balance"], answer: 2, difficulty: 1400, timeLimit: 20 },
@@ -61,27 +61,27 @@ const QUESTIONS = {
 
 { prompt: "Which budgeting method starts from zero each period?", options: ["Flexible budgeting", "Zero-based budgeting", "Capital budgeting", "Static budgeting"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "What is contribution margin?", options: ["Sales minus variable costs", "Sales minus fixed costs", "Assets minus liabilities", "Revenue minus taxes"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "Which ratio measures efficiency in using assets?", options: ["Asset turnover ratio", "Debt-equity ratio", "Quick ratio", "Current ratio"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "Which ratio measures efficiency in using assets?", options: ["Ratio of sales revenue to total assets", "Ratio of debt to total equity capital", "Ratio of quick assets to current liabilities", "Ratio of current assets to current liabilities"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "What is a sunk cost?", options: ["Future expected expense", "Cost already incurred", "Variable production cost", "Inventory holding cost"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which costing method uses only variable manufacturing costs?", options: ["Absorption costing", "Variable costing", "Process costing", "Standard costing"], answer: 1, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What is variance analysis used for?", options: ["Comparing planned and actual results", "Calculating tax liability", "Recording daily transactions", "Estimating market value"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What is variance analysis used for?", options: ["Analysis of differences between planned and actual results", "The Calculation of tax liability and tax payments", "The Recording and reporting of daily financial transactions", "The Estimation of market value and market price"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which account type appears on the balance sheet?", options: ["Expense account", "Asset account", "Revenue account", "Loss account"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "What is the main purpose of internal auditing?", options: ["Increase sales revenue", "Evaluate internal controls", "Prepare tax returns", "Issue company shares"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which method allocates costs to identical products?", options: ["Job costing", "Process costing", "Marginal costing", "Direct costing"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "What is a contingent liability?", options: ["Guaranteed future profit", "Possible future obligation", "Recorded cash expense", "Accumulated revenue balance"], answer: 1, difficulty: 1500, timeLimit: 20 },
 
-{ prompt: "Which costing system tracks costs for custom projects?", options: ["Process costing", "Job order costing", "Marginal costing", "Standard costing"], answer: 1, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Which costing system tracks costs for custom projects?", options: ["Process costing system", "Job order costing", "Standard costing system", "Activity based costing"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "What does a favorable variance indicate?", options: ["Actual costs exceeded budget", "Actual results beat expectations", "Revenue matched expenses", "Assets declined in value"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which ratio best measures immediate liquidity?", options: ["Current ratio", "Cash ratio", "Debt ratio", "Inventory turnover"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "What is operating leverage primarily driven by?", options: ["Variable cost proportion", "Fixed cost proportion", "Inventory turnover", "Tax obligations"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which budget adjusts according to activity levels?", options: ["Static budget", "Flexible budget", "Capital budget", "Cash budget"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "What is the primary purpose of standard costing?", options: ["Track market prices", "Measure performance efficiency", "Calculate tax expenses", "Record cash transactions"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which inventory ratio measures sales efficiency?", options: ["Debt turnover", "Inventory turnover", "Quick turnover", "Equity turnover"], answer: 1, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What does vertical analysis compare?", options: ["Current year with previous year", "Items as percentages of a base", "Assets against liabilities", "Budgets against forecasts"], answer: 1, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What does vertical analysis compare?", options: ["Items as percentages of total revenue", "Items as percentages of a base", "Accounts as fractions of total assets", "Expenses as proportions of total costs"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which costing method is common in oil refining industries?", options: ["Job costing", "Process costing", "Batch costing", "Contract costing"], answer: 1, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What is the main objective of cost accounting?", options: ["Increase stock prices", "Control and reduce costs", "Prepare tax laws", "Issue financial shares"], answer: 1, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What is the main objective of cost accounting?", options: ["To Increase stock prices rapidly", "Control and reduce costs effectively", "Prepare tax laws and regulations", "The Issue financial shares publicly"], answer: 1, difficulty: 1600, timeLimit: 20 },
 
-{ prompt: "What does horizontal analysis primarily evaluate?", options: ["Liquidity position only", "Trends across accounting periods", "Inventory replacement cost", "Debt repayment schedules"], answer: 1, difficulty: 1700, timeLimit: 20 },
+{ prompt: "What does horizontal analysis primarily evaluate?", options: ["Evaluation of liquidity position and cash flows", "Analysis of trends across multiple accounting periods", "Calculation of inventory replacement cost and value", "Preparation of debt repayment schedules and plans"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which variance compares actual and standard material usage?", options: ["Labor rate variance", "Material usage variance", "Sales volume variance", "Fixed overhead variance"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "What is contribution margin ratio?", options: ["Contribution margin divided by sales", "Net income divided by assets", "Sales divided by liabilities", "Variable costs divided by sales"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which accounting method records revenue when earned?", options: ["Cash basis accounting", "Accrual basis accounting", "Single entry accounting", "Fund basis accounting"], answer: 1, difficulty: 1700, timeLimit: 20 },
@@ -92,8 +92,8 @@ const QUESTIONS = {
 { prompt: "What is a common-size balance sheet?", options: ["Balance sheet with fixed values", "Statement using percentage figures", "Report showing cash balances", "Ledger with summarized entries"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which overhead cost remains constant despite production changes?", options: ["Variable overhead", "Fixed overhead", "Direct material cost", "Sales commission"], answer: 1, difficulty: 1700, timeLimit: 20 },
 
-{ prompt: "Which method allocates joint costs based on sales value?", options: ["Direct labor allocation", "Relative sales value method", "FIFO allocation method", "Machine-hour allocation"], answer: 1, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What does residual income measure?", options: ["Income after minimum required return", "Revenue before operating expenses", "Cash flow from financing", "Profit before tax deductions"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Which method allocates joint costs based on sales value?", options: ["Direct labor and material costs", "Relative sales value and revenue", "FIFO allocation and inventory costs", "The Machine-hour and production costs"], answer: 1, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What does residual income measure?", options: ["Income earned after minimum required return on investment", "The Revenue earned before operating expenses and costs", "Cash flow generated from financing activities and loans", "The Profit earned before tax deductions and payments"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which variance results from paying higher wages than expected?", options: ["Labor efficiency variance", "Labor rate variance", "Material price variance", "Sales mix variance"], answer: 1, difficulty: 1800, timeLimit: 20 },
 { prompt: "What is the primary goal of activity-based costing?", options: ["Reduce tax obligations", "Allocate overhead more accurately", "Increase production volume", "Track stock market value"], answer: 1, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which financial metric measures operating profitability only?", options: ["Gross profit margin", "Operating profit margin", "Current ratio", "Debt turnover ratio"], answer: 1, difficulty: 1800, timeLimit: 20 },
@@ -106,11 +106,11 @@ const QUESTIONS = {
 { prompt: "Which costing method assigns overhead using activity drivers?", options: ["Process costing", "Activity-based costing", "Marginal costing", "Standard costing"], answer: 1, difficulty: 1900, timeLimit: 20 },
 { prompt: "What is economic order quantity primarily used for?", options: ["Minimizing inventory costs", "Calculating tax liability", "Forecasting annual revenue", "Measuring profit margins"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Which variance arises from inefficient labor usage?", options: ["Labor rate variance", "Labor efficiency variance", "Material price variance", "Fixed overhead variance"], answer: 1, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What does the times interest earned ratio measure?", options: ["Inventory repayment capacity", "Ability to cover interest payments", "Cash generated from operations", "Efficiency of asset utilization"], answer: 1, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What does the times interest earned ratio measure?", options: ["The Capacity to repay inventory and inventory loans", "Ability to cover interest payments and debt service", "The Cash generated from operations and operating activities", "The Efficiency of asset utilization and asset management"], answer: 1, difficulty: 1900, timeLimit: 20 },
 { prompt: "Which accounting concept records assets at original purchase cost?", options: ["Fair value principle", "Historical cost principle", "Revenue recognition principle", "Matching principle"], answer: 1, difficulty: 1900, timeLimit: 20 },
 { prompt: "What is the primary purpose of sensitivity analysis?", options: ["Estimate audit expenses", "Evaluate outcome changes from assumptions", "Track inventory shortages", "Prepare annual tax reports"], answer: 1, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Which metric evaluates profit generated per shareholder investment?", options: ["Return on equity", "Current ratio", "Inventory turnover", "Operating leverage"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What does capital rationing involve?", options: ["Limiting investment due to funds", "Reducing employee salaries", "Increasing inventory purchases", "Recording prepaid expenses"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Which metric evaluates profit generated per shareholder investment?", options: ["Return on equity and shareholder investment", "The Current ratio and liquidity position", "The Inventory turnover and inventory management", "The Operating leverage and financial leverage"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What does capital rationing involve?", options: ["Limiting investment due to funds", "Reducing employee salaries and benefits", "Increasing inventory purchases and storage", "Recording prepaid expenses and revenues"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Which budgeting approach requires justification of all expenses?", options: ["Flexible budgeting", "Zero-based budgeting", "Incremental budgeting", "Cash budgeting"], answer: 1, difficulty: 1900, timeLimit: 20 },
 { prompt: "What is the primary objective of ratio analysis?", options: ["Predict tax regulations", "Interpret financial performance", "Record accounting entries", "Prepare payroll statements"], answer: 1, difficulty: 1900, timeLimit: 20 }
 ],
@@ -133,14 +133,14 @@ const QUESTIONS = {
 
 { prompt: "Which bond involves sharing of electrons?", options: ["Ionic bond", "Covalent bond", "Metallic bond", "Hydrogen bond"], answer: 1, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which process converts liquid into vapor?", options: ["Condensation", "Evaporation", "Fusion", "Sublimation"], answer: 1, difficulty: 1100, timeLimit: 20 },
-{ prompt: "What is formed when acid reacts with base?", options: ["Metal oxide", "Salt and water", "Hydrogen gas", "Only water"], answer: 1, difficulty: 1100, timeLimit: 20 },
+{ prompt: "What is formed when acid reacts with base?", options: ["The Metal oxide and hydroxide formation", "Salt and water as reaction products", "Hydrogen gas and heat energy release", "Only water and carbon dioxide formation"], answer: 1, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which reaction releases heat?", options: ["Endothermic", "Exothermic", "Neutral", "Reversible"], answer: 1, difficulty: 1100, timeLimit: 20 },
-{ prompt: "Which gas turns limewater milky?", options: ["Nitrogen", "Hydrogen", "Carbon dioxide", "Oxygen"], answer: 2, difficulty: 1100, timeLimit: 20 },
+{ prompt: "Which gas turns limewater milky?", options: ["Nitrogen and oxygen gas mixture", "Hydrogen and carbon dioxide gas", "Carbon dioxide and sulfur dioxide", "Oxygen and nitrogen gas mixture"], answer: 2, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which subatomic particle has no charge?", options: ["Electron", "Proton", "Neutron", "Ion"], answer: 2, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which element is represented by Na?", options: ["Nitrogen", "Nickel", "Sodium", "Neon"], answer: 2, difficulty: 1100, timeLimit: 20 },
 { prompt: "What is the formula of methane?", options: ["CH4", "C2H6", "CO2", "NH3"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "What is the pH of an acidic solution?", options: ["Equal to 7", "Greater than 7", "Less than 7", "Equal to 14"], answer: 2, difficulty: 1100, timeLimit: 20 },
-{ prompt: "Which law states mass is conserved?", options: ["Boyle's law", "Charles's law", "Conservation of mass", "Raoult's law"], answer: 2, difficulty: 1100, timeLimit: 20 },
+{ prompt: "Which law states mass is conserved?", options: ["Boyle's law and gas behavior", "Charles's law and thermal expansion", "Conservation of mass and energy", "Raoult's law and vapor pressure"], answer: 2, difficulty: 1100, timeLimit: 20 },
 
 // 1200 ELO — engineering chemistry fundamentals
 
@@ -150,7 +150,7 @@ const QUESTIONS = {
 { prompt: "Which process removes temporary hardness?", options: ["Boiling", "Filtration", "Sedimentation", "Chlorination"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which ore is the main source of aluminum?", options: ["Hematite", "Bauxite", "Galena", "Magnetite"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "What is the main constituent of natural gas?", options: ["Methane", "Ethane", "Propane", "Butane"], answer: 0, difficulty: 1200, timeLimit: 20 },
-{ prompt: "Which process removes dissolved salts from water?", options: ["Sedimentation", "Reverse osmosis", "Filtration", "Coagulation"], answer: 1, difficulty: 1200, timeLimit: 20 },
+{ prompt: "Which process removes dissolved salts from water?", options: ["The Sedimentation and filtration processes", "Reverse osmosis and water purification", "The Filtration and coagulation methods", "The Coagulation and sedimentation techniques"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which element improves corrosion resistance in steel?", options: ["Copper", "Chromium", "Lead", "Calcium"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "What is the role of a catalyst?", options: ["Increase activation energy", "Reduce reaction rate", "Increase reaction rate", "Change equilibrium"], answer: 2, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which gas law relates pressure and volume inversely?", options: ["Charles's law", "Raoult's law", "Boyle's law", "Henry's law"], answer: 2, difficulty: 1200, timeLimit: 20 },
@@ -161,9 +161,9 @@ const QUESTIONS = {
 { prompt: "What type of bond exists in metals?", options: ["Ionic bond", "Metallic bond", "Hydrogen bond", "Coordinate bond"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which process removes oxygen from metal ore?", options: ["Oxidation", "Reduction", "Electrolysis", "Distillation"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which corrosion occurs between dissimilar metals?", options: ["Dry corrosion", "Galvanic corrosion", "Pitting corrosion", "Uniform corrosion"], answer: 1, difficulty: 1300, timeLimit: 20 },
-{ prompt: "Which process separates crude oil fractions?", options: ["Electrolysis", "Fractional distillation", "Hydrogenation", "Polymerization"], answer: 1, difficulty: 1300, timeLimit: 20 },
-{ prompt: "Which polymer is formed by condensation reaction?", options: ["Polyethylene", "PVC", "Nylon 6,6", "Polystyrene"], answer: 2, difficulty: 1300, timeLimit: 20 },
-{ prompt: "Which gas mainly causes acid rain?", options: ["Methane", "Sulfur dioxide", "Hydrogen", "Helium"], answer: 1, difficulty: 1300, timeLimit: 20 },
+{ prompt: "Which process separates crude oil fractions?", options: ["Electrolysis and chemical reactions", "Fractional distillation and separation", "Hydrogenation and chemical reactions", "Polymerization and chemical bonding"], answer: 1, difficulty: 1300, timeLimit: 20 },
+{ prompt: "Which polymer is formed by condensation reaction?", options: ["The Polyethylene and polypropylene formation", "PVC and polyvinyl acetate production", "Nylon 6,6 and polyamide synthesis", "The Polystyrene and polyethylene production"], answer: 2, difficulty: 1300, timeLimit: 20 },
+{ prompt: "Which gas mainly causes acid rain?", options: ["The Methane gas emissions and releases", "Sulfur dioxide gas emissions and pollution", "The Hydrogen gas emissions and combustion", "Helium gas emissions and atmospheric release"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "What is the oxidation number of oxygen usually?", options: ["+1", "-1", "-2", "+2"], answer: 2, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which alloy contains copper and zinc?", options: ["Bronze", "Steel", "Brass", "Solder"], answer: 2, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which process hardens rubber using sulfur?", options: ["Annealing", "Vulcanization", "Galvanization", "Electroplating"], answer: 1, difficulty: 1300, timeLimit: 20 },
@@ -173,7 +173,7 @@ const QUESTIONS = {
 { prompt: "What ions mainly cause hard water?", options: ["Sodium and potassium", "Calcium and magnesium", "Iron and chloride", "Copper and sulfate"], answer: 1, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which electrode attracts cations?", options: ["Anode", "Cathode", "Salt bridge", "Electrolyte"], answer: 1, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which process converts solid directly to gas?", options: ["Fusion", "Condensation", "Sublimation", "Evaporation"], answer: 2, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What is the purpose of antifreeze?", options: ["Increase density", "Lower freezing point", "Raise viscosity", "Reduce pressure"], answer: 1, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What is the purpose of antifreeze?", options: ["Increase boiling point slowly", "Lower freezing point slowly", "Raise melting point slowly", "Reduce boiling point slowly"], answer: 1, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which material is widely used as semiconductor?", options: ["Copper", "Iron", "Silicon", "Silver"], answer: 2, difficulty: 1400, timeLimit: 20 },
 { prompt: "What does cathodic protection prevent?", options: ["Oxidation", "Corrosion", "Electrolysis", "Hydrolysis"], answer: 1, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which compound is bleaching powder?", options: ["CaOCl2", "NaCl", "NaOH", "NH4Cl"], answer: 0, difficulty: 1400, timeLimit: 20 },
@@ -192,7 +192,7 @@ const QUESTIONS = {
 { prompt: "Which electrolyte is used in alkaline batteries?", options: ["Sulfuric acid", "Potassium hydroxide", "Nitric acid", "Hydrochloric acid"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which process breaks heavy hydrocarbons?", options: ["Hydrogenation", "Cracking", "Electrolysis", "Polymerization"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which property measures resistance to scratching?", options: ["Elasticity", "Hardness", "Ductility", "Toughness"], answer: 1, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What type of polymer is Bakelite?", options: ["Thermoplastic", "Thermosetting polymer", "Elastomer", "Copolymer"], answer: 1, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What type of polymer is Bakelite?", options: ["Thermoplastic polymer type", "Thermosetting polymer type", "Elastomeric polymer type", "Copolymeric polymer type"], answer: 1, difficulty: 1500, timeLimit: 20 },
 
 // 1600 ELO — applied electrochemistry/process chemistry
 
@@ -209,15 +209,15 @@ const QUESTIONS = {
 
 // 1700 ELO — engineering applications + conceptual traps
 
-{ prompt: "Why does stainless steel resist corrosion better than iron?", options: ["Lower density", "Passive chromium oxide layer", "Higher conductivity", "Lower carbon content"], answer: 1, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Why does stainless steel resist corrosion better than iron?", options: ["Lower metal reactivity level", "Passive chromium oxide layer", "Higher metal conductivity level", "Lower metal carbon content"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which factor directly affects electrode potential?", options: ["Solution concentration", "Electrode color", "Container shape", "Ambient sound"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "What primarily determines calorific value of fuel?", options: ["Moisture content", "Combustible hydrogen and carbon", "Ash percentage", "Fuel viscosity"], answer: 1, difficulty: 1700, timeLimit: 20 },
+{ prompt: "What primarily determines calorific value of fuel?", options: ["Fuel moisture content level", "Combustible hydrogen and carbon", "Fuel ash percentage level", "Fuel energy density level"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "Why is pitting corrosion dangerous in engineering?", options: ["Easy to detect", "Localized deep penetration", "Occurs only on plastics", "Prevents oxidation"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which process increases octane rating in fuels?", options: ["Cracking", "Reforming", "Neutralization", "Sedimentation"], answer: 1, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Which fuel cell directly uses hydrogen as fuel?", options: ["Dry cell", "Lead-acid cell", "Hydrogen fuel cell", "Nickel-cadmium cell"], answer: 2, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Which fuel cell directly uses hydrogen as fuel?", options: ["Alkaline fuel cell type", "Proton exchange fuel cell", "Molten carbonate fuel cell", "Phosphoric acid fuel cell"], answer: 2, difficulty: 1700, timeLimit: 20 },
 { prompt: "What mainly causes temporary hardness in water?", options: ["Sulfates", "Bicarbonates", "Chlorides", "Nitrates"], answer: 1, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Which polymer characteristic causes thermoplastics to soften repeatedly?", options: ["Cross-linked chains", "Weak intermolecular forces", "Ionic bonding", "Metallic bonding"], answer: 1, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Why is hydrogen considered a high-efficiency fuel?", options: ["Low ignition point", "Very high calorific value", "High density", "Low combustion rate"], answer: 1, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Which polymer characteristic causes thermoplastics to soften repeatedly?", options: ["Strong intermolecular forces type", "Weak intermolecular forces type", "The Covalent bonding type", "The Electrostatic bonding type"], answer: 1, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Why is hydrogen considered a high-efficiency fuel?", options: ["Low fuel energy density level", "High fuel energy density level", "The Low fuel combustion rate", "The High fuel ignition temperature"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which industrial process produces sodium carbonate?", options: ["Haber process", "Contact process", "Solvay process", "Hall process"], answer: 2, difficulty: 1700, timeLimit: 20 },
 
 // 1800 ELO — multi-concept engineering chemistry
@@ -228,10 +228,10 @@ const QUESTIONS = {
 { prompt: "What is the main limitation of reverse osmosis systems?", options: ["High chemical instability", "High energy requirement", "Low filtration accuracy", "Inability to remove salts"], answer: 1, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which factor shifts chemical equilibrium toward products?", options: ["Catalyst addition only", "Removal of products", "Lower reactant concentration", "Reduced pressure always"], answer: 1, difficulty: 1800, timeLimit: 20 },
 { prompt: "Why are alloys generally stronger than pure metals?", options: ["Perfect crystal structure", "Restricted dislocation motion", "Higher electron mobility", "Lower atomic mass"], answer: 1, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Which industrial process relies heavily on Le Chatelier's principle?", options: ["Haber process", "Electroplating", "Galvanization", "Annealing"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Which industrial process relies heavily on Le Chatelier's principle?", options: ["Haber process chemical reaction", "Solvay process chemical reaction", "Contact process chemical reaction", "Bosch process chemical reaction"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which property makes ceramics useful as refractories?", options: ["High thermal stability", "High ductility", "Low melting point", "High conductivity"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Why are fuel cells more efficient than combustion engines?", options: ["Direct chemical-to-electrical conversion", "Higher mechanical friction", "Lower reaction rates", "Reduced electron transfer"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Which phenomenon causes stress corrosion cracking?", options: ["Mechanical stress with corrosive medium", "Only high temperature exposure", "Pure oxidation without stress", "Only cyclic loading"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Which phenomenon causes stress corrosion cracking?", options: ["Mechanical stress with corrosion", "Thermal stress with corrosion", "Chemical stress with corrosion", "Electrical stress with corrosion"], answer: 0, difficulty: 1800, timeLimit: 20 },
 
 // 1900 ELO — advanced engineering chemistry reasoning
 
@@ -240,11 +240,11 @@ const QUESTIONS = {
 { prompt: "Which factor most strongly increases fuel knock tendency?", options: ["Higher octane number", "Premature auto-ignition", "Lower compression ratio", "Reduced volatility"], answer: 1, difficulty: 1900, timeLimit: 20 },
 { prompt: "Why are thermosetting polymers heat resistant?", options: ["Weak chain attraction", "Extensive cross-linking", "Low molecular weight", "Metallic bonding"], answer: 1, difficulty: 1900, timeLimit: 20 },
 { prompt: "Which condition most favors ammonia synthesis equilibrium?", options: ["High temperature low pressure", "Low temperature high pressure", "Low pressure high temperature", "Atmospheric pressure only"], answer: 1, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes fuel cells from batteries?", options: ["Continuous external fuel supply", "Presence of electrodes", "Electrolyte requirement", "Electron transfer reactions"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes fuel cells from batteries?", options: ["Continuous external fuel supply", "Continuous internal fuel supply", "Intermittent external fuel supply", "Intermittent internal fuel supply"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Why does passivation reduce corrosion rate dramatically?", options: ["Creates porous oxide layer", "Forms stable protective film", "Increases electrical conductivity", "Eliminates electron transfer"], answer: 1, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Which thermodynamic quantity determines spontaneity?", options: ["Entropy only", "Enthalpy only", "Gibbs free energy", "Internal energy"], answer: 2, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Which thermodynamic quantity determines spontaneity?", options: ["Thermodynamic entropy change", "Thermodynamic enthalpy change", "Thermodynamic gibbs energy", "Thermodynamic internal energy"], answer: 2, difficulty: 1900, timeLimit: 20 },
 { prompt: "Why are nano-materials chemically more reactive?", options: ["Lower surface area ratio", "Higher surface area ratio", "Reduced electron mobility", "Lower atomic interaction"], answer: 1, difficulty: 1900, timeLimit: 20 },
-{ prompt: "In spectroscopy, Beer-Lambert's Law relates absorbance to:", options: ["Only wavelength", "Concentration and path length", "Only solvent density", "Only temperature"], answer: 1, difficulty: 1900, timeLimit: 20 }
+{ prompt: "In spectroscopy, Beer-Lambert's Law relates absorbance to:", options: ["Spectroscopy absorbance wavelength", "Spectroscopy absorbance concentration", "Spectroscopy absorbance pathlength", "Spectroscopy absorbance molar"], answer: 1, difficulty: 1900, timeLimit: 20 }
 
 ],
   "Applied Physics for Engineers": [
@@ -284,7 +284,7 @@ const QUESTIONS = {
 { prompt: "Which device stores electric charge?", options: ["Resistor", "Inductor", "Capacitor", "Transformer"], answer: 2, difficulty: 1200, timeLimit: 20 },
 { prompt: "What is the slope of a velocity-time graph?", options: ["Displacement", "Momentum", "Acceleration", "Force"], answer: 2, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which phenomenon splits white light into colors?", options: ["Reflection", "Refraction", "Dispersion", "Diffraction"], answer: 2, difficulty: 1200, timeLimit: 20 },
-{ prompt: "Which law conserves total energy?", options: ["Hooke's law", "Conservation of energy", "Snell's law", "Gauss's law"], answer: 1, difficulty: 1200, timeLimit: 20 },
+{ prompt: "Which law conserves total energy?", options: ["Conservation of momentum law", "Conservation of energy law", "Conservation of mass law", "Conservation of charge law"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which material is a good electrical insulator?", options: ["Copper", "Silver", "Rubber", "Aluminum"], answer: 2, difficulty: 1200, timeLimit: 20 },
 { prompt: "What does a transformer primarily change?", options: ["Resistance", "Voltage level", "Frequency", "Power factor"], answer: 1, difficulty: 1200, timeLimit: 20 },
 
@@ -295,7 +295,7 @@ const QUESTIONS = {
 { prompt: "Which quantity determines kinetic energy most directly?", options: ["Velocity squared", "Force only", "Pressure only", "Charge only"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "What is the SI unit of magnetic flux?", options: ["Tesla", "Weber", "Henry", "Farad"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which particle has the greatest penetrating power?", options: ["Alpha particle", "Beta particle", "Gamma ray", "Electron"], answer: 2, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What is resonance in physics?", options: ["Random vibration", "Maximum amplitude vibration", "Zero-frequency motion", "Constant acceleration"], answer: 1, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What is resonance in physics?", options: ["Random and unpredictable vibration patterns", "Maximum amplitude vibration and oscillation", "Zero-frequency motion and static equilibrium", "Constant acceleration and uniform motion"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which effect explains electron emission from metals by light?", options: ["Hall effect", "Photoelectric effect", "Zeeman effect", "Compton effect"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "What type of semiconductor forms p-type material?", options: ["Pentavalent doping", "Trivalent doping", "Neutral doping", "Metal doping"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which physical quantity is measured in tesla?", options: ["Electric field", "Magnetic field", "Capacitance", "Frequency"], answer: 1, difficulty: 1300, timeLimit: 20 },
@@ -317,12 +317,12 @@ const QUESTIONS = {
 // 1500 ELO — modern physics fundamentals
 
 { prompt: "What principle limits simultaneous position and momentum accuracy?", options: ["Pauli principle", "Heisenberg uncertainty principle", "Bohr postulate", "De Broglie principle"], answer: 1, difficulty: 1500, timeLimit: 20 },
-{ prompt: "Which phenomenon proves light has particle nature?", options: ["Diffraction", "Interference", "Photoelectric effect", "Polarization"], answer: 2, difficulty: 1500, timeLimit: 20 },
+{ prompt: "Which phenomenon proves light has particle nature?", options: ["The Photoelectric emission process", "The Compton scattering phenomenon", "Interference and diffraction patterns", "The Quantum tunneling effect"], answer: 2, difficulty: 1500, timeLimit: 20 },
 { prompt: "What is the de Broglie hypothesis related to?", options: ["Wave-particle duality", "Electromagnetic induction", "Nuclear fusion", "Heat transfer"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which device converts AC to DC?", options: ["Amplifier", "Rectifier", "Oscillator", "Transformer"], answer: 1, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What is the escape velocity concept based on?", options: ["Magnetic energy", "Gravitational potential energy", "Thermal energy", "Elastic energy"], answer: 1, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What is the escape velocity concept based on?", options: ["The Electromagnetic radiation energy", "Gravitational potential energy concept", "Thermal energy transfer process", "Kinetic energy conservation law"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which material has zero resistance below critical temperature?", options: ["Semiconductor", "Superconductor", "Ferromagnet", "Dielectric"], answer: 1, difficulty: 1500, timeLimit: 20 },
-{ prompt: "Which radiation has highest frequency?", options: ["Infrared", "Ultraviolet", "Gamma rays", "Microwaves"], answer: 2, difficulty: 1500, timeLimit: 20 },
+{ prompt: "Which radiation has highest frequency?", options: ["Infrared radiation spectrum", "Ultraviolet radiation spectrum", "Gamma radiation emission", "X-ray radiation frequency"], answer: 2, difficulty: 1500, timeLimit: 20 },
 { prompt: "What determines the energy of a photon?", options: ["Amplitude only", "Frequency only", "Velocity only", "Phase only"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which transistor region controls current flow?", options: ["Emitter", "Collector", "Base", "Substrate"], answer: 2, difficulty: 1500, timeLimit: 20 },
 { prompt: "What is the unit of electric field intensity?", options: ["N/C", "J/C", "Wb/m", "T·m"], answer: 0, difficulty: 1500, timeLimit: 20 },
@@ -331,10 +331,10 @@ const QUESTIONS = {
 
 { prompt: "What effect expels magnetic fields in superconductors?", options: ["Hall effect", "Meissner effect", "Zeeman effect", "Compton effect"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which band gap exists in conductors?", options: ["Large band gap", "Small forbidden gap", "No forbidden gap", "Infinite band gap"], answer: 2, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What primarily causes energy loss in transformers?", options: ["Nuclear decay", "Hysteresis and eddy currents", "Quantum tunneling", "Photoelectric emission"], answer: 1, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What primarily causes energy loss in transformers?", options: ["The Electrical resistance heating effect", "Hysteresis and eddy current losses", "The Magnetic field induction process", "The Thermal energy dissipation rate"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which phenomenon demonstrates electron wave nature?", options: ["Photoelectric effect", "Electron diffraction", "Radioactivity", "Pair production"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which parameter remains constant in ideal transformers?", options: ["Voltage", "Current", "Power", "Resistance"], answer: 2, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What is the function of dielectric material?", options: ["Increase conduction", "Store electric energy", "Generate current", "Reduce resistance"], answer: 1, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What is the function of dielectric material?", options: ["Increase electrical conduction path", "Store electrical energy density", "Reduce magnetic field strength", "Enhance thermal insulation property"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which wave property explains polarization?", options: ["Longitudinal nature", "Transverse nature", "Particle nature", "Standing nature"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "What causes Doppler effect?", options: ["Intensity variation", "Relative motion", "Magnetic induction", "Charge transfer"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which semiconductor property increases with temperature?", options: ["Resistance in metals", "Conductivity in semiconductors", "Mass density", "Magnetic permeability"], answer: 1, difficulty: 1600, timeLimit: 20 },
@@ -342,14 +342,14 @@ const QUESTIONS = {
 
 // 1700 ELO — deeper conceptual engineering physics
 
-{ prompt: "In optics, critical angle is the angle where:", options: ["Diffraction begins", "Total internal reflection begins", "Maximum interference occurs", "Refraction disappears"], answer: 1, difficulty: 1700, timeLimit: 20 },
+{ prompt: "In optics, critical angle is the angle where:", options: ["Refraction angle becomes zero", "Total internal reflection occurs", "Diffraction pattern is formed", "Interference fringe is created"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "Why are superconductors valuable in power systems?", options: ["Infinite resistance", "Zero electrical losses", "Low magnetic fields", "Low conductivity"], answer: 1, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Which quantity determines semiconductor conductivity most strongly?", options: ["Atomic mass", "Charge carrier concentration", "Color", "Crystal shape"], answer: 1, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Which quantity determines semiconductor conductivity most strongly?", options: ["Charge carrier concentration level", "Atomic mass number value", "Crystal lattice structure type", "Energy band gap width"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "Why does diffraction become significant for small apertures?", options: ["Wavefront bending increases", "Reflection disappears", "Polarization decreases", "Photon energy rises"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Which effect demonstrates quantized atomic energy levels?", options: ["Compton effect", "Atomic emission spectra", "Doppler effect", "Hall effect"], answer: 1, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Which effect demonstrates quantized atomic energy levels?", options: ["Atomic emission spectral lines", "Molecular absorption spectral bands", "Nuclear decay radiation spectrum", "The X-ray diffraction pattern"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "Why do eddy currents reduce transformer efficiency?", options: ["Increase magnetic flux", "Cause heat losses", "Reduce voltage", "Increase capacitance"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "What limits maximum data transmission in optical fibers?", options: ["Mechanical friction", "Dispersion effects", "Gravitational force", "Static electricity"], answer: 1, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Why do semiconductors have moderate conductivity?", options: ["Partially filled energy bands", "Infinite free electrons", "No valence electrons", "Pure ionic bonding"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Why do semiconductors have moderate conductivity?", options: ["Partially filled energy band structure", "The Completely filled valence band", "The Empty conduction band available", "The Highly conductive material property"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which phenomenon causes rainbow formation?", options: ["Only reflection", "Dispersion and refraction", "Only diffraction", "Only polarization"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "What mainly determines resonance frequency?", options: ["System natural frequency", "External pressure only", "Voltage magnitude", "Wave amplitude"], answer: 0, difficulty: 1700, timeLimit: 20 },
 
@@ -360,20 +360,20 @@ const QUESTIONS = {
 { prompt: "Which phenomenon proves photons carry momentum?", options: ["Photoelectric effect", "Compton scattering", "Interference", "Polarization"], answer: 1, difficulty: 1800, timeLimit: 20 },
 { prompt: "Why does semiconductor doping increase conductivity?", options: ["Reduces crystal size", "Adds charge carriers", "Removes energy bands", "Increases atomic mass"], answer: 1, difficulty: 1800, timeLimit: 20 },
 { prompt: "What fundamentally causes laser coherence?", options: ["Spontaneous emission", "Stimulated emission", "Thermal radiation", "Diffraction only"], answer: 1, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why is optical fiber communication efficient?", options: ["No total internal reflection", "Low attenuation and high bandwidth", "Infinite photon energy", "High electrical resistance"], answer: 1, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why is optical fiber communication efficient?", options: ["The Low signal attenuation rate", "High bandwidth and low attenuation", "The Infinite signal propagation speed", "High frequency and low noise"], answer: 1, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which condition produces constructive interference?", options: ["Half wavelength phase difference", "Integral wavelength phase difference", "Random phase difference", "Perpendicular waves"], answer: 1, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes ferromagnets?", options: ["Random dipole orientation", "Permanent magnetic domain alignment", "Zero magnetic permeability", "No electron spin"], answer: 1, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why are X-rays highly penetrating?", options: ["Low frequency", "High photon energy", "Zero wavelength", "Low velocity"], answer: 1, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Which factor most affects capacitor capacitance?", options: ["Plate geometry and dielectric", "Wire resistance only", "Current frequency only", "Magnetic permeability"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes ferromagnets?", options: ["Random magnetic domain orientation", "Permanent magnetic domain alignment", "High magnetic permeability value", "The Low magnetic susceptibility"], answer: 1, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why are X-rays highly penetrating?", options: ["Low energy photon emission", "High energy photon penetration", "The Short wavelength radiation", "High frequency electromagnetic wave"], answer: 1, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Which factor most affects capacitor capacitance?", options: ["Plate geometry and dielectric material", "Wire resistance and inductance value", "Current frequency and voltage level", "Magnetic field and electric field"], answer: 0, difficulty: 1800, timeLimit: 20 },
 
 // 1900 ELO — high-level engineering physics reasoning
 
-{ prompt: "What are phonons in solid-state physics?", options: ["Light quanta", "Lattice vibration quanta", "Magnetic dipoles", "Free electrons"], answer: 1, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why does superconductivity disappear above critical temperature?", options: ["Electron pairing breaks down", "Magnetic permeability vanishes", "Photon emission stops", "Lattice vibrations cease"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Which factor fundamentally limits transistor miniaturization?", options: ["Mechanical stress", "Quantum tunneling effects", "Color dispersion", "Gravitational distortion"], answer: 1, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why does Heisenberg uncertainty arise fundamentally?", options: ["Measurement defects", "Wave nature of particles", "Thermal fluctuations", "Electrical resistance"], answer: 1, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What are phonons in solid-state physics?", options: ["Electromagnetic wave quanta particles", "Lattice vibration quanta excitations", "Magnetic field quanta fluctuations", "Thermal energy quanta transitions"], answer: 1, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Why does superconductivity disappear above critical temperature?", options: ["Electron pairing breaks down", "Magnetic field fluctuations occur", "Thermal energy increases significantly", "Lattice vibrations become prominent"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Which factor fundamentally limits transistor miniaturization?", options: ["The Mechanical stress accumulation", "Quantum tunneling effects dominate", "Thermal noise becomes significant", "The Electromagnetic interference increases"], answer: 1, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Why does Heisenberg uncertainty arise fundamentally?", options: ["The Wave function collapse occurs", "Wave nature of particles exists", "The Quantum fluctuations are present", "The Energy quantization is observed"], answer: 1, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally causes band gaps in solids?", options: ["Atomic mass variation", "Periodic crystal potentials", "Thermal radiation", "Magnetic domains"], answer: 1, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why can optical fibers transmit signals over long distances?", options: ["Infinite photon speed", "Very low absorption losses", "No refraction occurs", "Perfect conductor properties"], answer: 1, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Why can optical fibers transmit signals over long distances?", options: ["The Signal attenuation is minimized", "Very low absorption losses occur", "The Dispersion effects are negligible", "Scattering losses are reduced significantly"], answer: 1, difficulty: 1900, timeLimit: 20 },
 { prompt: "Which quantum effect enables scanning tunneling microscopes?", options: ["Photoelectric emission", "Quantum tunneling", "Compton scattering", "Pair production"], answer: 1, difficulty: 1900, timeLimit: 20 },
 { prompt: "Why are lasers highly monochromatic?", options: ["Single dominant wavelength emission", "Infinite coherence length", "No diffraction", "Zero photon interaction"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally determines Fermi energy in solids?", options: ["Electron distribution states", "Crystal color", "Atomic radius only", "Magnetic flux"], answer: 0, difficulty: 1900, timeLimit: 20 },
@@ -468,9 +468,9 @@ const QUESTIONS = {
 { prompt: "Which parameter determines inductive reactance?", options: ["Frequency and inductance", "Voltage only", "Resistance only", "Capacitance only"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "What is capacitive reactance inversely proportional to?", options: ["Resistance", "Frequency", "Voltage", "Power"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which AC quantity does not perform useful work?", options: ["Real power", "Reactive power", "Apparent power", "Output power"], answer: 1, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What is power factor correction mainly used for?", options: ["Increase resistance", "Reduce reactive power", "Increase frequency", "Decrease voltage"], answer: 1, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What is power factor correction mainly used for?", options: ["Increase power factor always", "Reduce reactive power consumption", "Improve system efficiency always", "Minimize energy losses significantly"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "What does a choke coil primarily limit?", options: ["Voltage", "Current", "Frequency", "Resistance"], answer: 1, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What is synchronous speed dependent on?", options: ["Voltage only", "Frequency and poles", "Current only", "Torque only"], answer: 1, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What is synchronous speed dependent on?", options: ["Voltage and frequency values only", "Frequency and poles number determine", "Current and torque values only", "Power and efficiency values only"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which loss occurs due to alternating magnetic fields in cores?", options: ["Copper loss", "Hysteresis loss", "Mechanical loss", "Friction loss"], answer: 1, difficulty: 1600, timeLimit: 20 },
 
 // 1700 ELO — three-phase systems/deeper AC
@@ -478,38 +478,38 @@ const QUESTIONS = {
 { prompt: "In 3-phase star connection, VL equals:", options: ["Vph", "√3 × Vph", "Vph / √3", "3 × Vph"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "What is the advantage of 3-phase systems over single-phase?", options: ["Higher pulsation", "Constant power delivery", "Lower efficiency", "Higher losses"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which connection provides neutral point naturally?", options: ["Delta connection", "Star connection", "Bridge connection", "Series connection"], answer: 1, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Why are transmission voltages stepped up?", options: ["Increase current", "Reduce transmission losses", "Increase resistance", "Reduce frequency"], answer: 1, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Why are transmission voltages stepped up?", options: ["Increase transmission efficiency always", "Reduce transmission losses significantly", "Improve system reliability always", "Minimize energy consumption always"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "What mainly causes copper losses in machines?", options: ["Magnetic flux", "Winding resistance", "Mechanical vibration", "Core saturation"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "Why is AC preferred for power transmission?", options: ["Cannot transform voltage", "Easy voltage transformation", "Lower safety", "No reactive effects"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which factor most affects transmission line losses?", options: ["Voltage only", "Current magnitude", "Frequency only", "Capacitance only"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "What mainly limits transformer efficiency?", options: ["Copper and core losses", "Mechanical friction", "Bearing wear", "Rotor slip"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "What is the phase difference between 3-phase voltages?", options: ["60°", "90°", "120°", "180°"], answer: 2, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Which machine converts electrical frequency mechanically?", options: ["Transformer", "Motor-generator set", "Rectifier", "Battery"], answer: 1, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Which machine converts electrical frequency mechanically?", options: ["Generator and motor sets exist", "Motor-generator set is used always", "The Transformer and converter systems", "Rectifier and inverter circuits exist"], answer: 1, difficulty: 1700, timeLimit: 20 },
 
 // 1800 ELO — resonance/power transfer/advanced analysis
 
 { prompt: "What is the condition for maximum power transfer?", options: ["RL = 0", "RL = ∞", "RL = Rth", "RL = 2Rth"], answer: 2, difficulty: 1800, timeLimit: 20 },
 { prompt: "Why does resonance increase current in series RLC circuits?", options: ["Impedance becomes minimum", "Resistance becomes infinite", "Voltage becomes zero", "Frequency disappears"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "What fundamentally causes hysteresis losses?", options: ["Electron collisions", "Repeated magnetic reversal", "Mechanical vibration", "Capacitive leakage"], answer: 1, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why are laminated transformer cores used?", options: ["Increase resistance", "Reduce eddy currents", "Increase capacitance", "Improve conductivity"], answer: 1, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why are laminated transformer cores used?", options: ["Reduce magnetic field strength", "Reduce eddy currents significantly", "Increase electrical conductivity levels", "Improve magnetic flux distribution"], answer: 1, difficulty: 1800, timeLimit: 20 },
 { prompt: "What occurs when power factor decreases?", options: ["Transmission current decreases", "Transmission current increases", "Voltage becomes zero", "Frequency increases"], answer: 1, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why do induction motors require slip?", options: ["Produce rotor EMF", "Reduce frequency", "Increase resistance", "Create capacitance"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why do induction motors require slip?", options: ["Produce rotor electromotive force", "Reduce electrical frequency levels", "Increase motor resistance values", "Create magnetic field capacitance"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "What fundamentally determines transformer EMF?", options: ["Magnetic flux variation", "Mechanical rotation only", "Resistance change", "Capacitance change"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Why is reactive power undesirable in transmission?", options: ["Produces useful work", "Increases line current", "Reduces voltage drop", "Improves efficiency"], answer: 1, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which phenomenon limits high-frequency current flow inside conductors?", options: ["Skin effect", "Corona effect", "Ferranti effect", "Hall effect"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why does corona loss occur in transmission lines?", options: ["Air ionization at high voltage", "Mechanical vibration", "Magnetic saturation", "Core heating"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why does corona loss occur in transmission lines?", options: ["Air ionization at high voltage", "The Mechanical vibration of wires", "The Magnetic saturation of cores", "The Electrical heating of conductors"], answer: 0, difficulty: 1800, timeLimit: 20 },
 
 // 1900 ELO — high-level power systems/circuit reasoning
 
 { prompt: "For series RLC resonance, circuit impedance becomes:", options: ["Maximum reactive", "Minimum resistive", "Infinite reactive", "Purely capacitive"], answer: 1, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why is power transmitted at very high voltage?", options: ["Increase current", "Reduce I²R losses", "Increase resistance", "Reduce insulation"], answer: 1, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What fundamentally limits transformer operation on DC?", options: ["No alternating flux production", "Excessive capacitance", "Low winding resistance", "Reduced hysteresis"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Why is power transmitted at very high voltage?", options: ["To Increase electrical current flow", "Reduce I²R energy losses significantly", "To Increase resistance in transmission", "To Reduce electrical insulation requirements"], answer: 1, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What fundamentally limits transformer operation on DC?", options: ["No alternating flux production occurs", "The Excessive electrical capacitance exists", "Low winding resistance is present", "The Reduced magnetic hysteresis occurs"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Why is reactive compensation important in grids?", options: ["Increase conductor heating", "Maintain voltage stability", "Reduce insulation strength", "Increase frequency"], answer: 1, difficulty: 1900, timeLimit: 20 },
 { prompt: "Which condition maximizes efficiency in power transmission?", options: ["Low voltage high current", "High voltage low current", "Low frequency high resistance", "High capacitance low voltage"], answer: 1, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally causes Ferranti effect?", options: ["Excessive load current", "Transmission line capacitance", "Core saturation", "Mechanical resonance"], answer: 1, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why do synchronous motors operate at constant speed?", options: ["Rotor locks with rotating field", "Slip continuously changes", "Resistance remains zero", "Inductance becomes infinite"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Why do synchronous motors operate at constant speed?", options: ["Rotor locks with rotating magnetic field", "The Slip continuously changes motor speed", "The Resistance remains zero in operation", "The Inductance becomes infinite in motors"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally determines AC power factor?", options: ["Voltage magnitude only", "Phase angle between V and I", "Resistance only", "Current magnitude only"], answer: 1, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why are HVDC systems advantageous for long transmission?", options: ["No reactive power losses", "Higher skin effect", "Lower insulation requirements", "Greater hysteresis loss"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Why are HVDC systems advantageous for long transmission?", options: ["No reactive power losses occur", "Higher skin effect is beneficial", "The Lower insulation requirements exist", "Greater hysteresis loss is acceptable"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally causes transient response in circuits?", options: ["Stored magnetic/electric energy", "Only mechanical motion", "Constant resistance", "Static voltage supply"], answer: 0, difficulty: 1900, timeLimit: 20 }
 
 ],
@@ -530,7 +530,7 @@ const QUESTIONS = {
 
 // 1100 ELO — introductory semiconductor basics
 
-{ prompt: "What does a diode primarily do?", options: ["Amplifies signals", "Allows one-way current flow", "Stores magnetic energy", "Measures voltage"], answer: 1, difficulty: 1100, timeLimit: 20 },
+{ prompt: "What does a diode primarily do?", options: ["The Amplifies electrical signals strongly", "Allows one-way current flow only", "The Stores magnetic energy efficiently", "The Measures voltage levels accurately"], answer: 1, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which device acts as an electronic switch?", options: ["Capacitor", "Transformer", "Transistor", "Fuse"], answer: 2, difficulty: 1100, timeLimit: 20 },
 { prompt: "What type of material is silicon?", options: ["Conductor", "Insulator", "Semiconductor", "Superconductor"], answer: 2, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which component opposes sudden current changes?", options: ["Inductor", "Capacitor", "Diode", "LED"], answer: 0, difficulty: 1100, timeLimit: 20 },
@@ -548,11 +548,11 @@ const QUESTIONS = {
 { prompt: "Which bias widens PN junction depletion region?", options: ["Forward bias", "Reverse bias", "Neutral bias", "Positive bias"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "What is the function of a rectifier?", options: ["DC to AC conversion", "AC to DC conversion", "Signal amplification", "Frequency doubling"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which semiconductor device has three terminals?", options: ["Diode", "Fuse", "Transistor", "Capacitor"], answer: 2, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What is the primary function of a capacitor filter?", options: ["Increase resistance", "Smooth rectified output", "Amplify signals", "Generate frequency"], answer: 1, difficulty: 1200, timeLimit: 20 },
-{ prompt: "Which quantity controls resistor color bands?", options: ["Capacitance", "Resistance value", "Inductance", "Frequency"], answer: 1, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What is the main purpose of doping semiconductors?", options: ["Reduce conductivity", "Increase charge carriers", "Increase insulation", "Reduce voltage"], answer: 1, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What is the primary function of a capacitor filter?", options: ["To Increase resistance in circuits", "Smooth rectified output voltage levels", "The Amplify electrical signals strongly", "To Generate frequency in oscillators"], answer: 1, difficulty: 1200, timeLimit: 20 },
+{ prompt: "Which quantity controls resistor color bands?", options: ["Capacitance values are color coded", "Resistance value is color coded", "Inductance levels are color coded", "Frequency ratings are color coded"], answer: 1, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What is the main purpose of doping semiconductors?", options: ["To Reduce conductivity in semiconductors", "Increase charge carriers in semiconductors", "To Increase insulation in semiconductor", "Reduce voltage in semiconductor devices"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which diode is designed for light detection?", options: ["LED", "Photodiode", "Zener diode", "Tunnel diode"], answer: 1, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What does an amplifier mainly increase?", options: ["Frequency", "Signal strength", "Resistance", "Capacitance"], answer: 1, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What does an amplifier mainly increase?", options: ["To Increase frequency in signals", "Increase signal strength and quality", "To Increase resistance in circuits", "To Increase capacitance in circuits"], answer: 1, difficulty: 1200, timeLimit: 20 },
 
 // 1300 ELO — diode/transistor fundamentals
 
@@ -560,7 +560,7 @@ const QUESTIONS = {
 { prompt: "Which transistor region controls collector current?", options: ["Emitter", "Collector", "Base", "Substrate"], answer: 2, difficulty: 1300, timeLimit: 20 },
 { prompt: "What happens to ideal diode resistance in forward bias?", options: ["Infinite", "Very high", "Very low", "Negative"], answer: 2, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which device converts light into electrical current?", options: ["LED", "Photodiode", "SCR", "Oscillator"], answer: 1, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What is the function of transistor biasing?", options: ["Reduce current", "Set operating point", "Increase insulation", "Decrease voltage"], answer: 1, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What is the function of transistor biasing?", options: ["Reduce current in transistor circuits", "Set operating point in transistor", "To Increase insulation in transistor", "Decrease voltage in transistor circuits"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which transistor type uses electrons as majority carriers?", options: ["PNP transistor", "NPN transistor", "JFET", "MOS capacitor"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which region of transistor is heavily doped?", options: ["Base", "Collector", "Emitter", "Substrate"], answer: 2, difficulty: 1300, timeLimit: 20 },
 { prompt: "What does a full-wave rectifier utilize?", options: ["One half cycle only", "Both AC half cycles", "No filtering", "Only DC input"], answer: 1, difficulty: 1300, timeLimit: 20 },
@@ -572,11 +572,11 @@ const QUESTIONS = {
 { prompt: "What are the terminals of a BJT?", options: ["Gate Source Drain", "Base Collector Emitter", "Anode Cathode Gate", "Input Output Ground"], answer: 1, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which transistor configuration provides highest current gain?", options: ["Common base", "Common collector", "Common emitter", "Grounded emitter"], answer: 2, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which bias condition is used for transistor amplification?", options: ["Cutoff region", "Active region", "Saturation region", "Breakdown region"], answer: 1, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What is ripple factor in rectifiers?", options: ["DC efficiency measure", "AC content in output", "Voltage gain", "Power dissipation"], answer: 1, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What is ripple factor in rectifiers?", options: ["The Measure DC efficiency in rectifiers", "Measure AC content in output signals", "The Measure voltage gain in rectifiers", "The Measure power dissipation in rectifiers"], answer: 1, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which filter component most effectively smooths ripple?", options: ["Resistor", "Capacitor", "Switch", "Relay"], answer: 1, difficulty: 1400, timeLimit: 20 },
 { prompt: "What happens during transistor saturation?", options: ["No conduction", "Maximum conduction", "Reverse breakdown", "Infinite resistance"], answer: 1, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which transistor terminal is common in CE configuration?", options: ["Base", "Collector", "Emitter", "Drain"], answer: 2, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What primarily determines RC circuit time constant?", options: ["R × C", "R/C", "C/R", "R²C"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What primarily determines RC circuit time constant?", options: ["Resistance times capacitance", "Capacitance times inductance", "Inductance times resistance", "Resistance times inductance"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which device is voltage-controlled rather than current-controlled?", options: ["BJT", "FET", "Relay", "SCR"], answer: 1, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which rectifier provides higher efficiency?", options: ["Half-wave rectifier", "Full-wave rectifier", "Single diode rectifier", "Zener rectifier"], answer: 1, difficulty: 1400, timeLimit: 20 },
 
@@ -596,11 +596,11 @@ const QUESTIONS = {
 // 1600 ELO — advanced semiconductor behavior
 
 { prompt: "Which component stores energy in magnetic field?", options: ["Capacitor", "Resistor", "Inductor", "Transistor"], answer: 2, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Why are MOSFETs widely used in digital circuits?", options: ["High power dissipation", "Very high input impedance", "Low switching speed", "High gate current"], answer: 1, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What fundamentally causes diode reverse breakdown?", options: ["Excessive reverse electric field", "Low forward current", "Capacitive charging", "Thermal expansion"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Why are MOSFETs widely used in digital circuits?", options: ["Very low input impedance values", "Very high input impedance values", "Very low output impedance values", "Very high output impedance values"], answer: 1, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What fundamentally causes diode reverse breakdown?", options: ["Excessive reverse electric field strength", "Insufficient forward electric field strength", "High forward electric current density", "Low reverse electric current density"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which parameter determines cutoff frequency in RC filters?", options: ["Resistance-capacitance combination", "Voltage only", "Current only", "Temperature only"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Why do capacitors block DC after charging?", options: ["Infinite inductance", "No continuous charge flow", "Zero resistance", "Negative impedance"], answer: 1, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Which device is best suited for voltage amplification?", options: ["Transformer", "Transistor amplifier", "Rectifier", "Fuse"], answer: 1, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Why do capacitors block DC after charging?", options: ["No continuous direct current flow", "No continuous alternating current flow", "No continuous charge displacement flow", "No continuous energy transfer flow"], answer: 1, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Which device is best suited for voltage amplification?", options: ["Transformer based voltage conversion", "Transistor based voltage amplification", "Resistor based voltage division", "Inductor based voltage filtering"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "What is the primary purpose of bypass capacitors?", options: ["Increase gain stability", "Provide AC grounding", "Increase ripple", "Reduce resistance"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which factor most affects transistor switching speed?", options: ["Carrier transit time", "Color coding", "Wire thickness only", "Ambient sound"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Why are integrated circuits advantageous?", options: ["Higher size and power", "Compact high reliability", "Higher wiring complexity", "Reduced functionality"], answer: 1, difficulty: 1600, timeLimit: 20 },
@@ -609,34 +609,34 @@ const QUESTIONS = {
 // 1700 ELO — regulation/switching/IC reasoning
 
 { prompt: "What is the primary function of a Zener diode?", options: ["Rectification", "Amplification", "Voltage regulation", "Light emission"], answer: 2, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Why are switching regulators more efficient than linear regulators?", options: ["Continuous resistive dissipation", "Reduced power loss during switching", "Higher thermal leakage", "Lower frequency operation"], answer: 1, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Why are switching regulators more efficient than linear regulators?", options: ["Increased power loss during switching", "Reduced power loss during switching", "Increased energy storage during switching", "Reduced energy transfer during switching"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "What mainly determines op-amp closed-loop gain?", options: ["Power supply voltage", "External feedback network", "Internal transistor count", "Input resistance only"], answer: 1, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Which phenomenon limits high-frequency transistor operation?", options: ["Carrier transit delay", "Static resistance", "Color variation", "Low capacitance"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Why are CMOS circuits power efficient?", options: ["Continuous current flow", "Very low static power consumption", "High resistive losses", "Large gate current"], answer: 1, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Which phenomenon limits high-frequency transistor operation?", options: ["Carrier transit time delay effects", "Carrier recombination time delay effects", "Electron mobility time delay effects", "Hole mobility time delay effects"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Why are CMOS circuits power efficient?", options: ["The Continuous high current flow conditions", "Very low static power consumption levels", "The Continuous low voltage drop conditions", "Very high dynamic power consumption levels"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "What is the purpose of decoupling capacitors near ICs?", options: ["Increase ripple", "Stabilize supply voltage", "Reduce logic levels", "Increase inductance"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which electronic parameter most affects amplifier bandwidth?", options: ["Frequency response limits", "Wire color", "Heat sink mass", "Package size"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Why are Schottky diodes faster than PN diodes?", options: ["Lower minority carrier storage", "Higher resistance", "Larger depletion width", "Lower conductivity"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "What fundamentally causes clipping in amplifiers?", options: ["Operation beyond supply limits", "Low capacitance", "Reduced resistance", "Magnetic saturation"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Why are Schottky diodes faster than PN diodes?", options: ["Lower minority carrier storage times", "Higher majority carrier storage times", "Lower majority carrier recombination times", "Higher minority carrier recombination times"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "What fundamentally causes clipping in amplifiers?", options: ["Operation beyond maximum supply limits", "Operation below minimum supply limits", "Operation within nominal supply limits", "Operation outside optimal supply limits"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which logic family generally offers highest integration density?", options: ["TTL", "CMOS", "RTL", "DTL"], answer: 1, difficulty: 1700, timeLimit: 20 },
 
 // 1800 ELO — deeper electronics/system concepts
 
 { prompt: "What does a FET use to control current flow?", options: ["Input current", "Electric field", "Magnetic field", "Temperature"], answer: 1, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why do op-amps ideally have infinite input impedance?", options: ["Prevent loading of source", "Increase power dissipation", "Reduce voltage gain", "Increase current draw"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Which factor fundamentally limits integrated circuit miniaturization?", options: ["Mechanical vibration", "Quantum and thermal effects", "Color coding", "Wire insulation"], answer: 1, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why do op-amps ideally have infinite input impedance?", options: ["Prevent loading of the signal source", "Prevent amplification of the signal source", "Prevent attenuation of the signal source", "Prevent filtering of the signal source"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Which factor fundamentally limits integrated circuit miniaturization?", options: ["Thermal and mechanical vibration effects", "Quantum and thermal fluctuation effects", "Electromagnetic and thermal radiation effects", "Thermal and quantum tunneling effects"], answer: 1, difficulty: 1800, timeLimit: 20 },
 { prompt: "Why are differential amplifiers resistant to noise?", options: ["Amplify common-mode signals", "Reject common-mode signals", "Increase distortion", "Reduce gain"], answer: 1, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What fundamentally determines ADC resolution?", options: ["Number of quantization levels", "Input resistance", "Operating temperature", "Capacitance only"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What fundamentally determines ADC resolution?", options: ["Number of analog to digital quantization levels", "Number of digital to analog quantization levels", "The Number of signal processing quantization levels", "The Number of data conversion quantization levels"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Why are switching transistors preferred fully ON or OFF?", options: ["Minimize power dissipation", "Increase analog distortion", "Reduce efficiency", "Increase leakage current"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which phenomenon primarily causes electronic noise in resistors?", options: ["Thermal agitation", "Magnetic resonance", "Carrier depletion", "Quantum collapse"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why do high-frequency circuits require impedance matching?", options: ["Prevent signal reflections", "Increase resistance", "Decrease bandwidth", "Reduce inductance"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why do high-frequency circuits require impedance matching?", options: ["Prevent signal reflections and distortions", "Prevent signal attenuations and losses", "Prevent signal amplifications and gains", "Prevent signal filtrations and rejections"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "What fundamentally causes propagation delay in logic gates?", options: ["Finite transistor switching time", "Infinite resistance", "Mechanical inertia", "Magnetic domains"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Why are negative feedback amplifiers more stable?", options: ["Reduced parameter sensitivity", "Increased distortion", "Higher noise amplification", "Infinite gain increase"], answer: 0, difficulty: 1800, timeLimit: 20 },
 
 // 1900 ELO — advanced op-amp/electronics reasoning
 
 { prompt: "In Op-Amps, what does virtual ground imply?", options: ["Physical earth connection", "Nearly zero differential voltage", "No output voltage", "Zero supply current"], answer: 1, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why does negative feedback linearize amplifier response?", options: ["Reduces dependence on open-loop gain", "Increases transistor saturation", "Eliminates carrier motion", "Creates infinite bandwidth"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What fundamentally limits maximum clock speed in processors?", options: ["Propagation delay and heat dissipation", "Wire color", "Capacitor polarity", "Static inductance"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Why does negative feedback linearize amplifier response?", options: ["Reduces dependence on open-loop gain", "Increases transistor current drive capability", "Reduces amplifier input impedance levels", "Increases system overall feedback stability"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What fundamentally limits maximum clock speed in processors?", options: ["Propagation delay and heat dissipation", "Capacitor charging time constants only", "Inductor current saturation levels only", "Resistor power dissipation limits only"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Why are MOSFET gates insulated from channels?", options: ["Minimize gate current", "Increase thermal leakage", "Reduce carrier mobility", "Increase noise"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Which factor most affects op-amp slew rate limitations?", options: ["Finite internal charging currents", "Wire resistance only", "External temperature alone", "Magnetic flux leakage"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Why do digital systems use clock synchronization?", options: ["Control timing consistency", "Increase analog gain", "Reduce semiconductor doping", "Increase leakage current"], answer: 0, difficulty: 1900, timeLimit: 20 },
@@ -689,13 +689,13 @@ const QUESTIONS = {
 
 // 1300 ELO — IC engine fundamentals
 
-{ prompt: "What does an IC engine convert?", options: ["Electrical to heat", "Chemical to mechanical energy", "Mechanical to electrical", "Potential to thermal"], answer: 1, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What does an IC engine convert?", options: ["Electrical to mechanical energy conversion process", "Chemical to mechanical energy conversion process", "Thermal to electrical energy conversion process", "Mechanical to thermal energy conversion process"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which cycle is used in diesel engines?", options: ["Otto cycle", "Diesel cycle", "Carnot cycle", "Rankine cycle"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "What is dead center in engines?", options: ["Maximum piston position", "Minimum pressure point", "Fuel ignition point", "Valve overlap point"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which property measures shock absorption before fracture?", options: ["Hardness", "Toughness", "Elasticity", "Creep"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "What is the primary function of a radiator?", options: ["Increase pressure", "Cool engine", "Store fuel", "Lubricate piston"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which machine element connects rotating shafts?", options: ["Pulley", "Coupling", "Cam", "Valve"], answer: 1, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What is mechanical efficiency?", options: ["Output/Input power ratio", "Pressure ratio", "Speed ratio", "Temperature ratio"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What is mechanical efficiency?", options: ["Output to input power ratio and efficiency", "The Pressure to volume ratio and thermodynamic", "Speed to torque ratio and mechanical advantage", "Temperature to heat transfer ratio and thermal"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which process increases metal hardness by heating and cooling?", options: ["Annealing", "Tempering", "Heat treatment", "Casting"], answer: 2, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which type of stress occurs during twisting?", options: ["Bending stress", "Shear stress", "Tensile stress", "Compressive stress"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which valve controls exhaust gases in engines?", options: ["Inlet valve", "Throttle valve", "Exhaust valve", "Safety valve"], answer: 2, difficulty: 1300, timeLimit: 20 },
@@ -704,11 +704,11 @@ const QUESTIONS = {
 
 { prompt: "What is the purpose of a flywheel?", options: ["Steer vehicle", "Store rotational energy", "Pump coolant", "Increase friction"], answer: 1, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which property allows material to regain original shape?", options: ["Plasticity", "Elasticity", "Ductility", "Brittleness"], answer: 1, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What primarily causes fatigue failure?", options: ["Static loading", "Repeated cyclic loading", "Low temperature", "Corrosion only"], answer: 1, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What primarily causes fatigue failure?", options: ["Static loading and constant stress conditions", "Repeated cyclic loading and fatigue stress", "Low temperature and cryogenic operating conditions", "High frequency and vibration induced stress"], answer: 1, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which machine element transmits power using friction?", options: ["Gear drive", "Chain drive", "Belt drive", "Shaft coupling"], answer: 2, difficulty: 1400, timeLimit: 20 },
 { prompt: "What is the function of a governor?", options: ["Control speed", "Increase torque", "Reduce vibration", "Increase pressure"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which thermodynamic process occurs at constant pressure?", options: ["Isothermal", "Isochoric", "Isobaric", "Adiabatic"], answer: 2, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What is the purpose of a crankshaft?", options: ["Store fuel", "Convert reciprocating to rotary motion", "Increase pressure", "Cool engine"], answer: 1, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What is the purpose of a crankshaft?", options: ["Convert linear to rotational motion", "Convert reciprocating to rotary motion", "Transform kinetic to potential energy", "Change rotational to linear motion"], answer: 1, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which property measures permanent deformation ability?", options: ["Hardness", "Elasticity", "Plasticity", "Resilience"], answer: 2, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which machine converts mechanical energy into fluid energy?", options: ["Turbine", "Pump", "Compressor", "Boiler"], answer: 1, difficulty: 1400, timeLimit: 20 },
 { prompt: "What is the primary function of piston rings?", options: ["Increase friction", "Seal combustion gases", "Cool lubricant", "Reduce torque"], answer: 1, difficulty: 1400, timeLimit: 20 },
@@ -723,26 +723,26 @@ const QUESTIONS = {
 { prompt: "Which machine element reduces shock and vibration?", options: ["Coupling", "Spring", "Bolt", "Gear"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "What is indicated power in engines?", options: ["Electrical output power", "Power developed inside cylinder", "Cooling system power", "Transmission power"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which process occurs at constant temperature?", options: ["Adiabatic", "Isothermal", "Isobaric", "Isochoric"], answer: 1, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What mainly causes creep in materials?", options: ["High cyclic loading", "Long-term high temperature stress", "Low pressure", "Elastic recovery"], answer: 1, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What mainly causes creep in materials?", options: ["High cyclic loading causes fatigue", "Long-term high temperature stress causes", "Low pressure causes material deformation", "Elastic recovery causes material strain"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which mechanism converts linear motion into rotary motion?", options: ["Slider-crank", "Bevel gear", "Pulley system", "Cam follower"], answer: 0, difficulty: 1500, timeLimit: 20 },
 
 // 1600 ELO — IC engine and cycle analysis
 
 { prompt: "Which cycle do petrol engines ideally operate on?", options: ["Diesel cycle", "Otto cycle", "Rankine cycle", "Brayton cycle"], answer: 1, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Why does higher compression ratio improve efficiency?", options: ["Lower heat utilization", "Greater thermal energy extraction", "Reduced combustion", "Lower pressure generation"], answer: 1, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What fundamentally limits Carnot engine efficiency?", options: ["Pressure losses", "Source and sink temperatures", "Fuel viscosity", "Mechanical wear"], answer: 1, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Why does higher compression ratio improve efficiency?", options: ["Lower heat utilization is inefficient", "Greater thermal energy extraction occurs", "The Reduced combustion temperature decreases", "Lower pressure generation reduces power"], answer: 1, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What fundamentally limits Carnot engine efficiency?", options: ["The Pressure losses reduce engine efficiency", "Source and sink temperatures limit efficiency", "The Fuel viscosity affects engine performance", "The Mechanical wear increases energy loss"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which engine component converts pressure into motion?", options: ["Spark plug", "Piston", "Radiator", "Governor"], answer: 1, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Why are lubricants essential in machines?", options: ["Increase wear", "Reduce friction and heat", "Increase vibration", "Decrease efficiency"], answer: 1, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Why are lubricants essential in machines?", options: ["Increase wear and reduce lifespan", "Reduce friction and heat generated", "Increase vibration and noise levels", "The Decrease efficiency and performance"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which process improves metal ductility?", options: ["Hardening", "Annealing", "Quenching", "Carburizing"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "What primarily causes knocking in petrol engines?", options: ["Premature fuel auto-ignition", "Low piston speed", "Reduced compression", "Cooling system failure"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which thermodynamic cycle is used in steam power plants?", options: ["Otto cycle", "Diesel cycle", "Rankine cycle", "Brayton cycle"], answer: 2, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What is volumetric efficiency of engines related to?", options: ["Fuel quality only", "Cylinder air intake effectiveness", "Lubricant pressure", "Cooling efficiency"], answer: 1, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What is volumetric efficiency of engines related to?", options: ["Fuel quality only affects performance", "Cylinder air intake effectiveness matters", "Lubricant pressure affects engine wear", "Cooling efficiency is important factor"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which property determines resistance to sudden impact?", options: ["Elasticity", "Hardness", "Toughness", "Creep"], answer: 2, difficulty: 1600, timeLimit: 20 },
 
 // 1700 ELO — transmission and advanced mechanics
 
-{ prompt: "What is the function of a clutch?", options: ["Increase torque", "Engage and disengage power", "Cool gearbox", "Reverse rotation"], answer: 1, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Why are flywheels used in engines?", options: ["Increase combustion temperature", "Smooth cyclic speed fluctuations", "Reduce fuel injection", "Increase exhaust pressure"], answer: 1, difficulty: 1700, timeLimit: 20 },
+{ prompt: "What is the function of a clutch?", options: ["Increase torque and rotational speed", "Engage and disengage power smoothly", "Cool gearbox and reduce temperature", "Reverse rotation and change direction"], answer: 1, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Why are flywheels used in engines?", options: ["To Increase combustion temperature and", "Smooth cyclic speed fluctuations occur", "Reduce fuel injection and consumption", "Increase exhaust pressure and flow"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "What fundamentally causes fatigue failure?", options: ["Single overload only", "Repeated stress cycles", "High thermal conductivity", "Elastic recovery"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "Why are helical gears quieter than spur gears?", options: ["Gradual tooth engagement", "Lower rotational speed", "Reduced lubrication", "Smaller pitch diameter"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "What primarily determines brake effectiveness?", options: ["Frictional force generation", "Fuel injection timing", "Compression ratio", "Cooling capacity"], answer: 0, difficulty: 1700, timeLimit: 20 },
@@ -750,33 +750,33 @@ const QUESTIONS = {
 { prompt: "Why are alloy steels widely used in machines?", options: ["Lower strength", "Improved mechanical properties", "Higher brittleness only", "Reduced machinability"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "What mainly causes mechanical vibration resonance?", options: ["External frequency matching natural frequency", "Zero damping", "Infinite stiffness", "No applied force"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Why are ball bearings preferred for high-speed shafts?", options: ["Higher sliding friction", "Lower rolling friction", "Greater shaft deformation", "Higher heat generation"], answer: 1, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Which process increases surface hardness while retaining core toughness?", options: ["Annealing", "Case hardening", "Normalizing", "Tempering"], answer: 1, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Which process increases surface hardness while retaining core toughness?", options: ["The Annealing reduces material hardness", "Case hardening increases surface hardness", "The Normalizing relieves internal stresses", "The Tempering increases material toughness"], answer: 1, difficulty: 1700, timeLimit: 20 },
 
 // 1800 ELO — material behavior/advanced thermo
 
 { prompt: "Which property measures energy absorption before fracture?", options: ["Hardness", "Elasticity", "Toughness", "Plasticity"], answer: 2, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why are turbines more efficient at high rotational speeds?", options: ["Improved fluid energy transfer", "Lower kinetic energy", "Reduced pressure gradients", "Decreased blade interaction"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What fundamentally limits real engine efficiency?", options: ["Friction and heat losses", "Infinite combustion pressure", "Perfect insulation", "Zero entropy generation"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why do materials fail under creep conditions?", options: ["Short-term impact loading", "Long-term stress at elevated temperatures", "Elastic deformation only", "Magnetic saturation"], answer: 1, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why are turbines more efficient at high rotational speeds?", options: ["Improved fluid energy transfer occurs", "Lower kinetic energy is generated", "Reduced pressure gradients are formed", "The Decreased blade interaction happens"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What fundamentally limits real engine efficiency?", options: ["Friction and heat losses occur", "The Infinite combustion pressure exists", "The Perfect insulation is achieved", "The Zero entropy generation happens"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why do materials fail under creep conditions?", options: ["The Short-term impact loading occurs", "Long-term stress at elevated temperatures", "Elastic deformation is only present", "The Magnetic saturation is reached"], answer: 1, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which mechanism primarily transmits power without slip?", options: ["Belt drive", "Friction wheel", "Gear drive", "Rope drive"], answer: 2, difficulty: 1800, timeLimit: 20 },
 { prompt: "What fundamentally causes entropy generation in real systems?", options: ["Irreversibilities", "Perfect reversibility", "Constant pressure", "Zero friction"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why is lubrication film breakdown dangerous?", options: ["Reduces metal contact", "Causes severe wear and heating", "Increases efficiency", "Reduces friction losses"], answer: 1, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What mainly determines natural frequency of systems?", options: ["Mass and stiffness", "Temperature only", "Lubricant viscosity", "Surface roughness"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why is lubrication film breakdown dangerous?", options: ["The Reduces metal contact significantly", "Causes severe wear and heating", "The Increases efficiency greatly always", "The Reduces friction losses completely"], answer: 1, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What mainly determines natural frequency of systems?", options: ["Mass and stiffness are considered", "Temperature only is a factor", "The Lubricant viscosity is important", "The Surface roughness is critical"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Why are composite materials useful in engineering?", options: ["High density only", "High strength-to-weight ratio", "Low corrosion resistance", "Low stiffness"], answer: 1, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which phenomenon primarily limits high-speed bearing life?", options: ["Rolling fatigue", "Elastic recovery", "Heat conduction", "Magnetic interaction"], answer: 0, difficulty: 1800, timeLimit: 20 },
 
 // 1900 ELO — high-level thermodynamic/mechanical reasoning
 
-{ prompt: "What is the swept volume of a cylinder?", options: ["Total cylinder volume", "Volume displaced by piston", "Combustion chamber volume", "Fuel injection volume"], answer: 1, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What is the swept volume of a cylinder?", options: ["Total cylinder volume is calculated", "Volume displaced by piston movement", "Combustion chamber volume is measured", "Fuel injection volume is determined"], answer: 1, difficulty: 1900, timeLimit: 20 },
 { prompt: "Why can no engine exceed Carnot efficiency?", options: ["Mechanical friction only", "Second law thermodynamic limitation", "Material strength limits", "Fuel volatility"], answer: 1, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally causes thermal stresses in materials?", options: ["Uniform temperature distribution", "Restricted thermal expansion", "Zero elastic modulus", "Perfect conductivity"], answer: 1, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why does supercharging increase engine power?", options: ["Reduces air intake density", "Forces more charge into cylinders", "Decreases combustion pressure", "Reduces compression ratio"], answer: 1, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Why does supercharging increase engine power?", options: ["Reduces air intake density significantly", "Forces more charge into cylinders", "The Decreases combustion pressure greatly", "The Reduces compression ratio always"], answer: 1, difficulty: 1900, timeLimit: 20 },
 { prompt: "Which factor fundamentally governs fatigue life?", options: ["Cyclic stress amplitude", "Paint thickness", "Surface color", "Lubricant odor"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Why are gas turbines suitable for aircraft propulsion?", options: ["High power-to-weight ratio", "Low combustion temperature", "High reciprocating mass", "Low rotational speed"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally causes cavitation in pumps?", options: ["Excessive outlet pressure", "Local pressure dropping below vapor pressure", "Infinite fluid viscosity", "High shaft stiffness"], answer: 1, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why are finite element methods widely used in mechanics?", options: ["Approximate complex stress distributions", "Eliminate all assumptions", "Reduce material strength", "Increase thermal losses"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Why are finite element methods widely used in mechanics?", options: ["Approximate complex stress distributions", "Eliminate all assumptions made", "Reduce material strength significantly", "Increase thermal losses greatly"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Which factor fundamentally affects fracture toughness?", options: ["Resistance to crack propagation", "Only elastic modulus", "Only hardness", "Only density"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why do real thermodynamic cycles differ from ideal cycles?", options: ["Absence of irreversibilities", "Presence of friction and heat losses", "Infinite compression ratios", "Perfect insulation"], answer: 1, difficulty: 1900, timeLimit: 20 }
+{ prompt: "Why do real thermodynamic cycles differ from ideal cycles?", options: ["The Absence of irreversibilities is present", "Presence of friction and heat losses", "The Infinite compression ratios are reached", "The Perfect insulation is achieved always"], answer: 1, difficulty: 1900, timeLimit: 20 }
 
 ],
   "Biology for Engineers": [
@@ -796,16 +796,16 @@ const QUESTIONS = {
 
 // 1100 ELO — introductory molecular biology
 
-{ prompt: "Which biomolecule stores genetic information?", options: ["Proteins", "Lipids", "Carbohydrates", "Nucleic acids"], answer: 3, difficulty: 1100, timeLimit: 20 },
+{ prompt: "Which biomolecule stores genetic information?", options: ["Proteins store genetic information always", "Lipids store genetic information only", "The Carbohydrates store genetic information", "Nucleic acids store genetic information"], answer: 3, difficulty: 1100, timeLimit: 20 },
 { prompt: "What is the basic unit of proteins?", options: ["Fatty acids", "Nucleotides", "Amino acids", "Monosaccharides"], answer: 2, difficulty: 1100, timeLimit: 20 },
-{ prompt: "Which process converts glucose into cellular energy?", options: ["Photosynthesis", "Cellular respiration", "Transpiration", "Fermentation"], answer: 1, difficulty: 1100, timeLimit: 20 },
+{ prompt: "Which process converts glucose into cellular energy?", options: ["Photosynthesis converts glucose always", "Cellular respiration converts glucose", "Transpiration converts glucose into", "Fermentation converts glucose completely"], answer: 1, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which organelle synthesizes proteins?", options: ["Nucleus", "Mitochondrion", "Ribosome", "Chloroplast"], answer: 2, difficulty: 1100, timeLimit: 20 },
 { prompt: "What is the main function of white blood cells?", options: ["Transport oxygen", "Store fat", "Fight infection", "Produce hormones"], answer: 2, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which process moves water across membranes?", options: ["Diffusion", "Osmosis", "Respiration", "Filtration"], answer: 1, difficulty: 1100, timeLimit: 20 },
 { prompt: "What is the main structural component of cell membranes?", options: ["Proteins only", "Phospholipids", "Carbohydrates only", "Minerals"], answer: 1, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which nucleic acid contains uracil instead of thymine?", options: ["DNA", "RNA", "ATP", "mRNA polymerase"], answer: 1, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which process produces identical daughter cells?", options: ["Meiosis", "Mitosis", "Mutation", "Replication"], answer: 1, difficulty: 1100, timeLimit: 20 },
-{ prompt: "What is the main function of chlorophyll?", options: ["Store proteins", "Absorb light energy", "Transport oxygen", "Produce enzymes"], answer: 1, difficulty: 1100, timeLimit: 20 },
+{ prompt: "What is the main function of chlorophyll?", options: ["Store proteins and other molecules", "Absorb light energy from sunlight", "Transport oxygen and other gases", "Produce enzymes and other compounds"], answer: 1, difficulty: 1100, timeLimit: 20 },
 
 // 1200 ELO — cellular biology and biochemistry
 
@@ -817,7 +817,7 @@ const QUESTIONS = {
 { prompt: "What is the role of hemoglobin?", options: ["Digest proteins", "Transport oxygen", "Store glucose", "Produce hormones"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which type of bond stabilizes DNA base pairs?", options: ["Ionic bonds", "Hydrogen bonds", "Peptide bonds", "Metallic bonds"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which process converts DNA information into RNA?", options: ["Translation", "Replication", "Transcription", "Mutation"], answer: 2, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What is diffusion?", options: ["Water movement only", "Movement from high to low concentration", "Protein synthesis", "Cell division"], answer: 1, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What is diffusion?", options: ["Movement from low to high concentration", "Movement from high to low concentration", "Movement from cell to cell membrane", "Movement from tissue to tissue space"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which blood component is responsible for clotting?", options: ["Plasma", "Platelets", "Red blood cells", "Neurons"], answer: 1, difficulty: 1200, timeLimit: 20 },
 
 // 1300 ELO — physiology and molecular processes
@@ -825,12 +825,12 @@ const QUESTIONS = {
 { prompt: "Which organelle produces ATP through respiration?", options: ["Chloroplast", "Nucleus", "Mitochondrion", "Ribosome"], answer: 2, difficulty: 1300, timeLimit: 20 },
 { prompt: "What is the primary function of ribosomes?", options: ["DNA replication", "Protein synthesis", "Lipid storage", "Waste removal"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which process reduces chromosome number by half?", options: ["Mitosis", "Replication", "Meiosis", "Transcription"], answer: 2, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What mainly determines enzyme specificity?", options: ["Temperature only", "Active site structure", "Cell size", "ATP concentration"], answer: 1, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What mainly determines enzyme specificity?", options: ["The Substrate binding energy only", "Active site structure and shape", "Cofactor binding affinity and type", "Enzyme concentration and reaction rate"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which molecule directly carries amino acids during translation?", options: ["mRNA", "DNA", "tRNA", "rRNA"], answer: 2, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which process releases oxygen in plants?", options: ["Respiration", "Photosynthesis", "Fermentation", "Glycolysis"], answer: 1, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What is the main role of the Golgi apparatus?", options: ["ATP production", "Protein modification and packaging", "DNA synthesis", "Photosynthesis"], answer: 1, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What is the main role of the Golgi apparatus?", options: ["Protein synthesis and translation process", "Protein modification and packaging process", "Lipid synthesis and metabolism process", "Carbohydrate synthesis and storage process"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which tissue conducts electrical impulses in humans?", options: ["Muscle tissue", "Connective tissue", "Nervous tissue", "Epithelial tissue"], answer: 2, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What is homeostasis?", options: ["Cell destruction", "Stable internal regulation", "Rapid mutation", "Energy release"], answer: 1, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What is homeostasis?", options: ["The Rapid internal environmental change", "Stable internal regulation and balance", "The Dynamic external environmental response", "The Adaptive internal physiological adjustment"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which molecule stores long-term biological energy?", options: ["Proteins", "Lipids", "DNA", "RNA"], answer: 1, difficulty: 1300, timeLimit: 20 },
 
 // 1400 ELO — plant biology/biological systems
@@ -844,16 +844,16 @@ const QUESTIONS = {
 { prompt: "What type of immunity results from vaccination?", options: ["Innate immunity", "Passive immunity", "Artificial active immunity", "Natural passive immunity"], answer: 2, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which organ regulates blood glucose using insulin?", options: ["Liver", "Pancreas", "Kidney", "Lung"], answer: 1, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which molecule is the primary energy currency of cells?", options: ["DNA", "ATP", "Glucose", "RNA"], answer: 1, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What is the main function of stem cells?", options: ["Carry oxygen", "Differentiate into specialized cells", "Digest nutrients", "Produce antibodies"], answer: 1, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What is the main function of stem cells?", options: ["Differentiate into connective tissue cells", "Differentiate into specialized functional cells", "Differentiate into epithelial tissue cells", "Differentiate into muscle tissue cells"], answer: 1, difficulty: 1400, timeLimit: 20 },
 
 // 1500 ELO — bioengineering and systems biology
 
-{ prompt: "What is biomimicry in engineering?", options: ["Robot manufacturing", "Using nature-inspired designs", "Crop enhancement", "Fuel synthesis"], answer: 1, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What is biomimicry in engineering?", options: ["Using computational models and simulations", "Using nature-inspired designs and materials", "Using experimental methods and techniques", "Using theoretical frameworks and principles"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which biological property makes stem cells valuable medically?", options: ["Rapid mutation", "Differentiation capability", "Permanent inactivity", "Low metabolism"], answer: 1, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What fundamentally determines protein structure?", options: ["Amino acid sequence", "Cell color", "ATP concentration", "Oxygen pressure"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What fundamentally determines protein structure?", options: ["Amino acid sequence and properties", "The Molecular weight and solubility", "The Chemical bonding and reactivity", "The Physical interactions and forces"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which engineering field applies biology to medical devices?", options: ["Civil engineering", "Biomedical engineering", "Mining engineering", "Thermal engineering"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "Why are enzymes highly efficient catalysts?", options: ["Lower activation energy", "Increase entropy only", "Consume substrates", "Eliminate equilibrium"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What is the role of mRNA in protein synthesis?", options: ["Stores lipids", "Carries genetic coding instructions", "Breaks down glucose", "Produces ATP"], answer: 1, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What is the role of mRNA in protein synthesis?", options: ["Carries genetic coding instructions precisely", "Carries genetic coding instructions accurately", "Carries genetic coding instructions efficiently", "Carries genetic coding instructions effectively"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which process allows cells to communicate chemically?", options: ["Photosynthesis", "Cell signaling", "DNA replication", "Fermentation"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "Why are phospholipids ideal for membranes?", options: ["Completely hydrophobic", "Amphipathic structure", "High rigidity only", "Metallic bonding"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which process produces most ATP in aerobic respiration?", options: ["Glycolysis", "Electron transport chain", "Fermentation", "Transcription"], answer: 1, difficulty: 1500, timeLimit: 20 },
@@ -863,11 +863,11 @@ const QUESTIONS = {
 
 { prompt: "What are the building blocks of proteins?", options: ["Fatty acids", "Nucleotides", "Amino acids", "Monosaccharides"], answer: 2, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which biotechnology technique amplifies DNA sequences?", options: ["CRISPR", "PCR", "Gel electrophoresis", "Western blot"], answer: 1, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Why is ATP considered high-energy?", options: ["Strong covalent bonds", "Energy released from phosphate hydrolysis", "Large molecular weight", "Rapid diffusion"], answer: 1, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Why is ATP considered high-energy?", options: ["Energy released from phosphate bond hydrolysis", "Energy stored in phosphate bond formation", "Energy transferred through phosphate group transfer", "Energy generated from phosphate bond rotation"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "What fundamentally drives natural selection?", options: ["Random mutation only", "Differential reproductive success", "Constant environments", "Uniform populations"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which process converts RNA into proteins?", options: ["Replication", "Translation", "Transcription", "Fermentation"], answer: 1, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What is the main function of restriction enzymes?", options: ["Generate ATP", "Cut specific DNA sequences", "Produce proteins", "Transport lipids"], answer: 1, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Why are biofilms problematic in engineering systems?", options: ["Improve fluid flow", "Cause contamination and resistance", "Increase conductivity", "Reduce corrosion"], answer: 1, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What is the main function of restriction enzymes?", options: ["Cut specific DNA sequences precisely and accurately", "Cut specific DNA sequences efficiently and effectively", "Cut specific DNA sequences rapidly and reliably", "Cut specific DNA sequences safely and securely"], answer: 1, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Why are biofilms problematic in engineering systems?", options: ["Cause contamination and resistance development", "Cause corrosion and material degradation", "Cause fouling and flow reduction", "Cause clogging and system failure"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "What fundamentally determines enzyme reaction rates?", options: ["Substrate interaction frequency", "Cell shape only", "Protein color", "Magnetic field"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which molecule directly stores hereditary information?", options: ["ATP", "DNA", "Protein", "Glucose"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "What primarily causes denaturation of proteins?", options: ["Stable pH conditions", "Extreme heat or pH", "ATP generation", "Cell division"], answer: 1, difficulty: 1600, timeLimit: 20 },
@@ -875,10 +875,10 @@ const QUESTIONS = {
 // 1700 ELO — genetics and advanced biotechnology
 
 { prompt: "What technology enables precise DNA editing?", options: ["PCR", "CRISPR-Cas9", "Chromatography", "X-ray diffraction"], answer: 1, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Why is CRISPR considered revolutionary?", options: ["High-energy ATP synthesis", "Targeted genome editing capability", "Faster protein digestion", "Improved oxygen transport"], answer: 1, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Why is CRISPR considered revolutionary?", options: ["Targeted genome editing capability and precision", "Targeted genome editing capability and efficiency", "Targeted genome editing capability and effectiveness", "Targeted genome editing capability and safety"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "What fundamentally controls gene expression?", options: ["Regulatory molecular interactions", "Cell size only", "Membrane thickness", "Blood pressure"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Which process introduces foreign DNA into organisms?", options: ["Mutation", "Genetic transformation", "Fermentation", "Diffusion"], answer: 1, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Why are viruses difficult to eliminate completely?", options: ["Independent metabolism", "Dependence on host cellular machinery", "Lack of genetic material", "Unlimited ATP synthesis"], answer: 1, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Which process introduces foreign DNA into organisms?", options: ["Genetic transformation and recombination process", "Genetic transformation and transduction process", "Genetic transformation and conjugation process", "Genetic transformation and transfection process"], answer: 1, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Why are viruses difficult to eliminate completely?", options: ["The Dependence on cellular processes", "Dependence on host cellular machinery", "The Lack of cellular organization", "The Inability to synthesize proteins"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes prokaryotic cells?", options: ["Presence of nucleus", "Absence of membrane-bound nucleus", "Photosynthesis only", "ATP deficiency"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which field combines electronics with biological systems?", options: ["Biomechatronics", "Petrochemical engineering", "Metallurgy", "Hydraulics"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Why are antibiotics selectively effective against bacteria?", options: ["Target bacterial-specific structures", "Destroy all cells equally", "Increase ATP universally", "Prevent osmosis"], answer: 0, difficulty: 1700, timeLimit: 20 },
@@ -889,24 +889,24 @@ const QUESTIONS = {
 
 { prompt: "What is a biosensor?", options: ["Biological imaging device", "Sensor using biological recognition", "Microscopic scanner", "Automated incubator"], answer: 1, difficulty: 1800, timeLimit: 20 },
 { prompt: "Why are enzymes useful in biosensors?", options: ["Generate magnetic fields", "Specific substrate recognition", "Infinite stability", "Electrical insulation"], answer: 1, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What fundamentally enables nerve impulse transmission?", options: ["Ion exchange across membranes", "ATP crystallization", "DNA replication", "Photosynthesis"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What fundamentally enables nerve impulse transmission?", options: ["Ion exchange across membranes", "Action potential generation mechanisms", "Neurotransmitter release and binding", "Synaptic plasticity and adaptation"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Why are bio-inspired materials important in engineering?", options: ["Lower structural efficiency", "Unique natural optimization properties", "Reduced adaptability", "Increased brittleness"], answer: 1, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which factor fundamentally limits diffusion efficiency in large organisms?", options: ["Surface-area-to-volume ratio", "DNA concentration", "Cell color", "ATP storage"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Why are stem cells considered pluripotent?", options: ["Generate ATP rapidly", "Differentiate into many cell types", "Contain multiple nuclei", "Perform photosynthesis"], answer: 1, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What fundamentally drives active transport in cells?", options: ["ATP energy expenditure", "Random diffusion", "Thermal expansion", "Surface tension"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What fundamentally drives active transport in cells?", options: ["ATP energy expenditure and utilization", "Proton gradient generation and maintenance", "The Electrochemical potential and equilibrium", "Concentration gradient and diffusion rate"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Why do proteins fold into specific structures?", options: ["Minimization of free energy", "Random molecular motion only", "DNA replication pressure", "Mechanical compression"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Which process fundamentally enables evolution?", options: ["Perfect replication", "Heritable variation with selection", "Stable genomes only", "Constant environments"], answer: 1, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Which process fundamentally enables evolution?", options: ["The Heritable variation with selection", "Genetic drift and random chance", "Gene flow and population dynamics", "Natural selection and adaptation mechanisms"], answer: 1, difficulty: 1800, timeLimit: 20 },
 { prompt: "Why are microbial fuel cells significant biologically?", options: ["Generate electricity from metabolism", "Eliminate cellular respiration", "Store DNA electrically", "Prevent enzyme activity"], answer: 0, difficulty: 1800, timeLimit: 20 },
 
 // 1900 ELO — advanced biomechanics/systems biology
 
-{ prompt: "In biomechanics, what does Wolff's Law state?", options: ["Bone adapts to mechanical stress", "Blood flow follows pressure", "Muscles shrink permanently", "Nerve speed remains constant"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "In biomechanics, what does Wolff's Law state?", options: ["Bone adapts to mechanical stress", "Muscle responds to neural stimulation", "Tendon reacts to tensile loading", "The Ligament withstands compressive forces"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Why do biological systems exhibit emergent behavior?", options: ["Complex interactions among components", "Perfect linear responses", "Absence of feedback loops", "Constant environmental isolation"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally limits protein folding prediction?", options: ["Complex multidimensional energy landscapes", "Absence of amino acids", "Lack of ATP", "Perfect structural rigidity"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Why are neural networks biologically inspired?", options: ["Mimic interconnected neuron processing", "Replicate DNA synthesis", "Model photosynthesis", "Simulate blood clotting"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes systems biology?", options: ["Study of isolated molecules only", "Integrated interaction-based analysis", "Exclusive genetic sequencing", "Single-cell microscopy"], answer: 1, difficulty: 1900, timeLimit: 20 },
 { prompt: "Why is allosteric regulation important biologically?", options: ["Controls enzyme activity dynamically", "Increases DNA rigidity", "Prevents ATP production", "Eliminates mutations"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Which factor fundamentally governs biomechanical stress distribution?", options: ["Material geometry and loading", "Cell color only", "Protein sequence only", "ATP concentration"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Which factor fundamentally governs biomechanical stress distribution?", options: ["Material geometry and loading", "Structural composition and organization", "Cellular architecture and arrangement", "Tissue morphology and distribution"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Why are feedback loops critical in biological systems?", options: ["Maintain dynamic stability", "Eliminate adaptation", "Prevent signal transmission", "Reduce metabolism completely"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally enables adaptive immunity memory?", options: ["Specialized lymphocyte persistence", "Permanent ATP storage", "Constant DNA mutation", "Unlimited enzyme synthesis"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Why are biological networks considered robust?", options: ["Redundant interconnected pathways", "Perfect deterministic control", "No environmental interactions", "Complete genetic uniformity"], answer: 0, difficulty: 1900, timeLimit: 20 }
@@ -929,7 +929,7 @@ const QUESTIONS = {
 
 // 1100 ELO — basic professional communication
 
-{ prompt: "What is kinesics in communication?", options: ["Study of time", "Study of space", "Study of body language", "Study of speech"], answer: 2, difficulty: 1100, timeLimit: 20 },
+{ prompt: "What is kinesics in communication?", options: ["Study of nonverbal behavior", "Study of physical environment", "Study of body language", "Study of vocal characteristics"], answer: 2, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which communication barrier involves language differences?", options: ["Physical barrier", "Semantic barrier", "Mechanical barrier", "Visual barrier"], answer: 1, difficulty: 1100, timeLimit: 20 },
 { prompt: "What is eye contact mainly associated with?", options: ["Technical writing", "Non-verbal communication", "Grammar usage", "Formal structure"], answer: 1, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which communication style is best for workplaces?", options: ["Aggressive style", "Passive style", "Assertive style", "Silent style"], answer: 2, difficulty: 1100, timeLimit: 20 },
@@ -946,18 +946,18 @@ const QUESTIONS = {
 { prompt: "Which section of a resume lists educational background?", options: ["Objective section", "Education section", "References section", "Signature section"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "What is the purpose of a cover letter?", options: ["Replace resume completely", "Introduce candidate professionally", "Provide salary details", "List references only"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which tone is most suitable for professional emails?", options: ["Aggressive tone", "Casual slang tone", "Polite formal tone", "Humorous tone"], answer: 2, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What does proofreading mainly help detect?", options: ["Grammar and spelling errors", "Internet speed", "Typing hardware", "File compression"], answer: 0, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What does proofreading mainly help detect?", options: ["Grammar and spelling errors", "The Punctuation and capitalization", "Syntax and sentence structure", "The Formatting and typography"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which communication skill is essential during interviews?", options: ["Avoiding eye contact", "Clear speaking", "Interrupting frequently", "Using slang"], answer: 1, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What is paraphrasing?", options: ["Copying exactly", "Restating in different words", "Deleting information", "Changing grammar only"], answer: 1, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What is paraphrasing?", options: ["Restating in original words", "Restating in different words", "Paraphrasing in shorter form", "Summarizing in brief form"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which paragraph element states the main idea?", options: ["Transition sentence", "Topic sentence", "Reference line", "Closing greeting"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "What is the purpose of communication feedback?", options: ["Ignore responses", "Confirm understanding", "Delay interaction", "Avoid clarification"], answer: 1, difficulty: 1200, timeLimit: 20 },
-{ prompt: "Which type of communication occurs face-to-face?", options: ["Virtual communication", "Direct interpersonal communication", "Mass communication", "Broadcast communication"], answer: 1, difficulty: 1200, timeLimit: 20 },
+{ prompt: "Which type of communication occurs face-to-face?", options: ["Virtual online communication", "Direct interpersonal communication", "Indirect mass communication", "Private written communication"], answer: 1, difficulty: 1200, timeLimit: 20 },
 
 // 1300 ELO — email/report writing fundamentals
 
 { prompt: "In professional email etiquette, Bcc stands for:", options: ["Blank Carbon Copy", "Blind Carbon Copy", "Before Carbon Copy", "Broad Carbon Copy"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "What is the purpose of an email subject line?", options: ["Increase attachment size", "Summarize email purpose", "Replace greeting", "Add signatures"], answer: 1, difficulty: 1300, timeLimit: 20 },
-{ prompt: "Which writing quality improves readability most?", options: ["Complex vocabulary", "Clear sentence structure", "Long paragraphs", "Passive repetition"], answer: 1, difficulty: 1300, timeLimit: 20 },
+{ prompt: "Which writing quality improves readability most?", options: ["Simple sentence structure", "Clear sentence structure", "Concise paragraph length", "Active voice usage"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "What is plagiarism?", options: ["Original writing", "Using others' work without credit", "Grammar correction", "Speech preparation"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which communication medium reaches large audiences quickly?", options: ["Personal interview", "Mass communication", "Group discussion", "Memo writing"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "What is the function of transition words?", options: ["Increase confusion", "Connect ideas smoothly", "Replace punctuation", "Shorten vocabulary"], answer: 1, difficulty: 1300, timeLimit: 20 },
@@ -982,20 +982,20 @@ const QUESTIONS = {
 // 1500 ELO — analytical listening/discussion skills
 
 { prompt: "Which listening type evaluates speaker logic critically?", options: ["Appreciative listening", "Critical listening", "Passive listening", "Selective listening"], answer: 1, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What is the primary goal of persuasive communication?", options: ["Entertain audience", "Influence opinions or actions", "Avoid interaction", "Increase ambiguity"], answer: 1, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What is the primary goal of persuasive communication?", options: ["Inform and educate audience", "Influence opinions or actions", "Entertain and engage audience", "Persuade and convince audience"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which communication approach best resolves conflicts?", options: ["Aggressive confrontation", "Constructive discussion", "Complete silence", "Personal attacks"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "What mainly determines communication effectiveness?", options: ["Message understanding", "Message length only", "Speaker volume only", "Technical vocabulary only"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "Which feature improves technical report credibility?", options: ["Unsupported opinions", "Accurate evidence and data", "Emotional language", "Informal slang"], answer: 1, difficulty: 1500, timeLimit: 20 },
+{ prompt: "Which feature improves technical report credibility?", options: ["The Subjective personal opinions", "Accurate evidence and data", "The Objective factual information", "Reliable and credible sources"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "What is brainstorming in group communication?", options: ["Criticizing ideas immediately", "Generating ideas freely", "Ending discussions quickly", "Ignoring suggestions"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which communication barrier arises from emotional states?", options: ["Psychological barrier", "Mechanical barrier", "Physical barrier", "Semantic barrier"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "What is the purpose of paraphrasing during listening?", options: ["Interrupt speaker", "Confirm understanding", "Change topic", "Shorten conversation"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which interview response style is most professional?", options: ["Vague responses", "Structured concise answers", "One-word replies", "Unrelated stories"], answer: 1, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What is the main advantage of active voice in writing?", options: ["Greater clarity and directness", "Longer sentences", "Higher ambiguity", "Reduced readability"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What is the main advantage of active voice in writing?", options: ["Greater clarity and directness", "The Increased sentence complexity", "Improved readability and flow", "The Enhanced writer credibility"], answer: 0, difficulty: 1500, timeLimit: 20 },
 
 // 1600 ELO — advanced workplace communication
 
 { prompt: "What is jargon?", options: ["Formal clothing", "Specialized technical language", "Grammar mistake", "Typing shortcut"], answer: 1, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Why can excessive jargon hinder communication?", options: ["Improves universal understanding", "Reduces accessibility for audiences", "Simplifies technical ideas", "Shortens all messages"], answer: 1, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Why can excessive jargon hinder communication?", options: ["The Improves universal understanding", "Reduces accessibility for audiences", "The Increases technical precision", "The Enhances communication clarity"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes formal reports?", options: ["Structured objective presentation", "Personal storytelling only", "Informal slang usage", "Random organization"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which factor most improves intercultural communication?", options: ["Cultural awareness", "Ignoring differences", "Using stereotypes", "Speaking louder"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "What is the purpose of communication ethics?", options: ["Increase manipulation", "Promote honesty and fairness", "Reduce accountability", "Encourage misinformation"], answer: 1, difficulty: 1600, timeLimit: 20 },
@@ -1003,27 +1003,27 @@ const QUESTIONS = {
 { prompt: "Why is audience analysis important before presentations?", options: ["Increase jargon use", "Adapt communication effectively", "Reduce preparation", "Avoid interaction"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "What fundamentally improves communication retention?", options: ["Organized meaningful content", "Random repetition", "Overloaded information", "Rapid delivery only"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which communication skill is essential for leadership?", options: ["Avoiding decisions", "Clear persuasive communication", "Ignoring feedback", "Passive interaction"], answer: 1, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What mainly causes semantic misunderstanding?", options: ["Different interpretations of words", "Internet failure", "Lighting conditions", "Background noise only"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What mainly causes semantic misunderstanding?", options: ["Different interpretations of words always", "The Different interpretations of words", "Internet failure and technical issues", "Background noise and environmental factors"], answer: 0, difficulty: 1600, timeLimit: 20 },
 
 // 1700 ELO — presentations and rhetorical effectiveness
 
 { prompt: "In presentations, what is a hook?", options: ["Stage equipment", "Attention-grabbing opening", "Closing summary", "Technical interruption"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "Why are hooks important in presentations?", options: ["Reduce audience attention", "Increase engagement initially", "Replace conclusions", "Eliminate visuals"], answer: 1, difficulty: 1700, timeLimit: 20 },
-{ prompt: "What fundamentally strengthens persuasive arguments?", options: ["Logical evidence and credibility", "Emotional exaggeration only", "Ignoring counterarguments", "Technical jargon alone"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "What fundamentally strengthens persuasive arguments?", options: ["Logical evidence and credibility always", "The Logical evidence and credibility", "Emotional exaggeration and manipulation only", "Technical jargon and complex terminology"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which rhetorical appeal relies on speaker credibility?", options: ["Pathos", "Logos", "Ethos", "Irony"], answer: 2, difficulty: 1700, timeLimit: 20 },
 { prompt: "What primarily improves audience engagement during speeches?", options: ["Monotonous delivery", "Interactive communication", "Reading slides entirely", "Avoiding eye contact"], answer: 1, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Why is concise communication valued professionally?", options: ["Saves time and improves clarity", "Increases ambiguity", "Reduces understanding", "Eliminates detail entirely"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Why is concise communication valued professionally?", options: ["Saves time and improves clarity always", "The Saves time and improves clarity", "The Increases ambiguity and confusion always", "The Reduces understanding and engagement always"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes analytical listening?", options: ["Evaluating reasoning critically", "Listening passively", "Ignoring evidence", "Focusing only on emotions"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Which communication strategy best handles audience questions?", options: ["Defensive responses", "Clear confident clarification", "Ignoring questions", "Changing topics"], answer: 1, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Which communication strategy best handles audience questions?", options: ["Defensive responses and aggression always", "Clear confident clarification and feedback", "Ignoring questions and avoiding interaction", "Changing topics and avoiding discussion"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "Why are transitions important in speeches?", options: ["Disrupt flow intentionally", "Connect ideas smoothly", "Reduce clarity", "Eliminate structure"], answer: 1, difficulty: 1700, timeLimit: 20 },
 { prompt: "What mainly determines professional communication tone?", options: ["Audience and context", "Speaker mood only", "Message length only", "Font style"], answer: 0, difficulty: 1700, timeLimit: 20 },
 
 // 1800 ELO — advanced communication frameworks
 
 { prompt: "What do the 7 Cs of communication emphasize?", options: ["Clarity conciseness correctness completeness courtesy concreteness coherence", "Complexity cleverness creativity consistency caution confidence charisma", "Connection compression calculation coordination correction coherence creativity", "Communication collaboration coordination control caution confidence competence"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why is coherence important in communication?", options: ["Maintains logical flow of ideas", "Increases ambiguity", "Encourages redundancy", "Reduces structure"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why is coherence important in communication?", options: ["Maintains logical flow of ideas always", "The Maintains logical flow of ideas", "The Increases ambiguity and confusion always", "The Encourages redundancy and repetition always"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes effective technical writing?", options: ["Accuracy clarity and usability", "Long complex sentences", "Heavy jargon usage", "Emotional persuasion"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why are feedback mechanisms essential in communication systems?", options: ["Prevent understanding", "Enable message adjustment and confirmation", "Increase confusion", "Eliminate interaction"], answer: 1, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why are feedback mechanisms essential in communication systems?", options: ["Prevent understanding and communication always", "Enable message adjustment and confirmation", "Increase confusion and ambiguity always", "Eliminate interaction and feedback always"], answer: 1, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which factor most affects communication noise?", options: ["Interference disrupting understanding", "Grammar perfection", "Slide color only", "Speaker clothing"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Why is adaptability important in communication?", options: ["Different audiences require different approaches", "Messages should never change", "Uniform delivery is always best", "Technical language suits everyone"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "What fundamentally improves persuasive communication success?", options: ["Audience-centered messaging", "Ignoring audience perspective", "Only emotional pressure", "Increasing complexity"], answer: 0, difficulty: 1800, timeLimit: 20 },
@@ -1041,7 +1041,7 @@ const QUESTIONS = {
 { prompt: "Why do communication breakdowns occur despite clear messages?", options: ["Differences in interpretation frameworks", "Lack of vocabulary only", "Perfect audience attention", "Complete feedback absence"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes strategic communication?", options: ["Purposeful goal-oriented messaging", "Random spontaneous interaction", "Passive information transfer", "Avoidance of planning"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Why is emotional intelligence valuable in communication?", options: ["Improves interpersonal understanding", "Eliminates technical skills", "Prevents collaboration", "Reduces empathy"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What fundamentally improves negotiation outcomes?", options: ["Mutual understanding and clarity", "Aggressive dominance only", "Avoiding compromise", "Ignoring stakeholder interests"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What fundamentally improves negotiation outcomes?", options: ["Mutual understanding and clarity", "Effective communication strategies always", "Clear stakeholder expectations management", "Collaborative problem solving approaches"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Why is communication considered transactional?", options: ["Participants continuously exchange feedback", "Messages move one-way only", "Listeners remain passive", "Meaning never changes"], answer: 0, difficulty: 1900, timeLimit: 20 }
 
 ],
@@ -1051,7 +1051,7 @@ const QUESTIONS = {
 
 { prompt: "What does numerical analysis mainly study?", options: ["Symbolic algebra", "Numerical approximations", "Geometry proofs", "Logic circuits"], answer: 1, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which method approximates roots graphically by interval halving?", options: ["Euler method", "Bisection method", "Runge-Kutta method", "Gaussian elimination"], answer: 1, difficulty: 1000, timeLimit: 20 },
-{ prompt: "What is the main purpose of interpolation?", options: ["Solve integrals", "Estimate unknown values", "Find derivatives", "Factor matrices"], answer: 1, difficulty: 1000, timeLimit: 20 },
+{ prompt: "What is the main purpose of interpolation?", options: ["Estimate unknown function values", "Estimate unknown values precisely", "Solve complex mathematical integrals", "Find optimal derivative solutions"], answer: 1, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which quantity measures numerical mistake magnitude?", options: ["Error", "Derivative", "Gradient", "Frequency"], answer: 0, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which method solves linear equation systems directly?", options: ["Jacobi method", "Gauss-Seidel method", "Gaussian elimination", "Euler method"], answer: 2, difficulty: 1000, timeLimit: 20 },
 { prompt: "What is the derivative approximation based on finite differences?", options: ["Interpolation", "Numerical differentiation", "Matrix inversion", "Optimization"], answer: 1, difficulty: 1000, timeLimit: 20 },
@@ -1068,8 +1068,8 @@ const QUESTIONS = {
 { prompt: "Which error occurs due to finite decimal storage?", options: ["Truncation error", "Round-off error", "Interpolation error", "Slope error"], answer: 1, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which iterative method solves diagonally dominant systems?", options: ["Gaussian elimination", "Gauss-Seidel method", "Cramer's rule", "Newton interpolation"], answer: 1, difficulty: 1100, timeLimit: 20 },
 { prompt: "What is the main idea of numerical approximation?", options: ["Exact symbolic solutions", "Near-value estimation", "Infinite precision", "Pure geometry"], answer: 1, difficulty: 1100, timeLimit: 20 },
-{ prompt: "Which interpolation method uses equally spaced points?", options: ["Lagrange interpolation", "Newton forward interpolation", "Gauss elimination", "Runge-Kutta"], answer: 1, difficulty: 1100, timeLimit: 20 },
-{ prompt: "Which quantity is minimized in least squares approximation?", options: ["Maximum error", "Sum of squared errors", "Derivative value", "Integral value"], answer: 1, difficulty: 1100, timeLimit: 20 },
+{ prompt: "Which interpolation method uses equally spaced points?", options: ["Lagrange polynomial interpolation method", "Newton forward difference interpolation", "Gaussian quadrature numerical integration", "Runge-Kutta numerical solution method"], answer: 1, difficulty: 1100, timeLimit: 20 },
+{ prompt: "Which quantity is minimized in least squares approximation?", options: ["The Maximum absolute error values", "Sum of squared errors minimization", "The Derivative values optimization technique", "The Integral values approximation method"], answer: 1, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which method numerically solves ordinary differential equations?", options: ["Euler method", "Bisection method", "Cramer's rule", "Interpolation"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "What is convergence in iterative methods?", options: ["Values diverge infinitely", "Approximations approach solution", "Matrices become singular", "Errors increase rapidly"], answer: 1, difficulty: 1100, timeLimit: 20 },
 
@@ -1077,7 +1077,7 @@ const QUESTIONS = {
 
 { prompt: "What is the Newton-Raphson iteration formula?", options: ["xn + f(xn)", "xn - f(xn)/f'(xn)", "xn × f'(xn)", "f(xn)/xn"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which method approximates ODE solutions using tangent slopes?", options: ["Euler method", "Simpson rule", "LU decomposition", "Bisection method"], answer: 0, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What is interpolation mainly based on?", options: ["Known data points", "Random variables", "Differential equations", "Complex matrices"], answer: 0, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What is interpolation mainly based on?", options: ["Known data points and observations", "The Random variable statistical distributions", "The Differential equation mathematical models", "The Complex matrix algebraic structures"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which numerical method approximates areas using parabolas?", options: ["Trapezoidal rule", "Simpson's rule", "Euler method", "Jacobi method"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "What is a root of an equation?", options: ["Point where derivative is zero", "Value satisfying f(x)=0", "Largest coefficient", "Matrix determinant"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which method transforms matrices into triangular form?", options: ["Lagrange interpolation", "Gaussian elimination", "Euler method", "Runge-Kutta"], answer: 1, difficulty: 1200, timeLimit: 20 },
@@ -1092,11 +1092,11 @@ const QUESTIONS = {
 { prompt: "Which matrix decomposition expresses A = LU?", options: ["Cholesky decomposition", "LU decomposition", "QR decomposition", "Eigen decomposition"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "What condition helps iterative methods converge?", options: ["Singular matrix", "Diagonal dominance", "Negative determinant", "Infinite eigenvalues"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which interpolation uses divided differences?", options: ["Newton interpolation", "Trapezoidal method", "Euler method", "Bisection method"], answer: 0, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What is the determinant mainly used for?", options: ["Check matrix singularity", "Approximate integrals", "Estimate derivatives", "Interpolate data"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What is the determinant mainly used for?", options: ["Check matrix singularity and rank", "The Approximate definite integrals numerically", "The Estimate derivative values accurately", "The Interpolate data points smoothly"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which method improves Euler accuracy significantly?", options: ["Runge-Kutta method", "Bisection method", "Jacobi iteration", "Simpson rule"], answer: 0, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What does divergence mean in iterative methods?", options: ["Approximations stabilize", "Errors shrink continuously", "Approximations move away from solution", "Matrices become symmetric"], answer: 2, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What does divergence mean in iterative methods?", options: ["The Approximations stabilize and converge", "Errors shrink continuously and smoothly", "Approximations move away from solution", "Matrices become symmetric and orthogonal"], answer: 2, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which interpolation method works for unequal intervals naturally?", options: ["Newton forward interpolation", "Lagrange interpolation", "Euler method", "Trapezoidal rule"], answer: 1, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What does pivoting improve in elimination methods?", options: ["Computational instability reduction", "Derivative accuracy", "Interpolation smoothness", "Integral convergence"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What does pivoting improve in elimination methods?", options: ["Computational instability reduction techniques", "Derivative accuracy improvement methods", "Interpolation smoothness and continuity", "Integral convergence and stability"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which numerical method estimates integrals from tabulated data?", options: ["Numerical integration", "Root finding", "Matrix inversion", "Optimization"], answer: 0, difficulty: 1300, timeLimit: 20 },
 
 // 1400 ELO — numerical error analysis
@@ -1105,44 +1105,44 @@ const QUESTIONS = {
 { prompt: "What is absolute error?", options: ["Difference from exact value", "Ratio of errors", "Derivative approximation", "Integral estimate"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "What is relative error?", options: ["Absolute error divided by exact value", "Difference of derivatives", "Matrix determinant ratio", "Integral difference"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which error accumulates due to repeated arithmetic rounding?", options: ["Interpolation error", "Round-off accumulation", "Slope error", "Residual error"], answer: 1, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What primarily affects numerical stability?", options: ["Sensitivity to small changes", "Graph color", "Polynomial degree only", "Integration interval"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What primarily affects numerical stability?", options: ["Sensitivity to small changes and perturbations", "The Graph color and visualization techniques", "The Polynomial degree and approximation order", "The Integration interval and numerical stability"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which numerical issue occurs near subtractive cancellation?", options: ["Loss of significance", "Infinite convergence", "Matrix orthogonality", "Stable iteration"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "What does consistency mean in numerical methods?", options: ["Method approximates governing equation", "Errors remain constant", "Matrices stay symmetric", "Iterations stop immediately"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which factor mainly controls Euler method accuracy?", options: ["Step size", "Matrix determinant", "Polynomial degree", "Eigenvector direction"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What is residual in solving equations?", options: ["Remaining equation imbalance", "Derivative approximation", "Matrix inverse", "Area approximation"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What is residual in solving equations?", options: ["Remaining equation imbalance and error", "Derivative approximation and estimation technique", "Matrix inverse and condition number", "Area approximation and numerical integration"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which numerical property ensures bounded error growth?", options: ["Stability", "Interpolation", "Orthogonality", "Periodicity"], answer: 0, difficulty: 1400, timeLimit: 20 },
 
 // 1500 ELO — integration and differential equation methods
 
-{ prompt: "Which integration method uses parabolic arcs?", options: ["Trapezoidal rule", "Euler method", "Simpson's 1/3 rule", "Newton method"], answer: 2, difficulty: 1500, timeLimit: 20 },
+{ prompt: "Which integration method uses parabolic arcs?", options: ["The Trapezoidal rule and rectangular method", "Euler method and numerical solution technique", "Simpson's 1/3 rule and parabolic arcs", "The Newton method and optimization algorithm"], answer: 2, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which Runge-Kutta method is most commonly used?", options: ["First order", "Second order", "Fourth order", "Eighth order"], answer: 2, difficulty: 1500, timeLimit: 20 },
 { prompt: "What primarily improves numerical integration accuracy?", options: ["Smaller subinterval size", "Larger rounding error", "Bigger determinants", "Lower precision"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which method approximates solutions using weighted slopes?", options: ["Runge-Kutta method", "Bisection method", "Jacobi iteration", "Gaussian elimination"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What is local truncation error?", options: ["Error per individual step", "Total accumulated error", "Matrix singularity", "Derivative instability"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What is local truncation error?", options: ["Error per individual step calculation", "Total accumulated error over time", "The Matrix singularity and instability", "The Derivative instability and oscillation"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which numerical method is self-starting for ODEs?", options: ["Adams-Bashforth method", "Runge-Kutta method", "Milne method", "Predictor-corrector method"], answer: 1, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What is global truncation error?", options: ["Accumulated total approximation error", "Single-step error only", "Matrix determinant error", "Interpolation residual"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What is global truncation error?", options: ["Accumulated total approximation error over steps", "The Single step error without accumulation", "The Matrix determinant error and singularity", "The Interpolation residual and fitting error"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which method numerically approximates derivatives from nearby points?", options: ["Finite difference method", "Gaussian elimination", "Lagrange method", "Bisection method"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "What fundamentally affects convergence speed?", options: ["Method order", "Graph scaling", "Matrix color", "Polynomial labeling"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "Which integration rule exactly integrates cubic polynomials?", options: ["Trapezoidal rule", "Simpson's 1/3 rule", "Midpoint rule", "Euler rule"], answer: 1, difficulty: 1500, timeLimit: 20 },
+{ prompt: "Which integration rule exactly integrates cubic polynomials?", options: ["The Trapezoidal rule for simple integration", "Simpson's 1/3 rule for cubic polynomials", "The Midpoint rule for rectangular integration", "Euler rule for first order equations"], answer: 1, difficulty: 1500, timeLimit: 20 },
 
 // 1600 ELO — interpolation and approximation theory
 
 { prompt: "What is Lagrange polynomial mainly used for?", options: ["Derivative computation", "Curve interpolation", "Matrix inversion", "Integral evaluation"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "Why does high-degree interpolation sometimes oscillate badly?", options: ["Runge phenomenon", "Round-off elimination", "Diagonal dominance", "Orthogonalization"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What fundamentally determines interpolation uniqueness?", options: ["Distinct data points", "Matrix symmetry", "Equal derivatives", "Constant intervals"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Which approximation method minimizes squared residuals?", options: ["Least squares method", "Euler method", "Bisection method", "Newton interpolation"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What fundamentally determines interpolation uniqueness?", options: ["Distinct data points and uniqueness", "Matrix symmetry and positive definiteness", "Equal derivatives and smoothness conditions", "Constant intervals and uniform spacing"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Which approximation method minimizes squared residuals?", options: ["Least squares method for residual minimization", "Euler method for first order equations", "Bisection method for root finding problems", "The Newton interpolation for polynomial fitting"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "What is spline interpolation designed to improve?", options: ["Smoothness between intervals", "Matrix inversion speed", "Root divergence", "Determinant accuracy"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which interpolation uses piecewise polynomials smoothly?", options: ["Spline interpolation", "Euler interpolation", "Finite elimination", "Newton root method"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What mainly affects polynomial interpolation error?", options: ["Higher derivatives of function", "Matrix determinant only", "Coordinate axes", "Equation formatting"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Why are orthogonal polynomials useful numerically?", options: ["Reduce approximation error interactions", "Increase instability", "Force divergence", "Eliminate convergence"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes extrapolation from interpolation?", options: ["Prediction outside known range", "Derivative approximation only", "Matrix reduction", "Integral estimation"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Which method best approximates noisy data trends?", options: ["Least squares fitting", "Exact interpolation", "Matrix inversion", "Gaussian elimination"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What mainly affects polynomial interpolation error?", options: ["Higher derivatives of the function value", "The Matrix determinant and singularity conditions", "The Coordinate axes and orientation effects", "The Equation formatting and numerical stability"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Why are orthogonal polynomials useful numerically?", options: ["Reduce approximation error interactions significantly", "Increase instability and divergence rates", "Force convergence and stability conditions", "Eliminate convergence and oscillation issues"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes extrapolation from interpolation?", options: ["Prediction outside known data range limits", "The Derivative approximation and slope estimation", "The Matrix reduction and dimensionality decrease", "The Integral estimation and accumulation processes"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Which method best approximates noisy data trends?", options: ["Least squares fitting for noisy data trends", "The Exact interpolation for smooth data curves", "The Matrix inversion for linear system solutions", "The Gaussian elimination for linear equation systems"], answer: 0, difficulty: 1600, timeLimit: 20 },
 
 // 1700 ELO — iterative methods and convergence
 
 { prompt: "Which iterative method solves diagonally dominant systems?", options: ["LU decomposition", "Cramer's rule", "Gauss-Seidel method", "Cholesky decomposition"], answer: 2, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Why does Gauss-Seidel often converge faster than Jacobi?", options: ["Uses updated values immediately", "Requires fewer equations", "Eliminates matrices directly", "Avoids iterations"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "What fundamentally determines iterative convergence?", options: ["Spectral radius behavior", "Matrix color", "Equation length", "Graph scaling"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Why does Gauss-Seidel often converge faster than Jacobi?", options: ["Uses updated values immediately always", "Requires fewer equations and variables", "Eliminates matrices directly and efficiently", "Avoids iterations and recursive calculations"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "What fundamentally determines iterative convergence?", options: ["Spectral radius behavior and convergence", "Matrix color and pattern recognition", "Equation length and complexity effects", "Graph scaling and visualization techniques"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which method requires derivative evaluation explicitly?", options: ["Newton-Raphson method", "Bisection method", "Trapezoidal method", "Jacobi method"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Why is the bisection method always convergent?", options: ["Maintains bracketing interval", "Uses derivatives directly", "Avoids function evaluations", "Requires diagonal dominance"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "What primarily causes divergence in iterations?", options: ["Unstable iteration factors", "Too many variables only", "Interpolation smoothness", "Large determinants"], answer: 0, difficulty: 1700, timeLimit: 20 },
@@ -1154,26 +1154,26 @@ const QUESTIONS = {
 // 1800 ELO — convergence order and advanced numerical behavior
 
 { prompt: "What is the convergence order of Newton-Raphson for simple roots?", options: ["Linear", "Quadratic", "Cubic", "Zero"], answer: 1, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why is quadratic convergence considered fast?", options: ["Correct digits roughly double each iteration", "Errors decrease linearly", "Iterations remain constant", "Matrices become diagonal"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What fundamentally determines method convergence order?", options: ["Rate of error reduction", "Matrix determinant", "Equation degree only", "Interval length"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why is quadratic convergence considered fast?", options: ["Correct digits roughly double each iteration", "The Errors decrease linearly and consistently", "The Iterations remain constant and unchanged", "The Matrices become diagonal and triangular"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What fundamentally determines method convergence order?", options: ["Rate of error reduction and convergence", "The Matrix determinant and condition number", "The Equation degree and polynomial order", "Interval length and step size effects"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which phenomenon limits floating-point precision?", options: ["Finite binary representation", "Infinite storage", "Perfect arithmetic", "Exact symbolic processing"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why are stiff differential equations challenging numerically?", options: ["Require very stable step handling", "Lack derivatives entirely", "Contain no solutions", "Always diverge analytically"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why are stiff differential equations challenging numerically?", options: ["Require very stable step handling", "Need precise error control mechanisms", "The Involve complex derivative calculations", "Demand highly accurate numerical methods"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "What fundamentally causes catastrophic cancellation?", options: ["Subtracting nearly equal numbers", "Repeated integration", "Orthogonal transformations", "Matrix diagonalization"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Why are condition numbers important numerically?", options: ["Measure sensitivity to perturbations", "Count matrix dimensions", "Estimate integration area", "Determine interpolation degree"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which numerical property minimizes propagated perturbations?", options: ["Good conditioning", "High truncation", "Large residuals", "Interpolation oscillation"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes stable algorithms?", options: ["Small input errors remain controlled", "Errors always disappear", "No approximations occur", "Matrices stay symmetric"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes stable algorithms?", options: ["Small input errors remain controlled", "Minor perturbations stay bounded always", "Small disturbances are always damped", "Tiny fluctuations remain limited always"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Why are adaptive step methods useful in ODE solving?", options: ["Adjust accuracy dynamically", "Avoid convergence entirely", "Eliminate derivatives", "Force exact solutions"], answer: 0, difficulty: 1800, timeLimit: 20 },
 
 // 1900 ELO — conditioning/stability/high-level numerical reasoning
 
 { prompt: "What does ill-conditioned mean for linear systems?", options: ["Virus detected", "Small changes cause large effects", "Matrix always singular", "No possible solutions"], answer: 1, difficulty: 1900, timeLimit: 20 },
 { prompt: "Why are ill-conditioned systems numerically dangerous?", options: ["Errors amplify dramatically", "Iterations stop instantly", "Matrices become orthogonal", "Exact solutions vanish"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes conditioning from stability?", options: ["Problem sensitivity versus algorithm behavior", "Interpolation versus integration", "Exact versus approximate roots", "Differentiation versus matrices"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes conditioning from stability?", options: ["Problem sensitivity versus algorithm behavior", "System stability versus method robustness", "Model accuracy versus solution precision", "Data quality versus result reliability"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Why can stable algorithms still produce inaccurate results?", options: ["Underlying problem may be ill-conditioned", "Matrices become singular automatically", "Convergence becomes quadratic", "Round-off disappears"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally limits machine precision accuracy?", options: ["Finite floating-point representation", "Lack of interpolation", "Missing derivatives", "Matrix symmetry"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why are backward stable algorithms preferred?", options: ["Equivalent to solving nearby exact problems", "Avoid all numerical errors", "Guarantee symbolic solutions", "Require no iterations"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Why are backward stable algorithms preferred?", options: ["Equivalent to solving nearby exact problems", "Comparable to finding adjacent precise solutions", "Similar to obtaining close accurate results", "Analogous to getting neighboring correct answers"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally causes numerical instability in recursions?", options: ["Amplification of small perturbations", "Perfect arithmetic cancellation", "Infinite convergence speed", "Diagonal dominance"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why is pivoting essential in elimination methods?", options: ["Reduces instability and division issues", "Guarantees exact arithmetic", "Eliminates convergence analysis", "Prevents interpolation"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Why is pivoting essential in elimination methods?", options: ["Reduces instability and division issues", "Minimizes errors and overflow problems", "Decreases sensitivity and underflow risks", "Lessens uncertainty and rounding errors"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes convergent iterative methods?", options: ["Errors decrease toward solution", "Approximations oscillate infinitely", "Residuals always increase", "Matrices become singular"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Why is computational complexity important numerically?", options: ["Determines efficiency and scalability", "Eliminates approximation error", "Guarantees matrix symmetry", "Prevents truncation"], answer: 0, difficulty: 1900, timeLimit: 20 }
 
@@ -1185,7 +1185,7 @@ const QUESTIONS = {
 { prompt: "Which method commonly solves initial value ODE problems?", options: ["Newton-Raphson method", "Runge-Kutta methods", "Simpson's rule", "Lagrange interpolation"], answer: 1, difficulty: 1000, timeLimit: 20 },
 { prompt: "What does ODE stand for?", options: ["Ordinary Differential Equation", "Operational Dynamic Expression", "Orthogonal Difference Equation", "Optimal Derivative Expansion"], answer: 0, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which method approximates ODE solutions step-by-step?", options: ["Euler method", "Gaussian elimination", "Lagrange interpolation", "LU decomposition"], answer: 0, difficulty: 1000, timeLimit: 20 },
-{ prompt: "What is the main purpose of numerical ODE methods?", options: ["Exact symbolic proofs", "Approximate differential equation solutions", "Matrix factorization only", "Graph transformations"], answer: 1, difficulty: 1000, timeLimit: 20 },
+{ prompt: "What is the main purpose of numerical ODE methods?", options: ["The Approximate differential equation solutions", "Numerical integration of complex systems", "Simulation of dynamic process behaviors", "Modeling of nonlinear phenomenon responses"], answer: 1, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which equation contains derivatives of one variable?", options: ["PDE", "ODE", "Matrix equation", "Integral equation"], answer: 1, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which method improves Euler accuracy significantly?", options: ["Runge-Kutta method", "Bisection method", "Jacobi method", "Cramer's rule"], answer: 0, difficulty: 1000, timeLimit: 20 },
 { prompt: "What is a numerical solution?", options: ["Exact algebraic form", "Approximate computed value", "Graphical drawing only", "Symbolic derivative"], answer: 1, difficulty: 1000, timeLimit: 20 },
@@ -1200,11 +1200,11 @@ const QUESTIONS = {
 { prompt: "Which method uses tangent slope approximation directly?", options: ["Euler method", "Simpson method", "Bisection method", "Jacobi method"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "What happens if Euler step size becomes too large?", options: ["Accuracy usually decreases", "Solutions become exact", "Derivatives disappear", "Matrices diagonalize"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which type of equations involve rates of change?", options: ["Differential equations", "Linear matrices", "Polynomial identities", "Geometric equations"], answer: 0, difficulty: 1100, timeLimit: 20 },
-{ prompt: "What is local truncation error?", options: ["Error per numerical step", "Total accumulated error", "Matrix singularity", "Interpolation failure"], answer: 0, difficulty: 1100, timeLimit: 20 },
+{ prompt: "What is local truncation error?", options: ["Error per numerical step", "Discrepancy per iteration always", "Inaccuracy per calculation step", "Mistake per computational cycle"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which method approximates future values using current slope?", options: ["Euler method", "Gaussian elimination", "Newton interpolation", "LU factorization"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "What does convergence mean numerically?", options: ["Approximations approach true solution", "Errors increase indefinitely", "Matrices become singular", "Iterations stop immediately"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which issue mainly affects numerical precision?", options: ["Round-off error", "Geometric scaling", "Axis translation", "Symbolic simplification"], answer: 0, difficulty: 1100, timeLimit: 20 },
-{ prompt: "What is the purpose of initial conditions in ODEs?", options: ["Specify starting solution values", "Reduce equation degree", "Diagonalize matrices", "Remove derivatives"], answer: 0, difficulty: 1100, timeLimit: 20 },
+{ prompt: "What is the purpose of initial conditions in ODEs?", options: ["Specify starting solution values", "Reduce equation complexity levels", "The Diagonalize matrix structures", "The Remove derivative terms"], answer: 0, difficulty: 1100, timeLimit: 20 },
 
 // 1200 ELO — Runge-Kutta and ODE methods
 
@@ -1215,35 +1215,35 @@ const QUESTIONS = {
 { prompt: "Which numerical method is self-starting?", options: ["Runge-Kutta method", "Adams-Bashforth method", "Milne method", "Predictor-corrector method"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "What is global truncation error?", options: ["Accumulated approximation error", "Single-step error", "Derivative mismatch", "Interpolation remainder"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which numerical property keeps errors bounded?", options: ["Stability", "Orthogonality", "Interpolation", "Diagonalization"], answer: 0, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What is the purpose of predictor-corrector methods?", options: ["Improve iterative ODE accuracy", "Invert matrices", "Approximate determinants", "Find eigenvalues"], answer: 0, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What is the purpose of predictor-corrector methods?", options: ["Improve iterative ODE accuracy", "Invert complex matrix structures", "Approximate large determinant values", "Find complex eigenvalue solutions"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which method generally provides higher accuracy than Euler?", options: ["RK4 method", "Bisection method", "Jacobi method", "Gaussian elimination"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "What fundamentally affects numerical convergence speed?", options: ["Method order", "Axis labels", "Coordinate shifts", "Equation formatting"], answer: 0, difficulty: 1200, timeLimit: 20 },
 
 // 1300 ELO — PDE fundamentals
 
-{ prompt: "What is a Partial Differential Equation?", options: ["One variable equation", "Equation with multiple variables", "Complex number equation", "Equation without derivatives"], answer: 1, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What is a Partial Differential Equation?", options: ["Equation with single variable", "Equation with multiple variables", "Equation with complex numbers", "Equation without derivative terms"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which equation type contains partial derivatives?", options: ["PDE", "Linear equation", "Quadratic equation", "Matrix equation"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which PDE commonly models heat flow?", options: ["Wave equation", "Heat equation", "Laplace equation", "Poisson equation"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "What primarily distinguishes PDEs from ODEs?", options: ["Multiple independent variables", "No derivatives", "Exact solutions only", "Matrix representations"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which PDE often models vibrating strings?", options: ["Heat equation", "Wave equation", "Laplace equation", "Euler equation"], answer: 1, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What are boundary conditions mainly used for?", options: ["Specify edge behavior", "Remove derivatives", "Diagonalize matrices", "Simplify polynomials"], answer: 0, difficulty: 1300, timeLimit: 20 },
-{ prompt: "Which coordinate variables commonly appear in PDEs?", options: ["Space and time variables", "Only constants", "Only matrices", "Only vectors"], answer: 0, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What is discretization in numerical PDE solving?", options: ["Converting continuous domain into grid", "Finding exact solutions", "Removing variables", "Differentiating matrices"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What are boundary conditions mainly used for?", options: ["Specify edge behavior conditions", "Remove derivative calculation terms", "Diagonalize complex matrix structures", "Simplify polynomial equation forms"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "Which coordinate variables commonly appear in PDEs?", options: ["Space and time coordinate variables", "The Only constant value parameters", "The Only matrix structure elements", "The Only vector quantity components"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What is discretization in numerical PDE solving?", options: ["Converting continuous domain grids", "Finding exact solution values", "Removing variable calculation terms", "Differentiating complex matrix structures"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which type of equations often describe physical systems?", options: ["Differential equations", "Identity equations", "Pure algebraic forms", "Random matrices"], answer: 0, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What mainly determines PDE solution uniqueness?", options: ["Boundary and initial conditions", "Equation color", "Graph scaling", "Polynomial order"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What mainly determines PDE solution uniqueness?", options: ["Boundary and initial condition values", "Equation color and graph scaling", "Polynomial order and equation complexity", "Matrix determinant and eigenvalue solutions"], answer: 0, difficulty: 1300, timeLimit: 20 },
 
 // 1400 ELO — PDE classification and heat equation
 
 { prompt: "The Heat Equation is which PDE type?", options: ["Elliptic", "Parabolic", "Hyperbolic", "Algebraic"], answer: 1, difficulty: 1400, timeLimit: 20 },
 { prompt: "What physical process does the heat equation model?", options: ["Wave vibration", "Heat diffusion", "Rigid body motion", "Population growth"], answer: 1, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which PDE type generally smooths disturbances over time?", options: ["Parabolic PDEs", "Hyperbolic PDEs", "Algebraic equations", "Matrix equations"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What mainly causes numerical instability in PDE schemes?", options: ["Excessive step sizes", "Small determinants", "Graph rotations", "Coordinate shifts"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "Which finite difference quantity approximates derivatives?", options: ["Differences between nearby grid points", "Matrix inverses", "Polynomial roots", "Eigenvectors"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What is a computational grid?", options: ["Discrete set of numerical points", "Exact symbolic map", "Matrix determinant", "Differential operator"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What mainly causes numerical instability in PDE schemes?", options: ["Excessive step size calculation errors", "The Small matrix determinant values", "Graph rotation and coordinate shifts", "Polynomial order and equation complexity"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "Which finite difference quantity approximates derivatives?", options: ["Differences between nearby grid points", "The Matrix inverse calculation values", "Polynomial root and equation solutions", "The Eigenvector and eigenvalue calculations"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What is a computational grid?", options: ["Discrete set of numerical calculation points", "Exact symbolic map and equation solutions", "The Matrix determinant and eigenvalue values", "The Differential operator and equation forms"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which quantity controls temporal discretization?", options: ["Time step", "Eigenvalue", "Polynomial degree", "Determinant"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes explicit methods?", options: ["Future values computed directly", "Require simultaneous solving", "No discretization", "Avoid iterations"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "Why are smaller grid spacings useful numerically?", options: ["Improve approximation accuracy", "Guarantee exactness", "Eliminate PDEs", "Prevent derivatives"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What does diffusion physically represent?", options: ["Spreading of quantities", "Wave reflection", "Rigid motion", "Matrix transformation"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "Why are smaller grid spacings useful numerically?", options: ["Improve approximation calculation accuracy", "Guarantee exact solution values", "Eliminate partial differential equations", "Prevent derivative calculation terms"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What does diffusion physically represent?", options: ["Spreading of physical quantity values", "Wave reflection and rigid motion", "Matrix transformation and equation forms", "Diffusion and heat transfer processes"], answer: 0, difficulty: 1400, timeLimit: 20 },
 
 // 1500 ELO — wave equation and hyperbolic behavior
 
@@ -1251,9 +1251,9 @@ const QUESTIONS = {
 { prompt: "What physical phenomenon does the wave equation model?", options: ["Heat spreading", "Wave propagation", "Matrix inversion", "Diffusion only"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which PDE type supports finite propagation speeds?", options: ["Hyperbolic PDEs", "Parabolic PDEs", "Algebraic equations", "Linear systems"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "What mainly distinguishes wave behavior numerically?", options: ["Propagation of disturbances", "Instant smoothing", "No oscillations", "Infinite damping"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "Which finite difference scheme often approximates wave equations?", options: ["Central difference scheme", "LU decomposition", "Gaussian elimination", "Newton interpolation"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What is numerical dispersion?", options: ["Artificial wave distortion", "Matrix instability", "Interpolation failure", "Derivative elimination"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "Which quantity strongly affects wave PDE stability?", options: ["Time-space step ratio", "Polynomial degree", "Matrix determinant", "Coordinate orientation"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "Which finite difference scheme often approximates wave equations?", options: ["Central difference scheme often used", "The LU decomposition method applied", "The Gaussian elimination technique utilized", "The Newton interpolation approach employed"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What is numerical dispersion?", options: ["Artificial wave distortion occurring", "Numerical instability developing slowly", "Interpolation error accumulating gradually", "Derivative approximation failing completely"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "Which quantity strongly affects wave PDE stability?", options: ["Time step size and spatial ratio", "The Polynomial degree and order selection", "The Matrix determinant and condition number", "The Coordinate orientation and system alignment"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "What mainly causes oscillatory numerical solutions?", options: ["Improper discretization handling", "Exact symbolic solutions", "Orthogonal matrices", "Perfect stability"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which numerical issue affects wave propagation accuracy?", options: ["Phase error", "Diagonal dominance", "Pivot instability", "Residual divergence"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes hyperbolic PDEs?", options: ["Wave-like propagation behavior", "Diffusive smoothing only", "No time dependence", "Constant solutions"], answer: 0, difficulty: 1500, timeLimit: 20 },
@@ -1263,10 +1263,10 @@ const QUESTIONS = {
 { prompt: "Which method discretizes domains into grids and differences?", options: ["Finite Element Method", "Finite Difference Method", "Monte Carlo Method", "Spectral Method"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "What fundamentally defines finite difference methods?", options: ["Derivative approximation using nearby values", "Exact symbolic integration", "Matrix factorization", "Orthogonal projections"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Why are finite difference methods computationally useful?", options: ["Transform PDEs into algebraic equations", "Remove derivatives exactly", "Avoid discretization", "Guarantee closed forms"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What is spatial discretization?", options: ["Dividing spatial domain into points", "Approximating derivatives symbolically", "Removing time variables", "Reducing matrices"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Which quantity mainly affects finite difference accuracy?", options: ["Grid spacing size", "Equation formatting", "Coordinate labels", "Matrix symmetry"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What is truncation error in finite differences?", options: ["Approximation error from neglected terms", "Hardware failure", "Matrix instability", "Interpolation mismatch"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Which finite difference scheme uses future and current values?", options: ["Forward difference scheme", "LU factorization", "QR decomposition", "Gaussian pivoting"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What is spatial discretization?", options: ["Dividing spatial domain into discrete", "The Approximating derivatives using symbolic", "Removing time variables and dependencies", "Reducing matrices and computational cost"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Which quantity mainly affects finite difference accuracy?", options: ["Grid spacing size and discretization", "Equation formatting and notation style", "Coordinate labels and system orientation", "Matrix symmetry and eigenvalue distribution"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What is truncation error in finite differences?", options: ["Approximation error from neglected terms", "Hardware failure and computational issues", "Matrix instability and numerical problems", "The Interpolation mismatch and discretization"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Which finite difference scheme uses future and current values?", options: ["Forward difference scheme using values", "LU factorization and matrix decomposition", "QR decomposition and orthogonal projection", "Gaussian pivoting and numerical stability"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Why are centered difference schemes often preferred?", options: ["Higher accuracy order", "Require no derivatives", "Avoid computations", "Guarantee exactness"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "What fundamentally causes consistency in discretization?", options: ["Discrete equations approach continuous equations", "Errors remain constant", "Matrices become orthogonal", "No convergence needed"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which numerical property ensures solutions approach exact behavior?", options: ["Convergence", "Pivoting", "Factorization", "Orthogonality"], answer: 0, difficulty: 1600, timeLimit: 20 },
@@ -1282,17 +1282,17 @@ const QUESTIONS = {
 { prompt: "What is relaxation in numerical PDE solving?", options: ["Iterative smoothing toward solution", "Removing variables", "Matrix diagonalization", "Exact integration"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which numerical issue affects iterative PDE convergence?", options: ["Spectral radius behavior", "Coordinate naming", "Polynomial signs", "Equation fonts"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Why are sparse matrices common in PDE discretization?", options: ["Local grid interactions dominate", "Exact solutions disappear", "All derivatives vanish", "Matrices become singular"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "What fundamentally improves iterative elliptic solvers?", options: ["Good convergence acceleration", "Increasing truncation", "Removing stability", "Larger perturbations"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "What fundamentally improves iterative elliptic solvers?", options: ["Good convergence acceleration techniques", "Increasing truncation error levels", "Removing stability constraints always", "Larger perturbation tolerance values"], answer: 0, difficulty: 1700, timeLimit: 20 },
 
 // 1800 ELO — stability and CFL condition
 
 { prompt: "Which stability criterion is essential for explicit hyperbolic PDE schemes?", options: ["Nyquist criterion", "CFL condition", "Routh-Hurwitz criterion", "Bode stability"], answer: 1, difficulty: 1800, timeLimit: 20 },
 { prompt: "What does the CFL condition mainly relate?", options: ["Time step and spatial resolution", "Matrix determinant and rank", "Interpolation and integration", "Boundary values and pivots"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why is the CFL condition important numerically?", options: ["Ensures stable information propagation", "Guarantees exact solutions", "Eliminates discretization", "Prevents convergence"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why is the CFL condition important numerically?", options: ["Ensures stable information propagation always", "Guarantees exact solution convergence rates", "The Eliminates discretization error sources", "The Prevents convergence failure completely"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "What fundamentally causes instability in explicit schemes?", options: ["Excessively large time steps", "Too many grid points", "Small determinants", "Low polynomial order"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Which numerical phenomenon often signals instability?", options: ["Rapidly growing oscillations", "Smooth convergence", "Residual reduction", "Stable damping"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Which numerical phenomenon often signals instability?", options: ["Rapidly growing oscillation amplitudes", "Smooth convergence rate behaviors", "Residual reduction error patterns", "Stable damping coefficient values"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Why are explicit methods computationally attractive?", options: ["Simple direct computations", "No discretization needed", "Always unconditionally stable", "Exact symbolic forms"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes conditional stability?", options: ["Stability depends on step restrictions", "Stability always guaranteed", "No convergence exists", "Errors remain constant"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes conditional stability?", options: ["Stability depends on step size restrictions", "The Stability is always guaranteed theoretically", "No convergence exists in practice ever", "Errors remain constant over time always"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which property mainly controls numerical wave propagation?", options: ["Courant number", "Matrix determinant", "Polynomial degree", "Pivot order"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Why are implicit methods often more stable?", options: ["Handle larger time steps safely", "Avoid solving equations", "Eliminate discretization", "Guarantee exactness"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "What fundamentally limits explicit PDE methods?", options: ["Strict stability constraints", "Lack of derivatives", "Matrix symmetry", "Boundary elimination"], answer: 0, difficulty: 1800, timeLimit: 20 },
@@ -1300,15 +1300,15 @@ const QUESTIONS = {
 // 1900 ELO — stiff equations and advanced numerical stability
 
 { prompt: "Which methods are generally required for stiff ODEs?", options: ["Explicit methods", "Implicit methods", "Graphical methods", "Monte Carlo methods"], answer: 1, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What fundamentally characterizes stiff differential equations?", options: ["Widely varying solution scales", "No derivatives present", "Exact polynomial behavior", "Infinite solutions"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What fundamentally characterizes stiff differential equations?", options: ["Widely varying solution scale ranges", "No derivatives present in equations", "The Exact polynomial behavior patterns", "Infinite solution sets exist always"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Why are implicit methods preferred for stiff systems?", options: ["Better numerical stability", "Require no equations", "Avoid discretization", "Guarantee symbolic solutions"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What mainly limits explicit methods for stiff ODEs?", options: ["Very small stable step sizes", "Lack of convergence", "No derivative evaluations", "Matrix orthogonality"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes A-stable methods?", options: ["Remain stable for stiff decay problems", "Guarantee exact integration", "Avoid iterations completely", "Remove truncation errors"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What mainly limits explicit methods for stiff ODEs?", options: ["Very small stable step sizes required", "Lack of convergence in practice occurs", "The No derivative evaluations are needed", "The Matrix orthogonality is always maintained"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes A-stable methods?", options: ["Remain stable for stiff decay problems", "The Guarantee exact integration results always", "The Avoid iterations completely in practice", "The Remove truncation errors entirely always"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Why are stiff systems computationally challenging?", options: ["Accuracy and stability compete strongly", "No numerical methods exist", "Derivatives vanish instantly", "Matrices become singular"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What fundamentally causes numerical stiffness?", options: ["Rapidly decaying solution components", "Boundary elimination", "Interpolation oscillation", "Orthogonal matrices"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why do implicit methods require equation solving each step?", options: ["Future states appear implicitly", "Derivatives disappear", "Matrices diagonalize automatically", "Convergence becomes exact"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What fundamentally causes numerical stiffness?", options: ["Rapidly decaying solution components exist", "Boundary elimination is always possible", "The Interpolation oscillation occurs frequently", "Orthogonal matrices are always maintained"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Why do implicit methods require equation solving each step?", options: ["Future states appear implicitly always", "Derivatives disappear in equations always", "The Matrices diagonalize automatically always", "Convergence becomes exact in practice"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes stable numerical algorithms?", options: ["Small perturbations remain controlled", "Errors always vanish", "Matrices stay diagonal", "No approximations occur"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why is computational efficiency important in PDE simulations?", options: ["Large systems require scalable algorithms", "Exact symbolic solutions dominate", "Derivatives become unnecessary", "Boundary conditions disappear"], answer: 0, difficulty: 1900, timeLimit: 20 }
+{ prompt: "Why is computational efficiency important in PDE simulations?", options: ["Large systems require scalable algorithms", "Exact symbolic solutions dominate always", "Derivatives become unnecessary in practice", "The Boundary conditions disappear completely"], answer: 0, difficulty: 1900, timeLimit: 20 }
 
 ],
   "Computer Aided Engineering Graphics": [
@@ -1320,32 +1320,32 @@ const QUESTIONS = {
 { prompt: "Which command removes unwanted object portions?", options: ["EXTEND", "OFFSET", "TRIM", "ARRAY"], answer: 2, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which geometric shape has all points equally distant from the center?", options: ["Ellipse", "Polygon", "Circle", "Spline"], answer: 2, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which line type usually represents visible edges?", options: ["Continuous thick line", "Dashed thin line", "Chain thin line", "Zigzag break line"], answer: 0, difficulty: 1000, timeLimit: 20 },
-{ prompt: "What is the purpose of dimensions in drawings?", options: ["Decorate drawings", "Specify exact sizes", "Color components", "Hide geometry"], answer: 1, difficulty: 1000, timeLimit: 20 },
+{ prompt: "What is the purpose of dimensions in drawings?", options: ["Decorate drawings with visual effects", "Specify exact sizes and dimensions", "Color components and features clearly", "Hide geometry and structural details"], answer: 1, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which command changes object size proportionally?", options: ["SCALE", "ROTATE", "MIRROR", "OFFSET"], answer: 0, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which device is commonly used for precise CAD input?", options: ["Joystick", "Mouse", "Microphone", "Scanner"], answer: 1, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which projection view usually shows object height and width?", options: ["Top view", "Front view", "Side view", "Sectional view"], answer: 1, difficulty: 1000, timeLimit: 20 },
-{ prompt: "What is drafting mainly concerned with?", options: ["Programming logic", "Technical drawing communication", "Electrical testing", "Machine fabrication"], answer: 1, difficulty: 1000, timeLimit: 20 },
+{ prompt: "What is drafting mainly concerned with?", options: ["Technical drawing skills", "Technical drawing communication", "Electrical engineering principles", "Machine design fabrication"], answer: 1, difficulty: 1000, timeLimit: 20 },
 
 // 1100 ELO — beginner CAD commands and conventions
 
 { prompt: "Which command creates a mirror image in AutoCAD?", options: ["COPY", "ROTATE", "MIRROR", "SCALE"], answer: 2, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which command creates parallel copies of objects?", options: ["OFFSET", "ARRAY", "TRIM", "EXTEND"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which line type represents hidden edges?", options: ["Continuous line", "Dashed line", "Center line", "Dimension line"], answer: 1, difficulty: 1100, timeLimit: 20 },
-{ prompt: "What does the ROTATE command primarily do?", options: ["Resize object", "Shift object", "Turn object about point", "Split object"], answer: 2, difficulty: 1100, timeLimit: 20 },
+{ prompt: "What does the ROTATE command primarily do?", options: ["The Resize object dimensions", "The Shift object positions", "Turn object about point", "The Scale object proportions"], answer: 2, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which CAD command rounds sharp intersections?", options: ["CHAMFER", "FILLET", "TRIM", "OFFSET"], answer: 1, difficulty: 1100, timeLimit: 20 },
-{ prompt: "What is the purpose of object snaps in CAD?", options: ["Apply colors", "Improve drawing precision", "Generate dimensions", "Create layers"], answer: 1, difficulty: 1100, timeLimit: 20 },
+{ prompt: "What is the purpose of object snaps in CAD?", options: ["Apply color schemes", "Improve drawing precision", "Generate dimension labels", "Create layer structures"], answer: 1, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which view usually shows width and depth?", options: ["Front view", "Top view", "Section view", "Auxiliary view"], answer: 1, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which command extends objects to boundaries?", options: ["TRIM", "EXTEND", "MIRROR", "BREAK"], answer: 1, difficulty: 1100, timeLimit: 20 },
-{ prompt: "What is the purpose of layers in CAD?", options: ["Increase brightness", "Organize drawing elements", "Calculate dimensions", "Render animations"], answer: 1, difficulty: 1100, timeLimit: 20 },
+{ prompt: "What is the purpose of layers in CAD?", options: ["Increase display brightness", "Organize drawing elements", "Calculate dimension values", "Render visual effects"], answer: 1, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which projection method keeps parallel lines parallel?", options: ["Perspective projection", "Parallel projection", "Curvilinear projection", "Spherical projection"], answer: 1, difficulty: 1100, timeLimit: 20 },
 
 // 1200 ELO — orthographic fundamentals
 
 { prompt: "How many mutually perpendicular reference planes are typically used?", options: ["1", "2", "3", "4"], answer: 2, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which orthographic plane represents top views?", options: ["Vertical plane", "Horizontal plane", "Profile plane", "Auxiliary plane"], answer: 1, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What is orthographic projection mainly used for?", options: ["Realistic visualization", "Accurate multiview representation", "Animation rendering", "Perspective sketching"], answer: 1, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What is orthographic projection mainly used for?", options: ["Create realistic visuals", "Accurate multiview representation", "Render animation sequences", "Generate perspective sketches"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which view usually shows width and height together?", options: ["Front view", "Top view", "Bottom view", "Section view"], answer: 0, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What is the purpose of projection lines?", options: ["Decorate drawings", "Transfer dimensions between views", "Apply textures", "Generate lighting"], answer: 1, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What is the purpose of projection lines?", options: ["The Decorate drawing layouts", "Transfer dimensions between views", "The Apply texture patterns", "To Generate lighting effects"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which line type represents center axes?", options: ["Dashed thick line", "Chain thin line", "Continuous thin line", "Break line"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which CAD command creates multiple object copies systematically?", options: ["ARRAY", "TRIM", "SCALE", "STRETCH"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "What mainly distinguishes orthographic drawings?", options: ["Multiple accurate views", "Single perspective image", "Artistic rendering", "Color shading"], answer: 0, difficulty: 1200, timeLimit: 20 },
@@ -1357,7 +1357,7 @@ const QUESTIONS = {
 { prompt: "What type of projection is an isometric view?", options: ["Perspective projection", "Axonometric projection", "Oblique projection", "Sectional projection"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "What mainly distinguishes isometric drawings?", options: ["True perspective depth", "Equal axis scaling", "Curved projection planes", "Single viewpoint distortion"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which projection gives realistic depth appearance?", options: ["Orthographic projection", "Perspective projection", "Isometric projection", "Sectional projection"], answer: 1, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What is an auxiliary view mainly used for?", options: ["Represent inclined surfaces accurately", "Hide dimensions", "Create animations", "Reduce object size"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What is an auxiliary view mainly used for?", options: ["Represent inclined surfaces accurately", "The Hide dimension values", "The Create animation sequences", "To Reduce object dimensions"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which projection type keeps object dimensions measurable?", options: ["Parallel projection", "Perspective projection", "Curvilinear projection", "Panoramic projection"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "What is foreshortening in engineering graphics?", options: ["Reduction of apparent length", "Increase of object thickness", "Rotation of dimensions", "Removal of hidden lines"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which drawing view best reveals internal geometry?", options: ["Top view", "Sectional view", "Isometric view", "Auxiliary view"], answer: 1, difficulty: 1300, timeLimit: 20 },
@@ -1381,15 +1381,15 @@ const QUESTIONS = {
 // 1500 ELO — sectional views and drafting interpretation
 
 { prompt: "What is the purpose of hatching in engineering drawings?", options: ["Apply surface color", "Indicate cut surfaces", "Represent hidden lines", "Show dimensions"], answer: 1, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What mainly distinguishes sectional views?", options: ["Internal features become visible", "Perspective distortion increases", "Dimensions disappear", "Axes become unequal"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What mainly distinguishes sectional views?", options: ["Internal features become visible", "The Perspective distortion increases", "The Dimensions become invisible", "Axes become unequal lengths"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Why are hidden lines often omitted in section views?", options: ["Improve drawing clarity", "Reduce dimensions", "Change projection type", "Increase realism"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "What does a cutting plane indicate?", options: ["Object rotation path", "Imaginary slicing location", "Dimension direction", "Lighting orientation"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which section type cuts the object completely?", options: ["Half section", "Full section", "Broken section", "Offset section"], answer: 1, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What mainly determines hatch line spacing?", options: ["Drawing clarity and scale", "Projection angle", "Material density", "Axis orientation"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What mainly determines hatch line spacing?", options: ["Drawing clarity and scale", "Projection angle and orientation", "Material density and properties", "Axis orientation and alignment"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which sectional method reveals symmetric interiors efficiently?", options: ["Half section", "Auxiliary section", "Revolved section", "Removed section"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "What is an offset section mainly used for?", options: ["Cut through nonaligned features", "Reduce object scale", "Generate perspective", "Remove dimensions"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which drafting practice improves section readability?", options: ["Consistent hatch direction", "Random line thickness", "Heavy shading everywhere", "Perspective distortion"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "Why are sectional drawings important mechanically?", options: ["Reveal hidden construction details", "Increase artistic appearance", "Reduce dimensions completely", "Avoid orthographic views"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "Why are sectional drawings important mechanically?", options: ["Reveal hidden construction details", "Increase artistic visual appeal", "Reduce dimension values completely", "The Avoid orthographic projections"], answer: 0, difficulty: 1500, timeLimit: 20 },
 
 // 1600 ELO — line conventions and standards
 
@@ -1399,7 +1399,7 @@ const QUESTIONS = {
 { prompt: "Which line type usually represents dimension extension?", options: ["Continuous thin line", "Dashed thick line", "Chain thick line", "Freehand break line"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes visible object lines?", options: ["Continuous thick representation", "Dashed thin representation", "Chain thin representation", "Zigzag representation"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which line convention represents symmetry axes?", options: ["Center lines", "Hidden lines", "Dimension lines", "Break lines"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Why are break lines used in drawings?", options: ["Shorten long uniform objects", "Represent hidden edges", "Indicate dimensions", "Show cutting planes"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Why are break lines used in drawings?", options: ["Shorten long uniform objects", "Represent hidden edge lines", "The Indicate dimension values", "Show cutting plane lines"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which factor mainly affects drafting readability?", options: ["Proper line hierarchy", "Random line styles", "Heavy shading", "Unequal scaling"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "What is the purpose of dimension lines?", options: ["Indicate measured distances", "Represent cut surfaces", "Show hidden geometry", "Create projections"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Why are standardized line weights important?", options: ["Improve interpretation consistency", "Increase rendering speed", "Reduce dimensions", "Enhance perspective"], answer: 0, difficulty: 1600, timeLimit: 20 },
@@ -1410,18 +1410,18 @@ const QUESTIONS = {
 { prompt: "What fundamentally distinguishes a chamfer from a fillet?", options: ["Chamfer creates beveled edge", "Chamfer creates curved edge", "Fillet removes dimensions", "Fillet scales geometry"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Why are fillets important mechanically?", options: ["Reduce stress concentration", "Increase projection accuracy", "Improve rendering only", "Simplify dimensions"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which CAD operation removes selected geometry portions?", options: ["TRIM", "OFFSET", "ARRAY", "SCALE"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "What mainly distinguishes parametric CAD models?", options: ["Geometry driven by constraints", "Perspective rendering only", "Pure raster graphics", "Manual scaling dependence"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "What mainly distinguishes parametric CAD models?", options: ["Geometry driven by constraints", "Perspective rendering only used", "Pure raster graphics applied", "Manual scaling dependence used"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which CAD modeling approach builds objects feature-by-feature?", options: ["Feature-based modeling", "Raster modeling", "Wireframe projection", "Manual drafting"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Why are geometric constraints useful in CAD?", options: ["Maintain design relationships", "Increase rendering noise", "Reduce model accuracy", "Eliminate dimensions"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes solid models from wireframes?", options: ["Contain volumetric information", "Use only edges", "Avoid surfaces", "Eliminate dimensions"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which modeling operation combines multiple solids?", options: ["UNION", "OFFSET", "MIRROR", "ROTATE"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Why are CAD assemblies important engineeringly?", options: ["Verify component fit and motion", "Increase shading realism", "Reduce projection use", "Avoid tolerancing"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Why are CAD assemblies important engineeringly?", options: ["Verify component fit and motion", "To Increase shading realism effects", "To Reduce projection use cases", "The Avoid tolerancing and fits"], answer: 0, difficulty: 1700, timeLimit: 20 },
 
 // 1800 ELO — isometric geometry and advanced visualization
 
 { prompt: "In isometric drawing, axes are inclined at what angle?", options: ["90 degrees", "120 degrees", "45 degrees", "180 degrees"], answer: 1, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes isometric axes?", options: ["Equal angular separation", "Perspective convergence", "Unequal scaling", "Curved orientation"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why do circles appear elliptical in isometric drawings?", options: ["Projection distortion of planes", "Incorrect scaling", "Perspective vanishing points", "Dimension errors"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes isometric axes?", options: ["Equal angular separation maintained", "The Perspective convergence applied", "Unequal scaling factors used", "Curved orientation and shapes"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why do circles appear elliptical in isometric drawings?", options: ["Projection distortion of planes", "Incorrect scaling factors applied", "Perspective vanishing point issues", "Dimensional measurement errors occur"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which curve approximates circles isometrically?", options: ["Isometric ellipse", "Parabolic spline", "Bezier arc", "Hyperbolic arc"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "What mainly distinguishes perspective from isometric projection?", options: ["Parallel lines converge perspectively", "Axes remain equally spaced", "Objects keep exact scale", "No depth representation"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Why are isometric views valuable engineeringly?", options: ["Visualize 3D geometry clearly", "Replace dimensions entirely", "Eliminate orthographic views", "Increase shading realism"], answer: 0, difficulty: 1800, timeLimit: 20 },
@@ -1464,13 +1464,13 @@ const QUESTIONS = {
 { prompt: "Which chart best shows parts of a whole?", options: ["Line chart", "Scatter plot", "Pie chart", "Histogram"], answer: 2, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which chart best compares values over categories?", options: ["Bar chart", "Heatmap", "Bubble chart", "Contour plot"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which visualization commonly represents percentages circularly?", options: ["Pie chart", "Scatter plot", "Histogram", "Area chart"], answer: 0, difficulty: 1100, timeLimit: 20 },
-{ prompt: "What mainly determines chart selection?", options: ["Data type and purpose", "Screen brightness", "Programming language", "Font style"], answer: 0, difficulty: 1100, timeLimit: 20 },
+{ prompt: "What mainly determines chart selection?", options: ["Data type and purpose", "The Chart display resolution", "The User interface complexity", "The Information density level"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which chart is poor for comparing many small percentages?", options: ["Pie chart", "Bar chart", "Histogram", "Scatter plot"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which graph feature improves readability?", options: ["Clear labeling", "Random colors", "Heavy animation", "Distorted scales"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which chart emphasizes proportional relationships visually?", options: ["Pie chart", "Scatter plot", "Box plot", "Gantt chart"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "What is categorical data primarily grouped by?", options: ["Named categories", "Continuous ranges", "Spatial coordinates", "Time intervals"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which chart is easiest for direct value comparison?", options: ["Bar chart", "Pie chart", "Radar chart", "Treemap"], answer: 0, difficulty: 1100, timeLimit: 20 },
-{ prompt: "What mainly improves chart interpretation speed?", options: ["Simple uncluttered design", "Complex gradients", "3D distortions", "Dense textures"], answer: 0, difficulty: 1100, timeLimit: 20 },
+{ prompt: "What mainly improves chart interpretation speed?", options: ["Simple uncluttered design", "Complex detailed visuals", "Interactive dynamic elements", "Realistic three-dimensional scenes"], answer: 0, difficulty: 1100, timeLimit: 20 },
 
 // 1200 ELO — trends and time-series visualization
 
@@ -1482,7 +1482,7 @@ const QUESTIONS = {
 { prompt: "Which chart best compares multiple trends simultaneously?", options: ["Multi-line chart", "Pie chart", "Histogram", "Gauge chart"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "What mainly affects trend readability?", options: ["Consistent axis scaling", "Heavy shadows", "Random line widths", "Decorative backgrounds"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which visualization often represents stock prices historically?", options: ["Line chart", "Pie chart", "Treemap", "Radar chart"], answer: 0, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes time-series data?", options: ["Sequential time ordering", "Spatial coordinates", "Hierarchical grouping", "Categorical exclusivity"], answer: 0, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes time-series data?", options: ["Sequential time ordering", "Geographical spatial mapping", "Hierarchical categorical grouping", "Temporal frequency analysis"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which chart type best highlights continuous change?", options: ["Line chart", "Pie chart", "Bubble chart", "Node graph"], answer: 0, difficulty: 1200, timeLimit: 20 },
 
 // 1300 ELO — correlation and scatter plots
@@ -1490,13 +1490,13 @@ const QUESTIONS = {
 { prompt: "Which plot shows relationships between two continuous variables?", options: ["Pie chart", "Bar chart", "Scatter plot", "Gantt chart"], answer: 2, difficulty: 1300, timeLimit: 20 },
 { prompt: "What does an upward scatter trend usually indicate?", options: ["Positive correlation", "Negative correlation", "No relationship", "Categorical grouping"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which visualization best reveals outliers numerically?", options: ["Scatter plot", "Pie chart", "Treemap", "Area chart"], answer: 0, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What mainly distinguishes correlation from causation?", options: ["Association without guaranteed cause", "Exact equivalence", "Random grouping", "Data compression"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What mainly distinguishes correlation from causation?", options: ["Association without guaranteed cause", "Correlation with proven mechanism", "Causation with statistical evidence", "Relationship with predictive power"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which scatter pattern suggests weak correlation?", options: ["Randomly dispersed points", "Tight upward line", "Perfect downward line", "Circular sectors"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "What does each point represent in a scatter plot?", options: ["One paired observation", "Entire category average", "Single histogram bin", "Projection axis"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which chart type best visualizes variable relationships?", options: ["Scatter plot", "Pie chart", "Stacked bar chart", "Gauge chart"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "What mainly improves scatter plot readability?", options: ["Appropriate point spacing", "3D rotation", "Heavy gradients", "Dense annotations"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which statistical idea is commonly visualized using scatter plots?", options: ["Correlation", "Encryption", "Compression", "Hashing"], answer: 0, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes positive and negative correlation?", options: ["Direction of variable movement", "Point color only", "Axis labeling", "Legend position"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes positive and negative correlation?", options: ["Direction of variable movement", "Magnitude of variable change", "Speed of variable fluctuation", "Pattern of variable interaction"], answer: 0, difficulty: 1300, timeLimit: 20 },
 
 // 1400 ELO — distributions and histograms
 
@@ -1505,11 +1505,11 @@ const QUESTIONS = {
 { prompt: "Which chart best visualizes continuous data distribution?", options: ["Histogram", "Pie chart", "Radar chart", "Flowchart"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "What does histogram bar height represent?", options: ["Frequency count", "Axis label", "Category name", "Correlation value"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which distribution shape is symmetric around the center?", options: ["Normal distribution", "Skewed distribution", "Uniform spike", "Bimodal curve"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What mainly affects histogram smoothness?", options: ["Bin width selection", "Legend placement", "Color palette", "Screen size"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What mainly affects histogram smoothness?", options: ["Bin width selection criteria", "Data point distribution method", "The Histogram rendering algorithm", "Graphical display resolution quality"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which visualization commonly reveals skewness?", options: ["Histogram", "Pie chart", "Treemap", "Node-link graph"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes histograms from bar charts?", options: ["Continuous versus categorical data", "Axis orientation", "Color coding", "Legend position"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes histograms from bar charts?", options: ["Continuous versus categorical data", "Quantitative versus qualitative data", "Discrete versus continuous data", "Numerical versus textual data"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which histogram pattern suggests two major peaks?", options: ["Bimodal distribution", "Uniform distribution", "Normal distribution", "Linear trend"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "Why are histograms useful analytically?", options: ["Reveal data distribution shape", "Increase rendering speed", "Reduce storage size", "Encrypt datasets"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "Why are histograms useful analytically?", options: ["Reveal data distribution shape", "Show data central tendency", "Illustrate data dispersion range", "Highlight data outlier presence"], answer: 0, difficulty: 1400, timeLimit: 20 },
 
 // 1500 ELO — box plots and statistical summaries
 
@@ -1526,13 +1526,13 @@ const QUESTIONS = {
 
 // 1600 ELO — heatmaps and multidimensional data
 
-{ prompt: "What is a heatmap?", options: ["Temperature-only map", "Data represented using colors", "CPU usage chart", "Three-dimensional pie chart"], answer: 1, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What is a heatmap?", options: ["The Geographical location map", "Data represented using colors", "Weather forecast temperature chart", "Demographical population density map"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "What mainly encodes values in a heatmap?", options: ["Color intensity", "Bar length", "Pie angle", "Point radius"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which visualization effectively shows matrix-like relationships?", options: ["Heatmap", "Pie chart", "Radar chart", "Flow diagram"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes heatmaps analytically?", options: ["Dense pattern recognition through color", "Exact geometric measurement", "Perspective rendering", "Categorical ranking"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes heatmaps analytically?", options: ["Dense pattern recognition through color", "Precise measurement using numerical values", "Complex analysis using statistical models", "Detailed examination using data visualization"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which dataset type commonly uses heatmaps?", options: ["Correlation matrices", "Single percentages", "Simple rankings", "Pie distributions"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What mainly improves heatmap readability?", options: ["Perceptually clear color scales", "Heavy texture overlays", "Random gradients", "Excessive 3D effects"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Which issue can misleading color scales create?", options: ["False visual emphasis", "Improved accuracy", "Perfect interpretation", "Reduced complexity"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What mainly improves heatmap readability?", options: ["Perceptually clear color scales", "Intuitively understandable data labels", "Consistently applied visual encoding", "Carefully designed interactive elements"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Which issue can misleading color scales create?", options: ["False visual emphasis occurs", "Improved accuracy is achieved", "Perfect interpretation is guaranteed", "Reduced complexity is obtained"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Why are heatmaps useful for large datasets?", options: ["Reveal patterns quickly visually", "Store data permanently", "Reduce computational cost", "Guarantee causation"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes sequential and diverging colormaps?", options: ["Different value progression emphasis", "Different axis systems", "Different storage formats", "Different legends"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which visualization best reveals clustered relationships?", options: ["Clustered heatmap", "Pie chart", "Gauge display", "Bubble icon"], answer: 0, difficulty: 1600, timeLimit: 20 },
@@ -1573,7 +1573,7 @@ const QUESTIONS = {
 { prompt: "Why are normalized values important in choropleths?", options: ["Prevent misleading regional comparisons", "Increase rendering speed", "Simplify projections", "Reduce storage size"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes network visualizations?", options: ["Relationships represented as nodes and links", "Continuous distributions only", "Geographic heat encoding", "Single-variable trends"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Which visualization best represents hierarchical structures?", options: ["Treemap", "Scatter plot", "Histogram", "Line chart"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why are dimensionality-reduction visualizations useful?", options: ["Reveal structure in high-dimensional data", "Increase file compression", "Remove all noise", "Guarantee causation"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Why are dimensionality-reduction visualizations useful?", options: ["Reveal structure in high-dimensional data", "The Enhance data visualization quality", "To Improve data analysis efficiency", "The Facilitate data interpretation accuracy"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes explanatory storytelling visualizations?", options: ["Guide audience toward insights", "Avoid narrative structure", "Maximize decorative effects", "Hide contextual information"], answer: 0, difficulty: 1900, timeLimit: 20 }
 
 ],
@@ -1589,7 +1589,7 @@ const QUESTIONS = {
 { prompt: "What is the chemical formula of water?", options: ["CO2", "H2O", "O2", "NaCl"], answer: 1, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which process converts liquid into vapor?", options: ["Condensation", "Evaporation", "Sublimation", "Freezing"], answer: 1, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which element is essential for steel production?", options: ["Helium", "Carbon", "Neon", "Argon"], answer: 1, difficulty: 1000, timeLimit: 20 },
-{ prompt: "What mainly determines acidity in aqueous solutions?", options: ["Hydrogen ion concentration", "Electron density", "Neutron count", "Metal content"], answer: 0, difficulty: 1000, timeLimit: 20 },
+{ prompt: "What mainly determines acidity in aqueous solutions?", options: ["Hydrogen ion concentration", "Oxygen atom availability", "Electron charge density", "Proton transfer capability"], answer: 0, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which substance acts as a universal solvent commonly?", options: ["Methane", "Water", "Nitrogen", "Mercury"], answer: 1, difficulty: 1000, timeLimit: 20 },
 
 // 1100 ELO — basic engineering chemistry materials
@@ -1608,12 +1608,12 @@ const QUESTIONS = {
 // 1200 ELO — catalysis and reaction engineering
 
 { prompt: "What is the primary purpose of a catalyst?", options: ["Increase product mass", "Change final products", "Lower activation energy", "Absorb all reactants"], answer: 2, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What mainly distinguishes homogeneous catalysts?", options: ["Same phase as reactants", "Solid catalytic surface", "Higher molecular mass", "Permanent consumption"], answer: 0, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What mainly distinguishes homogeneous catalysts?", options: ["Same phase as reactants", "Similar properties as reactants", "Identical structure as reactants", "Analogous function as reactants"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which factor generally increases reaction rate?", options: ["Lower temperature", "Higher concentration", "Reduced collisions", "Smaller surface area"], answer: 1, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What fundamentally determines reaction spontaneity thermodynamically?", options: ["Gibbs free energy change", "Atomic radius only", "Electron spin only", "Boiling point alone"], answer: 0, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What fundamentally determines reaction spontaneity thermodynamically?", options: ["Gibbs free energy change", "Helmholtz free energy variation", "The Internal energy modification", "The Enthalpy transformation difference"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which process absorbs heat from surroundings?", options: ["Exothermic process", "Endothermic process", "Catalytic process", "Redox process"], answer: 1, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What mainly causes corrosion electrochemically?", options: ["Redox reactions at surfaces", "Mechanical vibration", "Thermal expansion", "Magnetic alignment"], answer: 0, difficulty: 1200, timeLimit: 20 },
-{ prompt: "Which gas is primarily responsible for acid rain?", options: ["Sulfur dioxide", "Helium", "Hydrogen", "Neon"], answer: 0, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What mainly causes corrosion electrochemically?", options: ["Redox reactions at surfaces", "The Electrochemical reactions occurring", "Chemical reactions taking place", "Physical reactions happening spontaneously"], answer: 0, difficulty: 1200, timeLimit: 20 },
+{ prompt: "Which gas is primarily responsible for acid rain?", options: ["Sulfur dioxide", "Nitrogen dioxide", "Carbon monoxide", "Ozone gas"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes reversible reactions?", options: ["Proceed in both directions", "Never reach equilibrium", "Produce single products only", "Require catalysts always"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which factor mainly affects collision frequency?", options: ["Reactant concentration", "Crystal color", "Atomic number", "Magnetic field"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Why are catalysts industrially important?", options: ["Increase efficiency and speed", "Eliminate all energy needs", "Prevent equilibrium formation", "Remove all byproducts"], answer: 0, difficulty: 1200, timeLimit: 20 },
@@ -1622,14 +1622,14 @@ const QUESTIONS = {
 
 { prompt: "In water treatment, what is coagulation?", options: ["Boiling water", "Clumping suspended particles", "Sand filtration", "Chlorine removal"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which chemical is commonly used for water disinfection?", options: ["Nitrogen", "Chlorine", "Hydrogen", "Argon"], answer: 1, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What mainly causes temporary water hardness?", options: ["Bicarbonates of calcium and magnesium", "Sodium chloride only", "Iron oxides only", "Dissolved oxygen"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What mainly causes temporary water hardness?", options: ["Bicarbonates of calcium and magnesium", "Sulfates of calcium and magnesium", "Nitrates of calcium and magnesium", "Phosphates of calcium and magnesium"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which process removes dissolved ions from water effectively?", options: ["Sedimentation", "Ion exchange", "Filtration only", "Coagulation"], answer: 1, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes soft water?", options: ["Low calcium and magnesium content", "High oxygen concentration", "High salinity", "Neutral pH only"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes soft water?", options: ["Low calcium and magnesium content", "Low sodium and potassium content", "Low iron and manganese content", "Low copper and zinc content"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which treatment stage mainly removes suspended solids?", options: ["Sedimentation", "Electrolysis", "Combustion", "Polymerization"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "What is desalination primarily intended to remove?", options: ["Suspended clay", "Dissolved salts", "Bacteria only", "Organic dyes"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which membrane process commonly purifies seawater?", options: ["Reverse osmosis", "Distillation only", "Electroplating", "Catalytic cracking"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Why is hard water undesirable industrially?", options: ["Causes scale deposition", "Increases fuel quality", "Prevents corrosion entirely", "Improves lubrication"], answer: 0, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes potable water?", options: ["Safe for human consumption", "Contains no minerals", "Always acidic", "Completely distilled"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes potable water?", options: ["Safe for human consumption", "Suitable for animal consumption", "Adequate for plant growth", "Acceptable for industrial use"], answer: 0, difficulty: 1300, timeLimit: 20 },
 
 // 1400 ELO — metallurgy and materials chemistry
 
@@ -1646,16 +1646,16 @@ const QUESTIONS = {
 
 // 1500 ELO — alloys and industrial chemistry
 
-{ prompt: "What is an alloy?", options: ["Pure metallic element", "Mixture containing a metal", "Organic polymer blend", "Ceramic crystal network"], answer: 1, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What is an alloy?", options: ["The Pure metallic element", "Mixture containing a metal", "Compound consisting of metals", "Solution of metallic ions"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which alloy mainly combines copper and zinc?", options: ["Bronze", "Brass", "Steel", "Nichrome"], answer: 1, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes composite materials?", options: ["Combination of different materials", "Single pure crystal", "Only metallic phases", "Uniform atomic lattice"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes composite materials?", options: ["Combination of different materials", "Mixture of similar materials", "Blend of identical materials", "Hybrid of analogous materials"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Why are composites valuable engineeringly?", options: ["High strength-to-weight ratios", "Perfect electrical insulation", "Zero thermal expansion", "Unlimited ductility"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which process converts crude oil into useful fractions?", options: ["Fractional distillation", "Polymer curing", "Electroplating", "Calcination"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What mainly determines fuel calorific value?", options: ["Energy released during combustion", "Fuel color", "Atomic radius", "Density only"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What mainly determines fuel calorific value?", options: ["Energy released during combustion", "Energy absorbed during reaction", "Energy transferred during process", "Energy stored during formation"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which process increases gasoline octane rating industrially?", options: ["Catalytic reforming", "Simple filtration", "Sedimentation", "Neutralization"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes biodegradable polymers?", options: ["Can decompose naturally", "Contain only metals", "Conduct electricity strongly", "Remain chemically inert"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "Why are lubricants important mechanically?", options: ["Reduce friction and wear", "Increase corrosion speed", "Lower material strength", "Prevent heat transfer"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "Which property mainly determines fuel volatility?", options: ["Ease of vaporization", "Electrical conductivity", "Crystal hardness", "Magnetic alignment"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "Why are lubricants important mechanically?", options: ["Reduce friction and wear", "To Increase mechanical efficiency", "The Enhance thermal conductivity", "To Improve electrical insulation"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "Which property mainly determines fuel volatility?", options: ["Ease of vaporization process", "Rate of thermal decomposition", "Level of molecular fragmentation", "Extent of intermolecular forces"], answer: 0, difficulty: 1500, timeLimit: 20 },
 
 // 1600 ELO — polymers and elastomers
 
@@ -1663,12 +1663,12 @@ const QUESTIONS = {
 { prompt: "What mainly improves after vulcanization?", options: ["Elasticity and strength", "Electrical conductivity", "Melting point reduction", "Optical transparency"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes elastomers?", options: ["Large reversible deformation", "Permanent brittleness", "High thermal conductivity", "Rigid crystal order"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which polymerization process joins monomers without byproducts?", options: ["Addition polymerization", "Condensation polymerization", "Electrolysis", "Hydrogenation"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What mainly determines polymer molecular weight?", options: ["Chain length of repeating units", "Color intensity", "Crystal density", "Boiling point"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What mainly determines polymer molecular weight?", options: ["Chain length of repeating units", "The Molecular weight of monomers", "The Degree of polymer branching", "The Crosslink density of polymers"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Why are thermosetting polymers heat resistant?", options: ["Crosslinked network structure", "Low molecular mass", "High moisture content", "Weak covalent bonding"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Which polymer property strongly affects flexibility?", options: ["Intermolecular interaction strength", "Magnetic susceptibility", "Atomic number", "Electron spin"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes condensation polymerization?", options: ["Small molecules released during reaction", "No byproducts formed", "Metallic lattice formation", "Electrochemical oxidation"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Why are engineering plastics industrially valuable?", options: ["Strong mechanical and thermal properties", "Perfect biodegradability", "Unlimited conductivity", "Zero chemical resistance"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Which factor mainly affects polymer crystallinity?", options: ["Regularity of chain arrangement", "Fuel volatility", "pH value", "Catalyst color"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Which polymer property strongly affects flexibility?", options: ["Intermolecular interaction strength", "Intramolecular bonding energy", "Polymer chain flexibility", "Molecular weight distribution"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes condensation polymerization?", options: ["Small molecules released during reaction", "Large molecules formed during reaction", "No catalysts required for reaction", "High pressure needed for reaction"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Why are engineering plastics industrially valuable?", options: ["Strong mechanical and thermal properties", "The High electrical conductivity properties", "Good optical and magnetic properties", "Excellent chemical and biological properties"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Which factor mainly affects polymer crystallinity?", options: ["Regularity of chain arrangement", "Uniformity of molecular weight", "Purity of polymer sample", "Stability of polymer structure"], answer: 0, difficulty: 1600, timeLimit: 20 },
 
 // 1700 ELO — nanomaterials and advanced materials chemistry
 
@@ -1676,25 +1676,25 @@ const QUESTIONS = {
 { prompt: "What size range generally defines nanoscale materials?", options: ["1–100 nm", "1–100 μm", "1–10 cm", "100–1000 mm"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Why do nanomaterials exhibit unusual properties?", options: ["Large surface-area effects", "Absence of atoms", "Perfect crystal symmetry", "Infinite conductivity"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which nanomaterial consists of cylindrical carbon structures?", options: ["Carbon nanotubes", "Bakelite chains", "Bronze crystals", "Silica glass"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes graphene structurally?", options: ["Single carbon atom layer", "Three-dimensional ionic crystal", "Crosslinked polymer mesh", "Metal oxide network"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Why are nanomaterials valuable in catalysis?", options: ["High reactive surface area", "Complete chemical inertness", "Zero electron mobility", "Permanent instability"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Which property mainly changes at nanoscale dimensions?", options: ["Electronic and optical behavior", "Atomic nucleus composition", "Fundamental constants", "Gravitational laws"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes graphene structurally?", options: ["Single carbon atom layer", "Double carbon atom layer", "Triple carbon atom layer", "Quadruple carbon atom layer"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Why are nanomaterials valuable in catalysis?", options: ["High reactive surface area", "Low reactive surface area", "Moderate reactive surface area", "Variable reactive surface area"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Which property mainly changes at nanoscale dimensions?", options: ["Electronic and optical behavior", "Thermal and mechanical behavior", "Magnetic and electrical behavior", "Chemical and biological behavior"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes smart materials?", options: ["Respond dynamically to stimuli", "Remain chemically inactive", "Contain only metals", "Have fixed conductivity"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Why are nanocomposites mechanically useful?", options: ["Enhanced strength and stiffness", "Lower chemical resistance", "Zero flexibility", "Reduced durability"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Why are nanocomposites mechanically useful?", options: ["Enhanced strength and stiffness", "Improved toughness and resilience", "Increased hardness and brittleness", "Reduced weight and density"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which factor mainly influences nanoparticle reactivity?", options: ["Surface-area-to-volume ratio", "Macroscopic shape only", "Color intensity", "Boiling temperature"], answer: 0, difficulty: 1700, timeLimit: 20 },
 
 // 1800 ELO — fuels, combustion, electrochemistry
 
-{ prompt: "What is the octane number a measure of?", options: ["Fuel density", "Fuel energy content", "Resistance to engine knocking", "Boiling temperature"], answer: 2, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What is the octane number a measure of?", options: ["The Fuel combustion efficiency", "The Fuel energy density", "Resistance to engine knocking", "The Fuel vaporization temperature"], answer: 2, difficulty: 1800, timeLimit: 20 },
 { prompt: "Why is high octane fuel desirable in spark engines?", options: ["Resists premature combustion", "Produces zero emissions", "Increases fuel density", "Prevents lubrication"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "What fundamentally causes knocking in engines?", options: ["Uncontrolled fuel-air detonation", "Low oxygen supply", "Catalyst poisoning", "Excess lubrication"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which electrochemical device converts chemical energy directly?", options: ["Fuel cell", "Heat exchanger", "Distillation column", "Catalytic cracker"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What mainly determines electrochemical cell voltage?", options: ["Difference in electrode potentials", "Color of electrolyte", "Mass of container", "Boiling point"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What mainly determines electrochemical cell voltage?", options: ["Difference in electrode potentials", "Similarity in electrode potentials", "Stability of electrode potentials", "Unpredictability of electrode potentials"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which process occurs at the anode in electrochemical cells?", options: ["Oxidation", "Reduction", "Neutralization", "Condensation"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why are fuel cells environmentally attractive?", options: ["Higher efficiency and lower emissions", "No chemical reactions occur", "Infinite fuel supply", "Zero heat generation"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why are fuel cells environmentally attractive?", options: ["Higher efficiency and lower emissions", "Lower efficiency and higher emissions", "Moderate efficiency and moderate emissions", "Variable efficiency and variable emissions"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes renewable fuels?", options: ["Can be replenished naturally", "Contain no carbon", "Have infinite octane number", "Never produce emissions"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Which property mainly affects battery energy density?", options: ["Stored energy per mass", "Battery color", "Electrode thickness only", "External pressure"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why are catalytic converters important automotive devices?", options: ["Reduce harmful exhaust emissions", "Increase fuel density", "Raise knocking tendency", "Store electrical charge"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Which property mainly affects battery energy density?", options: ["Energy stored per unit mass", "Energy released per unit time", "Power generated per unit area", "Force applied per unit volume"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why are catalytic converters important automotive devices?", options: ["Reduce harmful exhaust emissions", "Increase fuel efficiency ratings", "Improve vehicle safety features", "Enhance engine performance metrics"], answer: 0, difficulty: 1800, timeLimit: 20 },
 
 // 1900 ELO — batteries and advanced electrochemistry
 
@@ -1703,11 +1703,11 @@ const QUESTIONS = {
 { prompt: "Why are lithium-ion batteries widely preferred?", options: ["High energy density and rechargeability", "Infinite lifespan", "Zero degradation", "No electrolyte requirement"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What mainly limits lithium-ion battery lifetime?", options: ["Electrode material degradation", "Loss of gravity", "Permanent catalyst growth", "Infinite ion buildup"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes primary and secondary batteries?", options: ["Rechargeability capability", "Battery color", "Electrode dimensions", "Voltage polarity"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why are solid-state batteries technologically promising?", options: ["Improved safety and energy density", "Eliminate ion transport", "Prevent electrochemistry", "Require liquid mercury"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Why are solid-state batteries technologically promising?", options: ["Improved safety and energy density", "Increased power density and efficiency", "Enhanced cycle life and reliability", "Reduced cost and environmental impact"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What mainly determines battery capacity chemically?", options: ["Amount of reversible charge storage", "Container volume only", "External temperature only", "Electrode color"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Which factor fundamentally affects electrode potential?", options: ["Chemical tendency for electron transfer", "Physical size alone", "Optical transparency", "Fuel viscosity"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why are supercapacitors different from batteries?", options: ["Store energy electrostatically primarily", "Use no electrodes", "Require combustion reactions", "Contain no ions"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes electrochemical corrosion protection?", options: ["Controlling redox surface reactions", "Increasing polymer flexibility", "Reducing atomic mass", "Improving crystallinity"], answer: 0, difficulty: 1900, timeLimit: 20 }
+{ prompt: "Which factor fundamentally affects electrode potential?", options: ["Chemical tendency for electron transfer", "Physical property of electrode material", "The Thermodynamic parameter of reaction", "Kinetic factor of charge transport"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Why are supercapacitors different from batteries?", options: ["Store energy electrostatically primarily", "Convert energy electrochemically efficiently", "Generate power electromagnetically rapidly", "Release energy thermally slowly"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes electrochemical corrosion protection?", options: ["Controlling redox surface reactions", "The Modulating electrochemical interface", "Regulating ionic transport mechanisms", "Influencing corrosion product formation"], answer: 0, difficulty: 1900, timeLimit: 20 }
 
 ],
   "Engineering Graphics - 1": [
@@ -1722,7 +1722,7 @@ const QUESTIONS = {
 { prompt: "Which line type represents visible object edges?", options: ["Dashed thin line", "Continuous thick line", "Chain thin line", "Freehand break line"], answer: 1, difficulty: 1000, timeLimit: 20 },
 { prompt: "What is drafting mainly used for?", options: ["Artistic painting", "Technical communication", "Numerical simulation", "Material testing"], answer: 1, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which tool helps draw parallel inclined lines?", options: ["Set square", "Divider", "Compass", "Scale ruler"], answer: 0, difficulty: 1000, timeLimit: 20 },
-{ prompt: "What is the purpose of engineering graphics?", options: ["Visual technical representation", "Chemical analysis", "Electrical testing", "Thermal calculation"], answer: 0, difficulty: 1000, timeLimit: 20 },
+{ prompt: "What is the purpose of engineering graphics?", options: ["Visual technical representation", "Graphical design communication", "Spatial data visualization", "Geometric information illustration"], answer: 0, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which instrument transfers measurements accurately?", options: ["Compass", "Divider", "Protractor", "French curve"], answer: 1, difficulty: 1000, timeLimit: 20 },
 
 // 1100 ELO — scales and basic conventions
@@ -1732,7 +1732,7 @@ const QUESTIONS = {
 { prompt: "What does an RF of 1:50 indicate?", options: ["Drawing larger than object", "Object larger than drawing", "Equal object size", "Perspective enlargement"], answer: 1, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which scale type reads only two units conveniently?", options: ["Plain scale", "Diagonal scale", "Vernier scale", "Comparative scale"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which line type represents hidden edges?", options: ["Continuous thick line", "Dashed thin line", "Chain thick line", "Center line"], answer: 1, difficulty: 1100, timeLimit: 20 },
-{ prompt: "What mainly determines drawing scale selection?", options: ["Object size relative to sheet", "Color preference", "Paper texture", "Line thickness"], answer: 0, difficulty: 1100, timeLimit: 20 },
+{ prompt: "What mainly determines drawing scale selection?", options: ["Object size relative to sheet", "Drawing scale relative to object", "Sheet size relative to drawing", "Scale factor relative to size"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which drafting element provides measurement information?", options: ["Dimension line", "Center line", "Hidden line", "Cutting plane"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "What is the primary use of a scale ruler?", options: ["Measure proportional lengths", "Draw freehand curves", "Cut paper sheets", "Rotate projections"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which sheet border area usually contains identification details?", options: ["Projection zone", "Title block", "Dimension area", "Section region"], answer: 1, difficulty: 1100, timeLimit: 20 },
@@ -1741,14 +1741,14 @@ const QUESTIONS = {
 // 1200 ELO — title block and drawing organization
 
 { prompt: "What is the title block in engineering drawing?", options: ["Wooden support piece", "Drawing information box", "Projection reference line", "Tool storage region"], answer: 1, difficulty: 1200, timeLimit: 20 },
-{ prompt: "Which detail commonly appears in a title block?", options: ["Author and scale", "Machine weight", "Paper thickness", "Material hardness"], answer: 0, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What is the purpose of dimensioning?", options: ["Decorate drawings", "Specify exact measurements", "Hide geometry", "Increase shading"], answer: 1, difficulty: 1200, timeLimit: 20 },
+{ prompt: "Which detail commonly appears in a title block?", options: ["Author and scale information", "Title and revision history", "Company and contact details", "Project and client information"], answer: 0, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What is the purpose of dimensioning?", options: ["Specify exact measurement values", "Indicate precise location points", "Define clear geometric shapes", "Describe detailed engineering features"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which line type represents axes of symmetry?", options: ["Center line", "Hidden line", "Break line", "Dimension line"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "What mainly improves drawing readability?", options: ["Proper line hierarchy", "Random line weights", "Excessive shading", "Dense hatching"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which drawing practice prevents ambiguity?", options: ["Standard conventions", "Random notation", "Variable scales", "Decorative layouts"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes engineering sketches?", options: ["Technical accuracy focus", "Pure artistic intent", "Perspective realism only", "Color emphasis"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which element mainly indicates object size?", options: ["Dimensions", "Hatching", "Centerlines", "Projection symbols"], answer: 0, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What is lettering in engineering graphics mainly intended for?", options: ["Clear written communication", "Decorative styling", "Projection scaling", "Material analysis"], answer: 0, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What is lettering in engineering graphics mainly intended for?", options: ["Clear written communication", "Concise technical notation", "Precise graphical annotation", "Accurate numerical representation"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Why are uniform standards used in drafting?", options: ["Ensure consistent interpretation", "Increase artistic flexibility", "Reduce sheet usage", "Improve perspective realism"], answer: 0, difficulty: 1200, timeLimit: 20 },
 
 // 1300 ELO — scales and proportional representation
@@ -1757,12 +1757,12 @@ const QUESTIONS = {
 { prompt: "Which type of scale enlarges small objects?", options: ["Reducing scale", "Enlarging scale", "Comparative scale", "Diagonal scale"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes a reducing scale?", options: ["Drawing smaller than object", "Drawing larger than object", "Equal object size", "Perspective projection"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which scale is best for precise fractional readings?", options: ["Diagonal scale", "Plain scale", "Comparative scale", "Graphical scale"], answer: 0, difficulty: 1300, timeLimit: 20 },
-{ prompt: "Why are engineering scales necessary?", options: ["Objects may exceed sheet size", "Increase shading realism", "Improve hatching density", "Eliminate dimensions"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "Why are engineering scales necessary?", options: ["Objects may exceed sheet size", "Drawings may require multiple views", "Models may need simplified representation", "Systems may demand detailed illustration"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which scale type compares measurements across systems?", options: ["Comparative scale", "Diagonal scale", "Plain scale", "Reduced scale"], answer: 0, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What mainly determines scale accuracy?", options: ["Correct proportional division", "Paper brightness", "Line darkness", "Drawing orientation"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What mainly determines scale accuracy?", options: ["Correct proportional division", "Accurate measurement technique", "Precise calibration procedure", "Reliable testing methodology"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which drafting concept ensures proportional representation?", options: ["Representative fraction", "Perspective angle", "Projection symbol", "Section lining"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes engineering scaling from free sketching?", options: ["Quantitative proportional accuracy", "Artistic interpretation", "Color enhancement", "Texture realism"], answer: 0, difficulty: 1300, timeLimit: 20 },
-{ prompt: "Why are scales critical in civil engineering drawings?", options: ["Represent large structures practically", "Reduce material density", "Improve thermal properties", "Eliminate projections"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "Why are scales critical in civil engineering drawings?", options: ["Represent large structures practically and accurately", "Reduce material density and weight considerations", "Improve thermal properties and energy efficiency", "To Eliminate projections and visual complexities"], answer: 0, difficulty: 1300, timeLimit: 20 },
 
 // 1400 ELO — projections of points
 
@@ -1781,10 +1781,10 @@ const QUESTIONS = {
 
 { prompt: "What curve is generated by a circle rolling on a line?", options: ["Ellipse", "Parabola", "Cycloid", "Involute"], answer: 2, difficulty: 1500, timeLimit: 20 },
 { prompt: "What mainly distinguishes a cycloid geometrically?", options: ["Rolling-circle traced curve", "Constant-radius spiral", "Conic section", "Polynomial arc"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "Which engineering application commonly uses involute curves?", options: ["Gear tooth profiles", "Bridge arches", "Electrical wiring", "Pipe insulation"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What fundamentally generates an involute curve?", options: ["Unwinding taut string", "Rotating parabola", "Intersecting circles", "Oscillating ellipse"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "Which engineering application commonly uses involute curves?", options: ["Gear tooth profiles and mechanical transmissions", "Bridge arches and structural engineering designs", "Electrical wiring and circuit board layouts", "Pipe insulation and thermal protection systems"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What fundamentally generates an involute curve?", options: ["Unwinding taut string and rotating cylinder motion", "The Rotating parabola and curved surface generation", "The Intersecting circles and geometric curve creation", "The Oscillating ellipse and periodic motion path"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which curve results from a point on a rolling circle outside another circle?", options: ["Epicycloid", "Cycloid", "Helix", "Ellipse"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "Why are engineering curves important mechanically?", options: ["Enable functional geometry design", "Increase projection speed", "Reduce dimensions", "Simplify shading"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "Why are engineering curves important mechanically?", options: ["Enable functional geometry design and optimization", "Increase projection speed and efficiency always", "To Reduce dimensions and complexity always", "The Simplify shading and visualization always"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which curve is commonly associated with cam profiles?", options: ["Cycloidal curves", "Straight lines", "Rectangular grids", "Triangular spirals"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes a helix?", options: ["Three-dimensional spiral path", "Planar conic curve", "Rolling-circle projection", "Parallel-line envelope"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which curve appears naturally in thread geometry?", options: ["Helix", "Parabola", "Ellipse", "Cycloid"], answer: 0, difficulty: 1500, timeLimit: 20 },
@@ -1792,7 +1792,7 @@ const QUESTIONS = {
 
 // 1600 ELO — projections of lines
 
-{ prompt: "If a line is parallel to both HP and VP, projections are:", options: ["Points in both views", "True length in both views", "Inclined in both views", "Perpendicular in both views"], answer: 1, difficulty: 1600, timeLimit: 20 },
+{ prompt: "If a line is parallel to both HP and VP, projections are:", options: ["The Points in both views and multiple projections", "True length in both views and accurate measurements", "The Inclined in both views and angular orientations", "The Perpendicular in both views and right angles"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "When a line is perpendicular to HP, its top view appears:", options: ["True length", "Point view", "Inclined line", "Curved line"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "What fundamentally determines true line length visibility?", options: ["Parallelism to projection plane", "Line thickness", "Drawing scale", "Sheet orientation"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which projection shortens when a line inclines to a plane?", options: ["Apparent projection length", "True geometric length", "Reference line", "Dimension axis"], answer: 0, difficulty: 1600, timeLimit: 20 },
@@ -1801,7 +1801,7 @@ const QUESTIONS = {
 { prompt: "Which line orientation gives true length in top view?", options: ["Parallel to HP", "Perpendicular to HP", "Inclined to both planes", "Parallel to VP only"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Why are auxiliary projections used for lines?", options: ["Reveal true lengths and angles", "Increase perspective realism", "Reduce dimensioning", "Simplify hatching"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes apparent and true lengths?", options: ["Projection distortion effects", "Paper size differences", "Dimension style variation", "Line color selection"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Which condition gives point view in a projection plane?", options: ["Line perpendicular to that plane", "Line parallel to plane", "Line inclined at 45°", "Line coinciding with XY"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Which condition gives point view in a projection plane?", options: ["Line perpendicular to that plane and right angle", "The Line parallel to plane and zero inclination", "Line inclined at 45 degrees and angular orientation", "The Line coinciding with XY and coordinate axis"], answer: 0, difficulty: 1600, timeLimit: 20 },
 
 // 1700 ELO — advanced scales and constructions
 
@@ -1809,10 +1809,10 @@ const QUESTIONS = {
 { prompt: "What fundamentally distinguishes a diagonal scale?", options: ["Uses geometric subdivision diagonally", "Uses circular graduations", "Measures angles only", "Requires perspective projection"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which scale provides highest precision commonly?", options: ["Vernier scale", "Plain scale", "Comparative scale", "Reduced scale"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Why are vernier principles useful engineeringly?", options: ["Increase measurement resolution", "Reduce object size", "Eliminate dimensions", "Simplify projections"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes direct and indirect scaling?", options: ["Method of proportional representation", "Projection orientation", "Sheet arrangement", "Hatching density"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Which construction commonly divides lines proportionally?", options: ["Similar triangle method", "Perspective distortion", "Random interpolation", "Curvature scaling"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes direct and indirect scaling?", options: ["Method of proportional representation", "Technique of spatial arrangement", "Process of geometric transformation", "System of dimensional analysis"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Which construction commonly divides lines proportionally?", options: ["Similar triangle method", "Parallel line technique", "Proportional division process", "Geometric interpolation system"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Why are geometric constructions important educationally?", options: ["Develop spatial reasoning accuracy", "Improve artistic painting", "Reduce material costs", "Increase rendering realism"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Which construction method transfers angles accurately?", options: ["Compass and arc construction", "Freehand sketching", "Perspective estimation", "Visual approximation"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Which construction method transfers angles accurately?", options: ["Compass and arc construction", "Protractor and ruler technique", "The Geometric calculator method", "The Trigonometric table process"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes engineering constructions?", options: ["Exact geometric methodology", "Approximate artistic representation", "Color-based interpretation", "Random proportionality"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Why are diagonals used in scale construction?", options: ["Enable finer subdivisions", "Increase projection depth", "Reduce line visibility", "Improve hatching"], answer: 0, difficulty: 1700, timeLimit: 20 },
 
@@ -1820,14 +1820,14 @@ const QUESTIONS = {
 
 { prompt: "If a cutting plane is parallel to cone generatrix, section is:", options: ["Circle", "Ellipse", "Parabola", "Hyperbola"], answer: 2, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which conic section forms when a plane cuts all cone generators?", options: ["Ellipse", "Parabola", "Hyperbola", "Cycloid"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes a hyperbola geometrically?", options: ["Plane cuts both cone nappes", "Plane parallel to base", "Plane parallel to generator", "Plane perpendicular to axis"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes a hyperbola geometrically?", options: ["Plane cuts both cone nappes", "The Plane intersects two cylinders", "The Plane touches multiple spheres", "The Plane contains several ellipses"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which conic section has eccentricity exactly equal to one?", options: ["Ellipse", "Parabola", "Hyperbola", "Circle"], answer: 1, difficulty: 1800, timeLimit: 20 },
 { prompt: "What mainly distinguishes circles from ellipses?", options: ["Constant radius in all directions", "Two intersecting axes", "Infinite curvature", "Linear symmetry only"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why are conic sections important engineeringly?", options: ["Appear in optics and mechanics", "Reduce material density", "Eliminate projections", "Improve shading realism"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why are conic sections important engineeringly?", options: ["Appear in optics and mechanics", "Occur in electronics and physics", "Exist in architecture and engineering", "Emerge in biology and chemistry"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which engineering structure commonly approximates parabolic geometry?", options: ["Satellite reflector dish", "Gear tooth profile", "Threaded bolt", "Rectangular frame"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes ellipses geometrically?", options: ["Sum of focal distances constant", "Constant slope everywhere", "Infinite radii", "Single-axis symmetry only"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which conic section results from plane parallel to cone base?", options: ["Circle", "Parabola", "Hyperbola", "Cycloid"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why are conic constructions mathematically significant?", options: ["Model natural and engineering paths", "Reduce drawing dimensions", "Improve sheet alignment", "Increase projection speed"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why are conic constructions mathematically significant?", options: ["Model natural and engineering paths", "Simulate real-world and physical systems", "Analyze complex and dynamic processes", "Describe theoretical and mathematical concepts"], answer: 0, difficulty: 1800, timeLimit: 20 },
 
 // 1900 ELO — involutes and advanced engineering curves
 
@@ -1835,12 +1835,12 @@ const QUESTIONS = {
 { prompt: "Why are involute gear profiles mechanically preferred?", options: ["Maintain constant velocity ratio", "Reduce all friction", "Eliminate backlash fully", "Increase material hardness"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes epicycloids?", options: ["Rolling outside another circle", "Rolling inside another circle", "Straight-line generation", "Conic-section formation"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Which curve forms when a circle rolls inside another circle?", options: ["Hypocycloid", "Epicycloid", "Parabola", "Helix"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What mainly determines involute curvature mathematically?", options: ["Radius and string unwinding", "Projection angle only", "Paper dimensions", "Line thickness"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What mainly determines involute curvature mathematically?", options: ["Radius and string unwinding", "Base and circle rotation", "Axis and cylinder movement", "Plane and surface intersection"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Why are advanced engineering curves industrially important?", options: ["Enable optimized mechanical motion", "Reduce projection requirements", "Improve sheet durability", "Eliminate dimensions"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes roulettes geometrically?", options: ["Curves generated by rolling motion", "Conic intersections only", "Linear transformations", "Static projections"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes roulettes geometrically?", options: ["Curves generated by rolling motion", "Paths created by sliding action", "Shapes formed by folding process", "Surfaces produced by spinning motion"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Which curve commonly appears in planetary gear systems?", options: ["Epicycloidal profile", "Rectangular spline", "Parabolic arc", "Elliptic spiral"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What mainly determines cycloidal motion paths?", options: ["Rolling circle kinematics", "Static geometric projection", "Perspective transformation", "Conic eccentricity"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why are precise curve constructions critical mechanically?", options: ["Directly affect motion transmission", "Increase shading clarity", "Reduce paper distortion", "Improve projection standards"], answer: 0, difficulty: 1900, timeLimit: 20 }
+{ prompt: "Why are precise curve constructions critical mechanically?", options: ["Directly affect motion transmission", "Influence mechanical system performance", "Impact dynamic process behavior", "Affect kinematic chain movement"], answer: 0, difficulty: 1900, timeLimit: 20 }
 
 ],
   "Engineering Graphics - 2": [
@@ -1853,7 +1853,7 @@ const QUESTIONS = {
 { prompt: "Which solid tapers uniformly to a single apex?", options: ["Cylinder", "Prism", "Cone", "Sphere"], answer: 2, difficulty: 1000, timeLimit: 20 },
 { prompt: "What is the axis of a cylinder?", options: ["Curved edge line", "Central imaginary line", "Section boundary", "Dimension reference"], answer: 1, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which geometric solid has identical polygonal ends?", options: ["Prism", "Cone", "Sphere", "Torus"], answer: 0, difficulty: 1000, timeLimit: 20 },
-{ prompt: "What mainly distinguishes a sphere geometrically?", options: ["Equal radius in all directions", "Flat polygonal faces", "Single apex point", "Parallel side faces"], answer: 0, difficulty: 1000, timeLimit: 20 },
+{ prompt: "What mainly distinguishes a sphere geometrically?", options: ["Equal radius in all directions", "The Constant curvature along surface", "The Uniform density throughout volume", "The Symmetrical shape about axes"], answer: 0, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which projection commonly represents three dimensions together?", options: ["Isometric projection", "Orthographic projection", "Sectional projection", "Auxiliary projection"], answer: 0, difficulty: 1000, timeLimit: 20 },
 { prompt: "What is the purpose of sectional hatching?", options: ["Indicate cut surfaces", "Represent hidden edges", "Show dimensions", "Mark centerlines"], answer: 0, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which solid has triangular side faces meeting at apex?", options: ["Prism", "Cylinder", "Pyramid", "Sphere"], answer: 2, difficulty: 1000, timeLimit: 20 },
@@ -1863,33 +1863,33 @@ const QUESTIONS = {
 { prompt: "Which method develops cylinders and prisms?", options: ["Radial line method", "Parallel line method", "Triangulation method", "Approximation method"], answer: 1, difficulty: 1100, timeLimit: 20 },
 { prompt: "What is surface development mainly intended for?", options: ["Flatten 3D surfaces", "Increase projection realism", "Reduce dimensions", "Improve shading"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which solid commonly uses parallel-line development?", options: ["Cylinder", "Cone", "Sphere", "Torus"], answer: 0, difficulty: 1100, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes developable surfaces?", options: ["Can unfold without distortion", "Always curved doubly", "Contain no edges", "Require perspective only"], answer: 0, difficulty: 1100, timeLimit: 20 },
-{ prompt: "Why are developments important industrially?", options: ["Assist fabrication from sheets", "Improve perspective accuracy", "Reduce projections", "Increase hatching"], answer: 0, difficulty: 1100, timeLimit: 20 },
-{ prompt: "Which engineering field heavily uses developments?", options: ["Sheet metal fabrication", "Optical astronomy", "Thermal chemistry", "Fluid turbulence"], answer: 0, difficulty: 1100, timeLimit: 20 },
-{ prompt: "What mainly determines development accuracy?", options: ["Correct geometric unfolding", "Paper thickness", "Line darkness", "Perspective depth"], answer: 0, difficulty: 1100, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes developable surfaces?", options: ["Can unfold without distortion", "Can bend without cracking", "Can stretch without tearing", "Can shrink without wrinkling"], answer: 0, difficulty: 1100, timeLimit: 20 },
+{ prompt: "Why are developments important industrially?", options: ["Assist fabrication from sheets", "Enable construction from plates", "Facilitate assembly from panels", "Simplify installation from modules"], answer: 0, difficulty: 1100, timeLimit: 20 },
+{ prompt: "Which engineering field heavily uses developments?", options: ["Sheet metal fabrication", "Pipe material manufacturing", "Cable wire production", "Glass fiber processing"], answer: 0, difficulty: 1100, timeLimit: 20 },
+{ prompt: "What mainly determines development accuracy?", options: ["Correct geometric unfolding", "Accurate spatial representation", "Precise dimensional measurement", "Detailed surface visualization"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which development produces rectangular patterns commonly?", options: ["Cylinder development", "Cone development", "Sphere development", "Helix projection"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes prisms from pyramids?", options: ["Parallel end faces", "Curved lateral surfaces", "Single circular base", "Continuous curvature"], answer: 0, difficulty: 1100, timeLimit: 20 },
-{ prompt: "Why are developments useful before manufacturing?", options: ["Predict material cutting shapes", "Improve material density", "Eliminate tolerances", "Increase projection scale"], answer: 0, difficulty: 1100, timeLimit: 20 },
+{ prompt: "Why are developments useful before manufacturing?", options: ["Predict material cutting shapes", "The Determine component assembly", "The Evaluate product performance", "The Analyze system functionality"], answer: 0, difficulty: 1100, timeLimit: 20 },
 
 // 1200 ELO — radial development and cones
 
 { prompt: "Which method develops cones and pyramids?", options: ["Parallel line method", "Radial line method", "Triangulation method", "Grid method"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes radial development?", options: ["Uses apex-centered generators", "Uses parallel edges only", "Requires perspective projection", "Eliminates measurements"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which solid commonly requires radial-line development?", options: ["Cone", "Cylinder", "Prism", "Sphere"], answer: 0, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What mainly determines cone development shape?", options: ["Slant height and base arc", "Vertical height only", "Axis thickness", "Projection angle"], answer: 0, difficulty: 1200, timeLimit: 20 },
-{ prompt: "Why are generators important in cone development?", options: ["Define surface geometry", "Reduce dimensions", "Improve perspective", "Increase hatching"], answer: 0, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What mainly determines cone development shape?", options: ["Slant height and base arc", "Vertical height and base diameter", "Axis inclination and base radius", "The Circumference and lateral edge"], answer: 0, difficulty: 1200, timeLimit: 20 },
+{ prompt: "Why are generators important in cone development?", options: ["Define surface geometry", "Establish spatial relationships", "Describe physical properties", "Specify material characteristics"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which solid has all generators meeting at one apex?", options: ["Cone", "Prism", "Cylinder", "Cuboid"], answer: 0, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes pyramids from cones?", options: ["Polygonal versus circular base", "Presence of apex", "Developable surfaces", "Use of generators"], answer: 0, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes pyramids from cones?", options: ["Polygonal versus circular base", "Triangular versus rectangular face", "Convex versus concave surface", "Symmetric versus asymmetric shape"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which quantity mainly affects radial development angle?", options: ["Base circumference relation", "Paper orientation", "Projection line thickness", "Hatch spacing"], answer: 0, difficulty: 1200, timeLimit: 20 },
-{ prompt: "Why are radial methods geometrically efficient?", options: ["Use true generator lengths directly", "Avoid measurements completely", "Reduce perspective distortion", "Simplify hatching"], answer: 0, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What fundamentally determines true generator length?", options: ["Actual slant surface geometry", "Projection scale only", "Paper size", "Axis inclination"], answer: 0, difficulty: 1200, timeLimit: 20 },
+{ prompt: "Why are radial methods geometrically efficient?", options: ["Use true generator lengths directly", "The Apply precise measurement techniques", "The Employ advanced calculation methods", "The Utilize specialized software tools"], answer: 0, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What fundamentally determines true generator length?", options: ["Actual slant surface geometry", "Measured lateral edge length", "The Calculated circumferential distance", "The Derived spatial coordinate"], answer: 0, difficulty: 1200, timeLimit: 20 },
 
 // 1300 ELO — isometric scaling and representation
 
 { prompt: "What is an isometric scale?", options: ["Enlarging scale", "Reduced scale", "Metric scale", "Map scale"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "Why are isometric lengths reduced in projection?", options: ["Projection foreshortening occurs", "Perspective convergence happens", "Dimensions disappear", "Axes become unequal"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which axes are equally inclined in isometric drawing?", options: ["Three principal axes", "Only vertical axis", "Two hidden axes", "Reference axes only"], answer: 0, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes isometric drawing from projection?", options: ["True lengths versus reduced lengths", "Perspective realism", "Use of vanishing points", "Sectional cutting"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes isometric drawing from projection?", options: ["True lengths versus reduced lengths", "Actual sizes versus scaled sizes", "The Precise measurements versus approximations", "The Detailed representations versus simplified"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which angle do isometric axes make with horizontal commonly?", options: ["30 degrees", "45 degrees", "60 degrees", "90 degrees"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Why are isometric views useful engineeringly?", options: ["Visualize objects three-dimensionally", "Replace all dimensions", "Eliminate projections", "Increase realism only"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes axonometric projection?", options: ["Parallel projected 3D representation", "Vanishing-point perspective", "Sectional geometry only", "Curvilinear distortion"], answer: 0, difficulty: 1300, timeLimit: 20 },
@@ -1904,37 +1904,37 @@ const QUESTIONS = {
 { prompt: "Which method commonly approximates isometric circles?", options: ["Four-center method", "Triangulation method", "Parallel projection", "Radial division"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "What fundamentally determines ellipse orientation isometrically?", options: ["Plane containing original circle", "Paper dimensions", "Projection scale", "Line thickness"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which isometric plane commonly represents top surfaces?", options: ["Top isoplane", "Right isoplane", "Auxiliary plane", "Picture plane"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "Why are isometric ellipses important mechanically?", options: ["Represent cylindrical features accurately", "Increase perspective realism", "Reduce dimensions", "Improve shading"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What mainly distinguishes spheres in isometric drawings?", options: ["Appear circular regardless orientation", "Always appear elliptical", "Require vanishing points", "Need sectional views"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "Which feature mainly affects isometric ellipse size?", options: ["Original circle diameter", "Paper thickness", "Line hierarchy", "Hatching direction"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "Why are isometric ellipses important mechanically?", options: ["Represent cylindrical features accurately", "Depict spherical features realistically", "Illustrate conical features precisely", "Portray pyramidal features correctly"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What mainly distinguishes spheres in isometric drawings?", options: ["Appear circular regardless of orientation", "Always appear elliptical in drawings", "The Require vanishing points sometimes", "The Need sectional views occasionally"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "Which feature mainly affects isometric ellipse size?", options: ["Original circle diameter affects size", "Paper thickness influences the scale", "Line hierarchy impacts the appearance", "Hatching direction alters the view"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Why are construction boxes used for isometric circles?", options: ["Guide ellipse approximation", "Reduce perspective depth", "Increase scaling", "Eliminate projections"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes circular features in isometric views?", options: ["Appear distorted but proportional", "Remain perfectly circular", "Disappear completely", "Become straight edges"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes circular features in isometric views?", options: ["Appear distorted but proportional always", "Remain perfectly circular in drawings", "Disappear completely from the view", "The Become straight edges sometimes"], answer: 0, difficulty: 1400, timeLimit: 20 },
 
 // 1500 ELO — sectional conventions
 
 { prompt: "At what angle are hatch lines typically drawn?", options: ["0 degrees", "90 degrees", "45 degrees", "30 degrees"], answer: 2, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What mainly distinguishes sectional hatching?", options: ["Indicates cut material surfaces", "Represents hidden edges", "Shows dimensions", "Creates perspective"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What mainly distinguishes sectional hatching?", options: ["Indicates cut material surfaces clearly", "Represents hidden edges in drawings", "The Shows dimensions and measurements", "Creates perspective and depth views"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Why are hidden lines often omitted in sections?", options: ["Improve drawing clarity", "Reduce dimensions", "Increase projection realism", "Simplify scaling"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What fundamentally determines hatch spacing?", options: ["Drawing clarity and scale", "Material hardness", "Projection type", "Paper orientation"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What fundamentally determines hatch spacing?", options: ["Drawing clarity and scale are factors", "The Material hardness affects the spacing", "The Projection type influences the pattern", "The Paper orientation impacts the design"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which section type cuts entire object completely?", options: ["Full section", "Half section", "Broken section", "Offset section"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "Why are offset sections used?", options: ["Reveal nonaligned internal features", "Increase perspective depth", "Reduce object scale", "Improve shading"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes cutting planes?", options: ["Imaginary slicing locations", "Dimension references", "Centerline indicators", "Projection boundaries"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "Why are offset sections used?", options: ["Reveal nonaligned internal features clearly", "Increase perspective depth and view", "Reduce object scale and complexity", "Improve shading and visual appeal"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes cutting planes?", options: ["Imaginary slicing locations are used", "Dimension references are provided always", "Centerline indicators are shown clearly", "The Projection boundaries are defined"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which drafting practice improves section readability?", options: ["Consistent hatch direction", "Random line thickness", "Heavy shading everywhere", "Perspective distortion"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "Why are sectional views important engineeringly?", options: ["Reveal hidden construction details", "Increase artistic realism", "Replace orthographic views", "Reduce projections"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What mainly distinguishes half sections mechanically?", options: ["Show interior and exterior simultaneously", "Represent perspective depth", "Avoid dimensions", "Simplify scaling"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "Why are sectional views important engineeringly?", options: ["Reveal hidden construction details clearly", "Increase artistic realism and view", "The Replace orthographic views sometimes", "To Reduce projections and complexity"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What mainly distinguishes half sections mechanically?", options: ["Show interior and exterior simultaneously", "Represent perspective depth and view", "The Avoid dimensions and measurements", "The Simplify scaling and complexity"], answer: 0, difficulty: 1500, timeLimit: 20 },
 
 // 1600 ELO — intersections of solids
 
-{ prompt: "What is the intersection curve of equal cylinders at right angles?", options: ["Two straight lines", "Ellipse", "Circle", "Parabola"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes intersection curves?", options: ["Common geometry shared by solids", "Projection boundaries", "Dimension references", "Section hatch patterns"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Why are intersection developments important industrially?", options: ["Assist fabrication and fitting", "Increase perspective realism", "Reduce dimensions", "Improve shading"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What is the intersection curve of equal cylinders at right angles?", options: ["Two straight lines are formed always", "Ellipse is the resulting curve shape", "Circle is the intersection curve type", "Parabola is the curve formed sometimes"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes intersection curves?", options: ["Common geometry shared by solids exists", "The Projection boundaries are defined clearly", "The Dimension references are provided always", "Section hatch patterns are used sometimes"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Why are intersection developments important industrially?", options: ["Assist fabrication and fitting processes", "Increase perspective realism and view", "To Reduce dimensions and complexity", "Improve shading and visual appeal"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which method commonly determines intersections graphically?", options: ["Generator method", "Perspective method", "Section scaling", "Freehand estimation"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What mainly determines intersection curve complexity?", options: ["Relative geometry of solids", "Paper size only", "Line thickness", "Dimension style"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What mainly determines intersection curve complexity?", options: ["Relative geometry of solids is key", "Paper size only affects the scale", "The Line thickness influences the appearance", "The Dimension style impacts the complexity"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which engineering application commonly uses intersecting cylinders?", options: ["Pipe joints", "Gear teeth", "Optical lenses", "Threaded bolts"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes penetration problems?", options: ["One solid passes through another", "Two projections overlap", "Sections avoid intersections", "Dimensions become hidden"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Why are generators useful in intersection construction?", options: ["Locate corresponding surface points", "Increase perspective depth", "Reduce dimensions", "Simplify hatching"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Why are generators useful in intersection construction?", options: ["Locate corresponding surface points easily", "Increase perspective depth and view", "To Reduce dimensions and complexity", "Simplify hatching and pattern creation"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which projection best visualizes solid intersections clearly?", options: ["Sectional orthographic view", "Single perspective view", "Freehand sketch", "Map projection"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What mainly distinguishes true and apparent intersections?", options: ["Actual geometry versus projected view", "Paper size differences", "Scaling variation", "Dimension style"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What mainly distinguishes true and apparent intersections?", options: ["Actual geometry versus projected view", "Physical space versus visual representation", "Object shape versus image appearance", "Spatial arrangement versus pictorial display"], answer: 0, difficulty: 1600, timeLimit: 20 },
 
 // 1700 ELO — perspective projection
 
@@ -1942,9 +1942,9 @@ const QUESTIONS = {
 { prompt: "What fundamentally distinguishes perspective projection?", options: ["Parallel lines visually converge", "Parallel lines remain parallel", "No depth representation", "Uses sectional cutting"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which perspective type commonly represents building corners?", options: ["Two-point perspective", "One-point perspective", "Axonometric projection", "Orthographic projection"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "What mainly determines vanishing point location?", options: ["Observer viewing direction", "Paper thickness", "Projection scale", "Line weight"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Why is perspective visually realistic?", options: ["Mimics human visual perception", "Maintains true dimensions", "Avoids convergence", "Uses equal scaling"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Why is perspective visually realistic?", options: ["Mimics human visual perception", "The Simulates real-world observation", "Recreates natural viewing experience", "The Duplicates everyday seeing"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which projection type best preserves measurable dimensions?", options: ["Orthographic projection", "Perspective projection", "Curvilinear projection", "Artistic sketching"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes one-point perspective?", options: ["Single principal vanishing point", "Equal axis scaling", "Parallel hidden edges", "Circular projections"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes one-point perspective?", options: ["Single principal vanishing point", "Unique central convergence point", "Main focal disappearance location", "The Primary directional termination"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Why are horizon lines important perspectively?", options: ["Contain vanishing points visually", "Represent cutting planes", "Define object dimensions", "Show hidden geometry"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which perspective type commonly emphasizes vertical height strongly?", options: ["Three-point perspective", "One-point perspective", "Isometric projection", "Auxiliary projection"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "What mainly distinguishes perspective from isometric representation?", options: ["Vanishing-point convergence", "Three-dimensionality", "Use of axes", "Need for dimensions"], answer: 0, difficulty: 1700, timeLimit: 20 },
@@ -1955,24 +1955,24 @@ const QUESTIONS = {
 { prompt: "What fundamentally determines perspective appearance?", options: ["Observer and picture-plane geometry", "Paper orientation only", "Line thickness", "Hatch spacing"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which plane receives projected perspective images?", options: ["Picture plane", "Horizontal plane", "Auxiliary plane", "Cutting plane"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Why is the station point critical perspectively?", options: ["Controls observer viewpoint", "Defines object material", "Reduces dimensions", "Improves shading"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes visual rays in perspective?", options: ["Connect observer to object points", "Represent section lines", "Define hatch spacing", "Indicate dimensions"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes visual rays in perspective?", options: ["Connect observer to object points", "Link viewer to scene elements", "Join eye to visual targets", "Unite gazer to pictorial features"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which factor mainly affects perspective distortion?", options: ["Observer distance from object", "Paper color", "Line hierarchy", "Dimension units"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why do distant objects appear smaller perspectively?", options: ["Angular visual reduction", "Scaling error", "Sectional distortion", "Projection misalignment"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes measuring points perspectively?", options: ["Assist accurate depth construction", "Increase projection realism", "Reduce dimensions", "Simplify hatching"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Which geometric concept mainly governs perspective depth?", options: ["Convergence toward vanishing points", "Parallel-line preservation", "Circular symmetry", "Orthographic projection"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why do distant objects appear smaller perspectively?", options: ["Angular visual reduction", "Perspective size decrease", "Optical scale diminution", "Visual magnitude lessening"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes measuring points perspectively?", options: ["Assist accurate depth construction", "Facilitate precise distance building", "Enable exact spatial creation", "Support accurate dimensional formation"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Which geometric concept mainly governs perspective depth?", options: ["Convergence toward vanishing points", "Divergence from central locations", "Radiation from focal centers", "Extension from directional origins"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Why is perspective projection valuable architecturally?", options: ["Communicates realistic spatial appearance", "Provides exact measurements only", "Eliminates orthographic views", "Avoids vanishing points"], answer: 0, difficulty: 1800, timeLimit: 20 },
 
 // 1900 ELO — triangulation and transition developments
 
 { prompt: "Which method develops transition pieces like square-to-round ducts?", options: ["Parallel line method", "Radial line method", "Triangulation method", "Orthographic method"], answer: 2, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes triangulation development?", options: ["Approximates surfaces using triangles", "Uses parallel generators only", "Requires vanishing points", "Avoids measurements"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why are transition pieces mechanically important?", options: ["Connect differing cross-sections smoothly", "Increase projection accuracy", "Reduce dimensions", "Improve shading"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Why are transition pieces mechanically important?", options: ["Connect differing cross-sections smoothly", "Join varying profiles continuously", "Unite distinct shapes seamlessly", "Link disparate geometries fluidly"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Which fabrication industry heavily uses triangulation methods?", options: ["Sheet-metal duct fabrication", "Optical lens design", "Electrical circuit design", "Concrete casting"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What mainly determines triangulation accuracy?", options: ["Number and precision of triangles", "Paper orientation", "Projection scale", "Hatch spacing"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What mainly determines triangulation accuracy?", options: ["Number and precision of triangles", "Quantity and quality of polygons", "Amount and accuracy of shapes", "Volume and exactness of figures"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Why are nondevelopable surfaces triangulated?", options: ["Cannot unfold exactly otherwise", "Require perspective views", "Need reduced scaling", "Avoid dimensions"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes transition surfaces geometrically?", options: ["Connect dissimilar boundary shapes", "Contain parallel generators only", "Remain perfectly planar", "Use no intersections"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Which engineering component commonly uses square-to-round transitions?", options: ["Ventilation duct systems", "Gear trains", "Threaded shafts", "Hydraulic pistons"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why is true-length determination essential in triangulation?", options: ["Ensures accurate fabricated patterns", "Improves perspective realism", "Reduces scaling error", "Simplifies hatching"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Why is true-length determination essential in triangulation?", options: ["Ensures accurate fabricated patterns", "Improves perspective realism greatly", "Reduces scaling error significantly", "Simplifies hatching processes always"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes approximate developments?", options: ["Introduce controlled geometric approximation", "Use exact radial generators", "Avoid measurement entirely", "Eliminate fabrication errors"], answer: 0, difficulty: 1900, timeLimit: 20 }
 
 ],
@@ -2010,10 +2010,10 @@ const QUESTIONS = {
 { prompt: "What is lim(x→0) sin(x)/x?", options: ["0", "1", "∞", "Undefined"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which differentiation rule applies to composite functions?", options: ["Chain rule", "Power rule", "Product rule", "Limit rule"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "What is d/dx (x^n)?", options: ["nx^(n-1)", "x^(n-1)", "n^x", "x^n"], answer: 0, difficulty: 1200, timeLimit: 20 },
-{ prompt: "Which limit concept defines continuity?", options: ["Left and right limits equal function", "Derivative equals zero", "Integral exists", "Matrix invertibility"], answer: 0, difficulty: 1200, timeLimit: 20 },
+{ prompt: "Which limit concept defines continuity?", options: ["Left and right limits equal function", "The Derivative equals zero always exactly", "Integral exists and is finite always", "The Matrix invertibility is guaranteed always"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "What is lim(x→∞) 1/x?", options: ["1", "∞", "0", "-1"], answer: 2, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which function grows faster asymptotically?", options: ["ln(x)", "x", "e^x", "√x"], answer: 2, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What mainly distinguishes differentiable functions?", options: ["Have defined tangent slope", "Always periodic", "Always continuous inverses", "Contain singular matrices"], answer: 0, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What mainly distinguishes differentiable functions?", options: ["Have defined tangent slope always", "Always exhibit periodic behavior patterns", "Always possess continuous inverse functions", "Always contain singular matrix representations"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which operation commonly simplifies rational limits?", options: ["Factorization", "Integration", "Matrix multiplication", "Eigen decomposition"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "What is the derivative of cos(x)?", options: ["sin(x)", "-sin(x)", "cos(x)", "-cos(x)"], answer: 1, difficulty: 1200, timeLimit: 20 },
 
@@ -2021,8 +2021,8 @@ const QUESTIONS = {
 
 { prompt: "What is the integral of 1/x dx?", options: ["x^2/2", "ln|x|", "e^x", "-1/x^2"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "What is ∫e^x dx?", options: ["ln(x)", "e^x", "xe^x", "1/e^x"], answer: 1, difficulty: 1300, timeLimit: 20 },
-{ prompt: "Which method integrates products like x·e^x?", options: ["Substitution", "Integration by parts", "Partial fractions", "L'Hopital's rule"], answer: 1, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What is the definite integral geometrically related to?", options: ["Area under curve", "Curve slope", "Matrix rank", "Series radius"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "Which method integrates products like x·e^x?", options: ["The Substitution method is often applied", "Integration by parts is commonly used", "The Partial fractions decomposition is utilized", "The L'Hopital's rule is frequently employed"], answer: 1, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What is the definite integral geometrically related to?", options: ["Area under curve is precisely calculated", "Curve slope is accurately determined always", "Matrix rank is carefully examined always", "Series radius is precisely calculated always"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "What is ∫cos(x) dx?", options: ["-sin(x)", "cos(x)", "sin(x)", "-cos(x)"], answer: 2, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which substitution simplifies ∫2x·cos(x²)dx?", options: ["u = x²", "u = cos(x)", "u = 2x", "u = sin(x)"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes indefinite integrals?", options: ["Include arbitrary constants", "Have fixed limits", "Always converge", "Represent matrices"], answer: 0, difficulty: 1300, timeLimit: 20 },
@@ -2039,7 +2039,7 @@ const QUESTIONS = {
 { prompt: "Which matrices equal their transposes?", options: ["Diagonal matrices", "Symmetric matrices", "Singular matrices", "Rectangular matrices"], answer: 1, difficulty: 1400, timeLimit: 20 },
 { prompt: "What mainly distinguishes diagonal matrices?", options: ["Nonzero entries only on diagonal", "All rows identical", "All determinants zero", "Columns orthogonal"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which operation solves linear systems systematically?", options: ["Gaussian elimination", "Taylor expansion", "Laplace transform", "Differentiation"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What fundamentally determines matrix rank?", options: ["Number of independent rows", "Determinant sign", "Trace magnitude", "Matrix dimension only"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What fundamentally determines matrix rank?", options: ["Number of independent rows is counted", "Determinant sign is carefully examined always", "Trace magnitude is precisely calculated always", "Matrix dimension is carefully considered always"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which matrix leaves vectors unchanged under multiplication?", options: ["Null matrix", "Identity matrix", "Singular matrix", "Triangular matrix"], answer: 1, difficulty: 1400, timeLimit: 20 },
 { prompt: "Why are eigenvalues important engineeringly?", options: ["Describe system behavior and stability", "Reduce integration complexity", "Eliminate matrices", "Increase convergence"], answer: 0, difficulty: 1400, timeLimit: 20 },
 
@@ -2048,7 +2048,7 @@ const QUESTIONS = {
 { prompt: "Which theorem relates line integrals to surface integrals?", options: ["Green's theorem", "Stokes' theorem", "Divergence theorem", "Taylor's theorem"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes divergence of a vector field?", options: ["Measures outward flux density", "Measures rotational tendency", "Defines matrix determinant", "Calculates curvature"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which operator measures vector-field rotation?", options: ["Gradient", "Divergence", "Curl", "Laplacian"], answer: 2, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What does gradient of scalar field represent?", options: ["Direction of maximum increase", "Area under curve", "Vector rotation", "Matrix inverse"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What does gradient of scalar field represent?", options: ["Direction of maximum increase is found", "Area under curve is precisely calculated", "Vector rotation and curl are examined", "Matrix inverse and determinant are found"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which theorem converts surface integrals into volume integrals?", options: ["Stokes' theorem", "Divergence theorem", "Mean value theorem", "Rolle's theorem"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes conservative vector fields?", options: ["Path-independent line integrals", "Always zero divergence", "Require singular matrices", "Contain periodic vectors"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which vector operation produces scalar output?", options: ["Cross product", "Dot product", "Curl", "Gradient"], answer: 1, difficulty: 1500, timeLimit: 20 },
@@ -2059,15 +2059,15 @@ const QUESTIONS = {
 // 1600 ELO — Taylor series and expansions
 
 { prompt: "What is the Taylor expansion of sin(x) about x=0?", options: ["1-x²/2!+x⁴/4!", "x-x³/3!+x⁵/5!", "x+x²/2!+x³/3!", "1+x+x²+..."], answer: 1, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes Maclaurin series?", options: ["Taylor series centered at zero", "Infinite geometric series", "Matrix expansion", "Orthogonal polynomial"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes Maclaurin series?", options: ["Taylor series centered at zero point", "Infinite geometric series is utilized always", "The Matrix expansion and decomposition always", "The Orthogonal polynomial is constructed always"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which function equals its own Taylor expansion everywhere?", options: ["e^x", "ln(x)", "tan(x)", "1/x"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What mainly determines convergence radius of a series?", options: ["Behavior of coefficients", "Matrix determinant", "Vector magnitude", "Integration limits"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What mainly determines convergence radius of a series?", options: ["Behavior of coefficients is examined closely", "Matrix determinant and rank are considered", "Vector magnitude and direction are analyzed", "Integration limits and bounds are carefully"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which series approximates functions near points locally?", options: ["Taylor series", "Fourier series", "Geometric progression", "Matrix expansion"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes Fourier series?", options: ["Represent functions using sines and cosines", "Expand matrices diagonally", "Approximate derivatives only", "Solve determinants"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes Fourier series?", options: ["Represent functions using trigonometric series", "Expand matrices into diagonal components", "Approximate derivatives with polynomial series", "Solve determinants using algebraic methods"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which term determines highest approximation accuracy?", options: ["Higher-order terms", "Constant term only", "Linear term only", "Determinant term"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Why are series expansions important computationally?", options: ["Approximate complex functions efficiently", "Eliminate integration", "Guarantee exact roots", "Avoid convergence"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Why are series expansions important computationally?", options: ["Approximate complex functions using series expansions", "To Eliminate integration using numerical techniques", "Guarantee exact roots with algebraic methods", "Avoid convergence issues with iterative methods"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "What is the Maclaurin series of e^x?", options: ["1+x+x²/2!+...", "x-x³/3!+...", "1-x²/2!+...", "ln(x)+..."], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What fundamentally determines truncation error?", options: ["Neglected higher-order terms", "Matrix dimension", "Vector direction", "Determinant sign"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What fundamentally determines truncation error?", options: ["Neglected higher-order terms affect accuracy", "Matrix dimension influences computational speed", "Vector direction impacts physical interpretations", "Determinant sign affects system stability"], answer: 0, difficulty: 1600, timeLimit: 20 },
 
 // 1700 ELO — singularity and advanced matrices
 
@@ -2078,34 +2078,34 @@ const QUESTIONS = {
 { prompt: "Which theorem relates rank and nullity?", options: ["Rank-nullity theorem", "Green's theorem", "Cauchy theorem", "Taylor theorem"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes orthogonal matrices?", options: ["Transpose equals inverse", "Determinant always zero", "All entries identical", "Only diagonal terms exist"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which matrices preserve vector magnitudes?", options: ["Orthogonal matrices", "Singular matrices", "Triangular matrices", "Null matrices"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Why are singular systems problematic computationally?", options: ["Unique solutions may not exist", "Determinants become infinite", "Matrices disappear", "Series diverge automatically"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Why are singular systems problematic computationally?", options: ["Unique solutions may not exist always", "Determinants become infinite in singular cases", "Matrices disappear in certain mathematical contexts", "Series diverge automatically in ill-posed problems"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "What fundamentally determines characteristic polynomial roots?", options: ["Eigenvalues of matrix", "Matrix rank only", "Vector magnitudes", "Series coefficients"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which decomposition factors matrices into lower and upper forms?", options: ["LU decomposition", "Taylor decomposition", "Fourier decomposition", "Laplace decomposition"], answer: 0, difficulty: 1700, timeLimit: 20 },
 
 // 1800 ELO — differential equations
 
 { prompt: "What is integrating factor for dy/dx + P(x)y = Q(x)?", options: ["e^(∫P(x)dx)", "∫P(x)dx", "e^(∫Q(x)dx)", "ln|P(x)|"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes linear differential equations?", options: ["Dependent variable appears linearly", "Always second order", "Require matrices", "Contain no derivatives"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes linear differential equations?", options: ["Dependent variable appears linearly in equations", "The Always second-order derivatives are present", "The Require matrices for system representation", "Contain no derivatives in static systems"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which equation type models exponential growth naturally?", options: ["dy/dx = ky", "y'' + y = 0", "∇²u = 0", "Ax = b"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "What mainly determines order of differential equation?", options: ["Highest derivative present", "Number of variables", "Polynomial degree", "Matrix dimension"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which solution contains arbitrary constants?", options: ["General solution", "Particular solution", "Singular solution", "Matrix solution"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes homogeneous differential equations?", options: ["Right side equals zero", "Contain only constants", "Require matrices", "Have no variables"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which method commonly solves separable equations?", options: ["Variable separation", "Matrix inversion", "Fourier expansion", "Eigen decomposition"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Why are differential equations important physically?", options: ["Model dynamic system behavior", "Reduce matrix dimensions", "Guarantee convergence", "Eliminate variables"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes exact differential equations?", options: ["Satisfy equality of mixed partials", "Always nonlinear", "Contain no constants", "Require determinants"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes exact differential equations?", options: ["Satisfy equality of mixed partial derivatives", "The Always nonlinear terms are present", "Contain no constants in homogeneous cases", "The Require determinants for system analysis"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which equation commonly models harmonic oscillation?", options: ["y'' + y = 0", "dy/dx = y²", "∇·F = 0", "Ax = 0"], answer: 0, difficulty: 1800, timeLimit: 20 },
 
 // 1900 ELO — advanced matrix theory and rank
 
 { prompt: "What is rank of N×N matrix consisting entirely of 1s?", options: ["0", "1", "N/2", "N"], answer: 1, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What fundamentally determines matrix rank?", options: ["Maximum independent rows or columns", "Determinant sign", "Matrix trace", "Eigenvalue magnitude"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why does all-ones matrix have rank one?", options: ["All rows are multiples", "Determinant equals one", "Eigenvalues are distinct", "Columns are orthogonal"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What fundamentally determines matrix rank?", options: ["Maximum independent rows or columns exist", "The Determinant sign indicates system stability", "The Matrix trace influences system properties", "The Eigenvalue magnitude affects system behavior"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Why does all-ones matrix have rank one?", options: ["All rows are multiples of each other", "The Determinant equals one in special cases", "The Eigenvalues are distinct in general cases", "The Columns are orthogonal in orthonormal bases"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Which decomposition expresses symmetric matrices orthogonally?", options: ["Spectral decomposition", "LU decomposition", "QR elimination", "Taylor expansion"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes positive definite matrices?", options: ["xᵀAx always positive", "All determinants zero", "Rows identical", "Eigenvalues imaginary"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Which theorem guarantees diagonalization of symmetric matrices?", options: ["Spectral theorem", "Green's theorem", "Stokes' theorem", "Taylor theorem"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What mainly determines condition number of matrix?", options: ["Sensitivity to numerical errors", "Number of rows", "Trace magnitude", "Series convergence"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why are ill-conditioned matrices computationally difficult?", options: ["Small input errors amplify greatly", "Determinants vanish always", "Eigenvalues disappear", "Integrals diverge"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes orthonormal vectors?", options: ["Unit length and mutual orthogonality", "Equal determinants", "Identical directions", "Zero magnitude"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What mainly determines condition number of matrix?", options: ["Sensitivity to numerical errors is high", "Number of rows affects computational speed", "The Trace magnitude influences system properties", "The Series convergence affects numerical stability"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Why are ill-conditioned matrices computationally difficult?", options: ["Small input errors amplify greatly always", "Determinants vanish always in singular cases", "The Eigenvalues disappear in non-diagonalizable cases", "Integrals diverge in ill-posed problems always"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes orthonormal vectors?", options: ["Unit length and mutual orthogonality exist", "The Equal determinants indicate similar systems", "The Identical directions imply linear dependence", "The Zero magnitude indicates linear independence"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Which matrix factorization produces orthogonal and triangular matrices?", options: ["QR decomposition", "LU decomposition", "Cholesky decomposition", "Jordan reduction"], answer: 0, difficulty: 1900, timeLimit: 20 }
 
 ],
@@ -2122,7 +2122,7 @@ const QUESTIONS = {
 { prompt: "What is the derivative of a constant function?", options: ["1", "Constant itself", "0", "Undefined"], answer: 2, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which equation commonly models constant acceleration?", options: ["Second-order differential equation", "Linear algebraic equation", "Matrix equation", "Logarithmic identity"], answer: 0, difficulty: 1000, timeLimit: 20 },
 { prompt: "What fundamentally defines a solution of differential equation?", options: ["Function satisfying the equation", "Constant determinant", "Matrix inverse", "Series divergence"], answer: 0, difficulty: 1000, timeLimit: 20 },
-{ prompt: "Why are differential equations important physically?", options: ["Model changing systems", "Eliminate variables", "Reduce matrices", "Avoid integration"], answer: 0, difficulty: 1000, timeLimit: 20 },
+{ prompt: "Why are differential equations important physically?", options: ["Model changing systems over time dynamically", "To Eliminate variables using substitution methods", "Reduce matrices to simpler forms always", "The Avoid integration using alternative techniques"], answer: 0, difficulty: 1000, timeLimit: 20 },
 
 // 1100 ELO — order and classification of DEs
 
@@ -2131,11 +2131,11 @@ const QUESTIONS = {
 { prompt: "Which equation is first order?", options: ["dy/dx + y = 0", "d²y/dx² + y = 0", "d³y/dx³ = y", "d⁴y/dx⁴ = 0"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes linear differential equations?", options: ["Dependent variable appears linearly", "Always second order", "Contain matrices", "Require complex roots"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which equation type contains partial derivatives?", options: ["Partial differential equation", "Linear equation", "Quadratic equation", "Matrix equation"], answer: 0, difficulty: 1100, timeLimit: 20 },
-{ prompt: "What mainly distinguishes homogeneous equations?", options: ["Right-hand side equals zero", "No derivatives appear", "Only constants present", "Always nonlinear"], answer: 0, difficulty: 1100, timeLimit: 20 },
+{ prompt: "What mainly distinguishes homogeneous equations?", options: ["Right-hand side equals zero in the equation", "No derivatives appear in the equation form", "Only constants present in the equation always", "The Always nonlinear with complex solutions only"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which independent variable commonly appears in engineering dynamics?", options: ["Time", "Mass", "Density", "Charge"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes nonlinear equations?", options: ["Variables appear nonlinearly", "No derivatives exist", "All coefficients constant", "Solutions periodic"], answer: 0, difficulty: 1100, timeLimit: 20 },
-{ prompt: "Which equation type models wave propagation commonly?", options: ["Partial differential equation", "Algebraic equation", "Matrix identity", "Determinant equation"], answer: 0, difficulty: 1100, timeLimit: 20 },
-{ prompt: "Why are classifications of DEs useful?", options: ["Determine solving methods", "Increase convergence", "Reduce dimensions", "Avoid constants"], answer: 0, difficulty: 1100, timeLimit: 20 },
+{ prompt: "Which equation type models wave propagation commonly?", options: ["Partial differential equation models wave propagation", "Algebraic equation models static systems always", "The Matrix identity models linear transformations", "The Determinant equation models system stability"], answer: 0, difficulty: 1100, timeLimit: 20 },
+{ prompt: "Why are classifications of DEs useful?", options: ["Determine solving methods for equations accurately", "Increase convergence of numerical methods always", "Reduce dimensions of complex systems dynamically", "Avoid constants in equations using substitutions"], answer: 0, difficulty: 1100, timeLimit: 20 },
 
 // 1200 ELO — Laplace transform basics
 
@@ -2148,20 +2148,20 @@ const QUESTIONS = {
 { prompt: "Which operation in time domain becomes multiplication by s?", options: ["Differentiation", "Integration", "Addition", "Translation"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "What mainly determines Laplace transform existence?", options: ["Function growth behavior", "Matrix rank", "Series convergence only", "Determinant sign"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Why are Laplace transforms important engineeringly?", options: ["Simplify system analysis", "Avoid derivatives entirely", "Eliminate variables", "Guarantee exact roots"], answer: 0, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes inverse Laplace transform?", options: ["Returns original time function", "Calculates eigenvalues", "Produces determinants", "Diagonalizes matrices"], answer: 0, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes inverse Laplace transform?", options: ["Returns original time function from transform domain", "The Calculates eigenvalues of matrices accurately always", "The Produces determinants to analyze system properties", "The Diagonalizes matrices to solve systems efficiently"], answer: 0, difficulty: 1200, timeLimit: 20 },
 
 // 1300 ELO — Fourier series and periodic functions
 
-{ prompt: "What does a Fourier series do?", options: ["Solve algebraic equations", "Represent periodic functions using sine and cosine", "Calculate determinants", "Find polynomial roots"], answer: 1, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What does a Fourier series do?", options: ["The Solve algebraic equations using numerical methods", "Represent periodic functions using sine and cosine", "The Calculate determinants to analyze system stability", "The Find polynomial roots using algebraic techniques"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which functions form basis of Fourier series?", options: ["Polynomials and logarithms", "Sines and cosines", "Matrices and vectors", "Exponentials only"], answer: 1, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes periodic functions?", options: ["Repeat after fixed interval", "Always increase", "Have finite derivatives", "Contain singularities"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes periodic functions?", options: ["Repeat after fixed interval of time always", "Always increase in value without bound dynamically", "Have finite derivatives at all points always", "The Contain singularities with infinite values only"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which coefficient represents average function value?", options: ["a₀ term", "Sine coefficient", "Cosine coefficient", "Exponential coefficient"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "What mainly determines Fourier coefficient values?", options: ["Orthogonality integrals", "Matrix determinants", "Series convergence", "Derivative order"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which engineering field heavily uses Fourier analysis?", options: ["Signal processing", "Sheet fabrication", "Fluid casting", "Thermal welding"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Why are periodic decompositions useful physically?", options: ["Analyze frequencies separately", "Eliminate noise completely", "Reduce dimensions", "Avoid integration"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes Fourier transform from series?", options: ["Applies to nonperiodic signals", "Uses only cosine terms", "Avoids frequencies", "Requires matrices"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which waveform commonly requires many harmonics?", options: ["Square wave", "Pure sine wave", "Constant signal", "Linear function"], answer: 0, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What mainly determines harmonic frequencies?", options: ["Integer multiples of base frequency", "Matrix eigenvalues", "Derivative coefficients", "Integration constants"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What mainly determines harmonic frequencies?", options: ["Integer multiples of base frequency always", "The Matrix eigenvalues with specific properties", "The Derivative coefficients with certain values", "Integration constants with dynamic values always"], answer: 0, difficulty: 1300, timeLimit: 20 },
 
 // 1400 ELO — Laplace transforms of exponentials
 
@@ -2169,51 +2169,51 @@ const QUESTIONS = {
 { prompt: "What is L{sin(at)}?", options: ["a/(s²+a²)", "s/(s²+a²)", "1/(s-a)", "a/s"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "What is L{cos(at)}?", options: ["a/(s²+a²)", "s/(s²+a²)", "1/(s+a)", "s/a"], answer: 1, difficulty: 1400, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes exponential transforms?", options: ["Shift transform poles", "Eliminate frequencies", "Reduce dimensions", "Diagonalize matrices"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "Which property shifts Laplace transform by constant a?", options: ["Frequency shifting property", "Scaling property", "Convolution property", "Differentiation property"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "Which property shifts Laplace transform by constant a?", options: ["Frequency shifting property of Laplace transforms", "Scaling property of Fourier transforms always", "The Convolution property of integral transforms", "The Differentiation property of differential equations"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "What mainly determines transform poles?", options: ["Denominator roots", "Matrix rank", "Derivative order", "Series coefficients"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "Why are poles important in system analysis?", options: ["Determine stability behavior", "Reduce frequencies", "Eliminate transforms", "Increase convergence"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes stable systems?", options: ["Poles lie in stable region", "Contain zero derivatives", "Always periodic", "Require matrices"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "Why are poles important in system analysis?", options: ["Determine stability behavior", "Influence frequency responses", "Affect system oscillations", "Modify control actions"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes stable systems?", options: ["Poles lie in stable region", "Zeros lie in unstable region", "The Gains are always negative", "The Phases are always positive"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which transform property handles multiplication by t?", options: ["Differentiation in s-domain", "Scaling property", "Convolution property", "Shifting property"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What mainly determines inverse transform uniqueness?", options: ["Original function behavior", "Matrix determinant", "Frequency count", "Series radius"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What mainly determines inverse transform uniqueness?", options: ["Original function behavior", "Transformed function properties", "Inverse transform uniqueness", "Series expansion convergence"], answer: 0, difficulty: 1400, timeLimit: 20 },
 
 // 1500 ELO — characteristic equations and roots
 
-{ prompt: "Complex roots α±iβ produce solutions involving:", options: ["Polynomials", "Exponentials with sine and cosine", "Logarithms", "Rational functions"], answer: 1, difficulty: 1500, timeLimit: 20 },
+{ prompt: "Complex roots α±iβ produce solutions involving:", options: ["The Exponential functions with constants", "Exponentials with sine and cosine", "The Trigonometric functions with polynomials", "The Rational functions with logarithms"], answer: 1, difficulty: 1500, timeLimit: 20 },
 { prompt: "What fundamentally defines characteristic equation?", options: ["Auxiliary polynomial from DE", "Matrix determinant always", "Fourier coefficient equation", "Integral identity"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which solution corresponds to repeated real roots?", options: ["(c₁+c₂x)e^(rx)", "sin(rx)+cos(rx)", "Polynomial only", "Logarithmic form"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What mainly determines homogeneous DE solutions?", options: ["Roots of characteristic equation", "Matrix trace", "Fourier coefficients", "Integration limits"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "Why do complex roots create oscillations?", options: ["Imaginary parts generate trig terms", "Determinants become periodic", "Matrices rotate automatically", "Transforms diverge"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "Which equation commonly models damped oscillation?", options: ["Second-order linear DE", "Algebraic equation", "Matrix identity", "Fourier series"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes complementary solutions?", options: ["Solve homogeneous equation part", "Contain forcing term", "Require matrices", "Have no constants"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What mainly determines homogeneous DE solutions?", options: ["Roots of characteristic equation", "Solutions of homogeneous system", "Eigenvalues of system matrix", "Poles of transfer function"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "Why do complex roots create oscillations?", options: ["Imaginary parts generate trig terms", "Real parts produce exponential decay", "The Complex roots create oscillations", "The Damped systems exhibit vibrations"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "Which equation commonly models damped oscillation?", options: ["Second-order linear DE", "First-order nonlinear equation", "Higher-order differential system", "Coupled harmonic oscillator"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes complementary solutions?", options: ["Solve homogeneous equation part", "Find particular solution term", "Determine initial condition values", "Apply boundary condition constraints"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which solution part depends on external forcing?", options: ["Particular solution", "Complementary solution", "General solution", "Homogeneous solution"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "What mainly determines oscillation frequency?", options: ["Imaginary root component β", "Real root component α", "Matrix rank", "Derivative degree"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "Why are characteristic roots important physically?", options: ["Describe system dynamics", "Reduce transforms", "Eliminate frequencies", "Increase determinants"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "Why are characteristic roots important physically?", options: ["Describe system dynamics behavior", "Influence control system performance", "Affect stability and oscillations", "Determine system response characteristics"], answer: 0, difficulty: 1500, timeLimit: 20 },
 
 // 1600 ELO — Z-transform and discrete systems
 
 { prompt: "Which transform converts discrete-time signals to complex domain?", options: ["Laplace transform", "Fourier series", "Z-transform", "Mellin transform"], answer: 2, difficulty: 1600, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes Z-transform?", options: ["Handles discrete-time sequences", "Handles continuous PDEs", "Computes determinants", "Diagonalizes matrices"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which variable commonly appears in Z-transform?", options: ["s", "z", "x", "λ"], answer: 1, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What mainly determines Z-transform convergence?", options: ["Region of convergence", "Matrix determinant", "Series truncation", "Derivative order"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What mainly determines Z-transform convergence?", options: ["Region of convergence criteria", "Series expansion convergence rate", "Transform properties and constraints", "Sequence and signal processing"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Why are Z-transforms useful digitally?", options: ["Analyze sampled systems", "Avoid frequencies", "Remove derivatives", "Reduce dimensions"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which engineering field relies heavily on Z-transforms?", options: ["Digital signal processing", "Structural welding", "Thermal casting", "Fluid mechanics"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes discrete signals?", options: ["Defined at sampled intervals", "Continuous over all time", "Always periodic", "Require matrices"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which transform is continuous-time counterpart of Z-transform?", options: ["Laplace transform", "Taylor series", "Matrix inversion", "Gradient operator"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What mainly determines digital filter stability?", options: ["Pole locations in z-plane", "Derivative degree", "Series coefficients", "Matrix trace"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Why are poles important in discrete systems?", options: ["Control response behavior", "Reduce frequencies", "Eliminate transforms", "Guarantee orthogonality"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What mainly determines digital filter stability?", options: ["Pole locations in z-plane region", "Zero locations in frequency domain", "Gain and phase margins stability", "Stability and performance criteria metrics"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Why are poles important in discrete systems?", options: ["Control response behavior characteristics", "Reduce frequencies effectively always", "Eliminate transforms completely always", "Guarantee orthogonality perfectly always"], answer: 0, difficulty: 1600, timeLimit: 20 },
 
 // 1700 ELO — convolution and transform properties
 
 { prompt: "Convolution in time domain equals what in transform domain?", options: ["Addition", "Subtraction", "Multiplication", "Division"], answer: 2, difficulty: 1700, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes convolution operation?", options: ["Combines system input and response", "Diagonalizes matrices", "Finds eigenvalues", "Expands series"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which theorem simplifies convolution calculations?", options: ["Convolution theorem", "Taylor theorem", "Green's theorem", "Mean value theorem"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "What mainly determines system output in linear systems?", options: ["Input convolved with impulse response", "Matrix determinant", "Derivative degree", "Series radius"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Why is convolution important in signals?", options: ["Models filtering effects", "Eliminates frequencies", "Avoids transforms", "Reduces dimensions"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "What mainly determines system output in linear systems?", options: ["Input convolved with impulse response functions", "The Matrix determinant calculated precisely always", "The Derivative degree analyzed thoroughly always", "The Series radius evaluated carefully always"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Why is convolution important in signals?", options: ["Models filtering effects accurately always", "The Eliminates frequencies completely always", "The Avoids transforms effectively always", "The Reduces dimensions efficiently always"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes impulse response?", options: ["System reaction to unit impulse", "Periodic forcing term", "Matrix eigenvector", "Series coefficient"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which operation becomes convolution in transform inversion?", options: ["Multiplication in transform domain", "Addition in transform domain", "Differentiation", "Matrix inversion"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "What mainly determines linear time-invariant systems?", options: ["Constant system properties over time", "Variable matrices", "Changing dimensions", "Random derivatives"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which transform property helps solve integral equations?", options: ["Convolution property", "Scaling property", "Shifting property", "Differentiation property"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Why are transform methods computationally efficient?", options: ["Convert convolution to multiplication", "Eliminate frequencies", "Avoid integrals entirely", "Reduce poles"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Why are transform methods computationally efficient?", options: ["Convert convolution to multiplication operations", "To Eliminate frequencies completely always", "Avoid integrals entirely in calculations", "Reduce poles effectively in systems"], answer: 0, difficulty: 1700, timeLimit: 20 },
 
 // 1800 ELO — Gamma function and advanced transforms
 
@@ -2221,32 +2221,32 @@ const QUESTIONS = {
 { prompt: "What fundamentally distinguishes Gamma function?", options: ["Extends factorials continuously", "Solves PDEs directly", "Diagonalizes matrices", "Computes determinants"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "What is Γ(1)?", options: ["0", "1", "2", "Undefined"], answer: 1, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which integral defines Gamma function?", options: ["∫₀^∞ x^(n-1)e^(-x)dx", "∫sin(x)dx", "∫₀¹ x²dx", "∫e^x dx"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why is Gamma function important mathematically?", options: ["Generalizes factorial operations", "Eliminates transforms", "Reduces dimensions", "Avoids convergence"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why is Gamma function important mathematically?", options: ["Generalizes factorial operations precisely always", "Eliminates transforms completely in calculations", "Reduces dimensions efficiently in systems", "The Avoids convergence issues effectively"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes Beta function?", options: ["Related closely to Gamma function", "Computes eigenvalues", "Defines matrix rank", "Solves determinants"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which probability distributions use Gamma function heavily?", options: ["Continuous distributions", "Discrete matrices", "Orthogonal vectors", "Polynomial roots"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "What mainly determines Gamma recurrence relation?", options: ["Γ(n+1)=nΓ(n)", "Γ(n)=n²", "Γ(n)=1/n", "Γ(n)=e^n"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why are special functions useful engineeringly?", options: ["Model advanced physical systems", "Eliminate transforms", "Avoid differential equations", "Reduce variables"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes Mellin transforms?", options: ["Useful for scaling analysis", "Only periodic functions", "Only matrices", "Only discrete systems"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why are special functions useful engineeringly?", options: ["Model advanced physical systems accurately always", "To Eliminate transforms completely in calculations", "The Avoid differential equations effectively always", "To Reduce variables efficiently in systems"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes Mellin transforms?", options: ["Useful for scaling analysis and applications", "Only periodic functions are considered always", "Only matrices are analyzed precisely always", "Only discrete systems are evaluated carefully"], answer: 0, difficulty: 1800, timeLimit: 20 },
 
 // 1900 ELO — complex analysis and contour integration
 
 { prompt: "Which theorem states closed-contour integral without poles is zero?", options: ["Cauchy's integral theorem", "Residue theorem", "Green's theorem", "Stokes' theorem"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes analytic functions?", options: ["Complex differentiable everywhere locally", "Always periodic", "Have zero integrals", "Contain only real values"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Which theorem evaluates contour integrals using residues?", options: ["Residue theorem", "Taylor theorem", "Laplace theorem", "Mean value theorem"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What mainly determines residue at simple pole?", options: ["Coefficient of 1/(z-a)", "Derivative order", "Matrix determinant", "Series radius"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why are contour integrals useful mathematically?", options: ["Evaluate difficult real integrals", "Reduce matrix rank", "Eliminate convergence", "Avoid transforms"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What mainly determines residue at simple pole?", options: ["Coefficient of 1/(z-a) is calculated precisely", "Derivative order is analyzed thoroughly always", "Matrix determinant is evaluated carefully always", "Series radius is calculated accurately always"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Why are contour integrals useful mathematically?", options: ["Evaluate difficult real integrals precisely always", "Reduce matrix rank efficiently in calculations", "To Eliminate convergence issues effectively always", "The Avoid transforms completely in systems"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes poles in complex analysis?", options: ["Points where functions diverge", "Points with zero derivatives", "Matrix eigenvalues", "Series coefficients"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Which theorem expresses analytic functions through contour integrals?", options: ["Cauchy's integral formula", "Green's theorem", "Divergence theorem", "Stokes' theorem"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What mainly determines Laurent series usefulness?", options: ["Represent functions near singularities", "Diagonalize matrices", "Reduce frequencies", "Eliminate derivatives"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why are residues important computationally?", options: ["Simplify contour integration greatly", "Reduce determinants", "Increase orthogonality", "Avoid convergence"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes entire functions?", options: ["Analytic over entire complex plane", "Always periodic", "Contain poles everywhere", "Require matrices"], answer: 0, difficulty: 1900, timeLimit: 20 }
+{ prompt: "What mainly determines Laurent series usefulness?", options: ["Represent functions near singularities", "Describe systems near singularities", "Model behaviors near singularities", "Analyze equations near singularities"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Why are residues important computationally?", options: ["Simplify contour integration greatly", "Facilitate complex analysis greatly", "Enable calculus operations greatly", "Enhance algebraic manipulations greatly"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes entire functions?", options: ["Analytic over entire complex plane", "Defined over entire real plane", "Continuous over entire number line", "Differentiable over entire function space"], answer: 0, difficulty: 1900, timeLimit: 20 }
 
 ],
  "Engineering Mechanics and Smart Buildings": [
 
 // 1000 ELO — basic mechanics concepts
 
-{ prompt: "What is the primary study of engineering mechanics?", options: ["Chemical reactions", "Forces and effects on bodies", "Electronic circuits", "Thermal energy flow"], answer: 1, difficulty: 1000, timeLimit: 20 },
+{ prompt: "What is the primary study of engineering mechanics?", options: ["The Chemical reactions and processes", "Forces and effects on bodies", "The Thermal energy and transfer", "The Electrical circuits and systems"], answer: 1, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which quantity measures amount of matter?", options: ["Force", "Mass", "Pressure", "Velocity"], answer: 1, difficulty: 1000, timeLimit: 20 },
 { prompt: "What is SI unit of force?", options: ["Watt", "Pascal", "Newton", "Joule"], answer: 2, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which law states F = ma?", options: ["Newton's first law", "Newton's second law", "Newton's third law", "Hooke's law"], answer: 1, difficulty: 1000, timeLimit: 20 },
@@ -2254,21 +2254,21 @@ const QUESTIONS = {
 { prompt: "Which quantity has both magnitude and direction?", options: ["Speed", "Distance", "Vector", "Scalar"], answer: 2, difficulty: 1000, timeLimit: 20 },
 { prompt: "What is the SI unit of work?", options: ["Newton", "Joule", "Pascal", "Volt"], answer: 1, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which branch studies bodies at rest?", options: ["Dynamics", "Kinematics", "Statics", "Thermodynamics"], answer: 2, difficulty: 1000, timeLimit: 20 },
-{ prompt: "What fundamentally defines equilibrium?", options: ["Zero net force", "Maximum acceleration", "Constant energy", "Increasing velocity"], answer: 0, difficulty: 1000, timeLimit: 20 },
+{ prompt: "What fundamentally defines equilibrium?", options: ["Zero net force and torque", "The Maximum acceleration and velocity", "The Constant energy and momentum", "The Increasing velocity and acceleration"], answer: 0, difficulty: 1000, timeLimit: 20 },
 { prompt: "Why is mechanics important engineeringly?", options: ["Predict structural behavior", "Increase chemical reactions", "Reduce electricity use", "Eliminate motion"], answer: 0, difficulty: 1000, timeLimit: 20 },
 
 // 1100 ELO — equilibrium and statics
 
 { prompt: "In statics, sum of all forces and moments at equilibrium is:", options: ["Infinity", "Maximum", "Zero", "Constant nonzero"], answer: 2, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which quantity tends to rotate bodies?", options: ["Velocity", "Torque", "Pressure", "Density"], answer: 1, difficulty: 1100, timeLimit: 20 },
-{ prompt: "What mainly distinguishes balanced forces?", options: ["Net force equals zero", "Acceleration increases", "Mass changes", "Pressure doubles"], answer: 0, difficulty: 1100, timeLimit: 20 },
+{ prompt: "What mainly distinguishes balanced forces?", options: ["Net force equals zero always", "Resultant force equals zero always", "Equilibrium force equals zero always", "Static force equals zero always"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which support prevents all translation directions?", options: ["Roller support", "Pinned support", "Fixed support", "Cable support"], answer: 2, difficulty: 1100, timeLimit: 20 },
 { prompt: "What fundamentally determines moment magnitude?", options: ["Force times distance", "Mass times velocity", "Pressure times area", "Density times volume"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which force always acts vertically downward?", options: ["Friction force", "Weight force", "Tension force", "Reaction force"], answer: 1, difficulty: 1100, timeLimit: 20 },
 { prompt: "What is the SI unit of torque?", options: ["N/m", "Nm", "J/s", "kgm"], answer: 1, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which structure member mainly carries tension?", options: ["Column", "Cable", "Beam", "Slab"], answer: 1, difficulty: 1100, timeLimit: 20 },
-{ prompt: "Why are free-body diagrams important?", options: ["Visualize all acting forces", "Increase motion speed", "Reduce mass", "Avoid calculations"], answer: 0, difficulty: 1100, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes statically determinate systems?", options: ["Solved using equilibrium only", "Require differential equations", "Contain moving joints", "Always unstable"], answer: 0, difficulty: 1100, timeLimit: 20 },
+{ prompt: "Why are free-body diagrams important?", options: ["Visualize all acting forces clearly", "Analyze all acting forces clearly", "Evaluate all acting forces clearly", "Assess all acting forces clearly"], answer: 0, difficulty: 1100, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes statically determinate systems?", options: ["Solved using equilibrium only", "Determined using equilibrium only", "Calculated using equilibrium only", "Found using equilibrium only"], answer: 0, difficulty: 1100, timeLimit: 20 },
 
 // 1200 ELO — smart building fundamentals
 
@@ -2280,31 +2280,31 @@ const QUESTIONS = {
 { prompt: "Which building feature commonly uses automation?", options: ["Lighting control", "Brick arrangement", "Foundation depth", "Paint texture"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes building automation?", options: ["Automatic system management", "Manual control only", "Static operation", "Purely mechanical design"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which sensor commonly measures room temperature?", options: ["Thermistor", "Accelerometer", "Gyroscope", "Microphone"], answer: 0, difficulty: 1200, timeLimit: 20 },
-{ prompt: "Why are occupancy sensors useful?", options: ["Reduce unnecessary energy use", "Increase wall strength", "Eliminate wiring", "Reduce airflow"], answer: 0, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What mainly determines smart-building responsiveness?", options: ["Sensor and control integration", "Wall thickness", "Roof material", "Paint color"], answer: 0, difficulty: 1200, timeLimit: 20 },
+{ prompt: "Why are occupancy sensors useful?", options: ["Reduce unnecessary energy use", "Minimize unnecessary energy consumption", "Decrease unnecessary energy waste", "Optimize unnecessary energy usage"], answer: 0, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What mainly determines smart-building responsiveness?", options: ["Sensor and control integration systems", "Sensor and monitoring integration systems", "Control and automation integration systems", "Automation and monitoring integration systems"], answer: 0, difficulty: 1200, timeLimit: 20 },
 
 // 1300 ELO — sensors and building systems
 
-{ prompt: "Which sensor adjusts lighting based on occupancy?", options: ["Thermometer", "PIR sensor", "Barometer", "Hygrometer"], answer: 1, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes PIR sensors?", options: ["Detect infrared motion changes", "Measure pressure only", "Sense humidity only", "Detect sound waves"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "Which sensor adjusts lighting based on occupancy?", options: ["The Thermometer temperature sensors", "PIR sensor motion detectors", "The Barometer pressure sensors", "The Hygrometer humidity sensors"], answer: 1, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes PIR sensors?", options: ["Detect infrared motion changes", "Detect ultrasonic sound changes", "Detect magnetic field changes", "Detect electric current changes"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which sensor commonly measures humidity?", options: ["Accelerometer", "Hygrometer", "Gyroscope", "Flowmeter"], answer: 1, difficulty: 1300, timeLimit: 20 },
-{ prompt: "Why are smart lighting systems efficient?", options: ["Adapt to occupancy and daylight", "Remain permanently on", "Use thicker wiring", "Reduce voltage constantly"], answer: 0, difficulty: 1300, timeLimit: 20 },
-{ prompt: "Which network feature connects smart devices together?", options: ["Building communication bus", "Concrete reinforcement", "Hydraulic piping", "Structural bracing"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "Why are smart lighting systems efficient?", options: ["Adapt to occupancy and daylight", "Respond to temperature and humidity", "React to pressure and vibration", "Adjust to noise and airflow"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "Which network feature connects smart devices together?", options: ["Building communication bus systems", "Building automation control systems", "Building management information systems", "Building network infrastructure systems"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "What mainly determines indoor air-quality control?", options: ["Environmental sensor feedback", "Foundation type", "Roof geometry", "Column spacing"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which device commonly measures light intensity?", options: ["Photocell sensor", "Pressure sensor", "Gyroscope", "Thermocouple"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes automated HVAC systems?", options: ["Self-adjust operating conditions", "Require manual airflow", "Contain no sensors", "Use fixed temperatures"], answer: 0, difficulty: 1300, timeLimit: 20 },
-{ prompt: "Why are sensors critical in smart buildings?", options: ["Provide real-time operational data", "Increase wall thickness", "Reduce structural loads", "Eliminate electricity"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "Why are sensors critical in smart buildings?", options: ["Provide real-time operational data", "Enhance building management systems", "Optimize energy consumption levels", "Improve occupant safety features"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which smart-building system improves occupant comfort?", options: ["Automated climate control", "Static lighting", "Manual ventilation only", "Fixed windows"], answer: 0, difficulty: 1300, timeLimit: 20 },
 
 // 1400 ELO — torque and rotational mechanics
 
 { prompt: "In mechanics, what is torque?", options: ["Push or pull force", "Tendency to rotate object", "Frictional resistance", "Mass times acceleration"], answer: 1, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What fundamentally determines torque direction?", options: ["Rotation tendency orientation", "Mass distribution", "Pressure direction", "Velocity magnitude"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What fundamentally determines torque direction?", options: ["Rotation tendency orientation", "Angular momentum conservation", "Force application perpendicularity", "Velocity vector directionality"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which factor increases torque most directly?", options: ["Larger perpendicular distance", "Smaller force", "Lower mass", "Reduced friction"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "What mainly distinguishes clockwise and anticlockwise moments?", options: ["Opposite rotational directions", "Different force units", "Different masses", "Different pressures"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which engineering component mainly transmits torque?", options: ["Shaft", "Beam", "Cable", "Column"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Why are moments important structurally?", options: ["Determine rotational stability", "Increase pressure automatically", "Reduce acceleration", "Eliminate reactions"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes couples in mechanics?", options: ["Equal opposite parallel forces", "Single vertical forces", "Curved pressure fields", "Rotating masses"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes couples in mechanics?", options: ["Equal opposite parallel forces", "Unequal opposing non-parallel forces", "Single vertical force application", "Multiple horizontal force components"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which quantity combines force and rotation effects?", options: ["Moment", "Density", "Pressure", "Velocity"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "What mainly determines rotational equilibrium?", options: ["Net moment equals zero", "Velocity becomes maximum", "Mass becomes constant", "Pressure doubles"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Why are torque calculations important mechanically?", options: ["Predict rotational behavior", "Reduce dimensions", "Increase density", "Avoid motion"], answer: 0, difficulty: 1400, timeLimit: 20 },
@@ -2317,61 +2317,61 @@ const QUESTIONS = {
 { prompt: "Why are I-beams structurally efficient?", options: ["Material placed far from neutral axis", "Contain less steel only", "Reduce gravity", "Eliminate moments"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "What fundamentally determines centroid location?", options: ["Shape geometry distribution", "External forces", "Material color", "Surface roughness"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which structure member mainly resists bending?", options: ["Beam", "Cable", "Chain", "Rope"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What mainly distinguishes tensile stress?", options: ["Pulling internal force", "Rotational resistance", "Fluid pressure", "Heat transfer"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What mainly distinguishes tensile stress?", options: ["Pulling internal force", "Pushing internal force", "Shear internal force", "Compressive internal force"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which stress type compresses materials?", options: ["Compressive stress", "Shear stress", "Torsional stress", "Thermal stress"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "Why are centroids important engineeringly?", options: ["Analyze load distribution accurately", "Increase friction", "Reduce dimensions", "Avoid supports"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes shear force?", options: ["Internal transverse loading effect", "Rotational acceleration", "Pressure variation", "Energy storage"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "Why are centroids important engineeringly?", options: ["Analyze load distribution accurately", "Determine structural system stability", "Optimize material usage efficiency", "Predict mechanical system behavior"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes shear force?", options: ["Internal transverse loading effect", "External axial loading effect", "The Torsional loading effect", "The Compressive loading effect"], answer: 0, difficulty: 1500, timeLimit: 20 },
 
 // 1600 ELO — BACnet and automation networks
 
 { prompt: "Which protocol is widely used for building automation?", options: ["HTTP", "BACnet", "SMTP", "FTP"], answer: 1, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes BACnet?", options: ["Building automation communication standard", "Wireless sensor type", "Structural analysis software", "Mechanical support system"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes BACnet?", options: ["Building automation communication standard", "Industrial control system protocol", "Home automation network protocol", "Commercial automation data exchange"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which system commonly communicates through BACnet?", options: ["HVAC control systems", "Concrete mixers", "Hydraulic brakes", "Gear assemblies"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Why are communication protocols essential smart-buildingly?", options: ["Enable device interoperability", "Increase wall strength", "Reduce structural loads", "Eliminate energy usage"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "What mainly distinguishes IoT-enabled buildings?", options: ["Connected intelligent devices", "Manual-only systems", "No networking capability", "Pure mechanical control"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Which technology allows centralized building management?", options: ["Building management systems", "Steam turbines", "Manual switches", "Concrete reinforcements"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What fundamentally determines networked-building scalability?", options: ["Communication architecture flexibility", "Wall thickness", "Foundation depth", "Roof geometry"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Which technology allows centralized building management?", options: ["Building management systems", "Facility control networks", "Infrastructure monitoring tools", "Construction project planners"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What fundamentally determines networked-building scalability?", options: ["Communication architecture flexibility", "Network topology adaptability", "System integration scalability", "Data transmission reliability"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which smart-building function commonly uses cloud connectivity?", options: ["Remote monitoring", "Concrete curing", "Beam welding", "Static balancing"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Why are interoperable standards important?", options: ["Different systems communicate reliably", "Increase structural mass", "Reduce ventilation", "Avoid automation"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What mainly distinguishes smart-building analytics?", options: ["Use operational data intelligently", "Avoid sensors entirely", "Reduce networking", "Remove automation"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Why are interoperable standards important?", options: ["Different systems communicate reliably", "Various devices interact seamlessly", "Multiple platforms integrate effectively", "Distinct technologies cooperate efficiently"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What mainly distinguishes smart-building analytics?", options: ["Use operational data intelligently", "Analyze performance metrics effectively", "Optimize energy consumption efficiently", "Enhance occupant experience significantly"], answer: 0, difficulty: 1600, timeLimit: 20 },
 
 // 1700 ELO — supports and structural mechanics
 
 { prompt: "What does a roller support restrict?", options: ["All translation directions", "Rotation only", "Translation perpendicular to surface", "All movement and rotation"], answer: 2, difficulty: 1700, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes pinned supports?", options: ["Restrict translation but allow rotation", "Restrict all motion", "Allow all motion", "Restrict rotation only"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes pinned supports?", options: ["Restrict translation but allow rotation", "Limit movement while permitting turning", "Constrain displacement yet enable spinning", "Hinder motion while facilitating pivoting"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which support generates both force and moment reactions?", options: ["Fixed support", "Roller support", "Cable support", "Link support"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Why are roller supports useful structurally?", options: ["Allow thermal expansion movement", "Eliminate all reactions", "Increase bending moments", "Prevent deformation"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "What mainly determines support reactions?", options: ["Applied loads and geometry", "Wall color", "Humidity only", "Roof texture"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "What mainly determines support reactions?", options: ["Applied loads and geometry", "External forces and dimensions", "Internal stresses and configurations", "Environmental factors and layouts"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which structural element mainly carries axial compression?", options: ["Column", "Cable", "Chain", "Rope"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes determinate structures?", options: ["Solved with equilibrium equations", "Require finite-element analysis", "Always unstable", "Contain no reactions"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes determinate structures?", options: ["Solved with equilibrium equations", "Analyzed using static principles", "Calculated through force balances", "Determined by moment equations"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which quantity mainly causes beam deflection?", options: ["Applied loading", "Surface color", "Air pressure only", "Humidity"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Why are boundary conditions important structurally?", options: ["Define support behavior accurately", "Increase density", "Reduce mass", "Eliminate forces"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes trusses mechanically?", options: ["Members mainly carry axial forces", "All members bend heavily", "No joints exist", "Only compressive forces occur"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Why are boundary conditions important structurally?", options: ["Define support behavior accurately", "Specify constraint conditions precisely", "Establish boundary conditions clearly", "Determine load application carefully"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes trusses mechanically?", options: ["Members mainly carry axial forces", "Components primarily transmit tensile loads", "Elements chiefly resist compressive stresses", "Beams principally withstand bending moments"], answer: 0, difficulty: 1700, timeLimit: 20 },
 
 // 1800 ELO — D'Alembert and dynamics
 
-{ prompt: "What is D'Alembert's principle used for?", options: ["Center of gravity", "Convert dynamics into statics", "Heat transfer analysis", "HVAC optimization"], answer: 1, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What is D'Alembert's principle used for?", options: ["Center of mass calculation", "Convert dynamics into statics", "Simplify complex motion analysis", "Facilitate kinetic energy analysis"], answer: 1, difficulty: 1800, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes inertial forces?", options: ["Oppose acceleration effects", "Increase velocity directly", "Reduce mass", "Create pressure"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Why is D'Alembert's principle mathematically useful?", options: ["Simplifies dynamic analysis", "Eliminates equilibrium", "Avoids forces entirely", "Removes acceleration"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which quantity mainly determines kinetic energy?", options: ["Mass and velocity", "Pressure and area", "Density and volume", "Torque and angle"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes kinematics from dynamics?", options: ["Kinematics ignores forces", "Dynamics ignores motion", "Both ignore acceleration", "Both require equilibrium"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which theorem relates work and kinetic energy?", options: ["Work-energy theorem", "Bernoulli theorem", "Cauchy theorem", "Gauss theorem"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "What mainly determines angular momentum?", options: ["Mass distribution and rotation", "Pressure gradient", "Thermal expansion", "Electrical resistance"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why are dynamic analyses important structurally?", options: ["Predict response to changing loads", "Reduce material density", "Avoid motion entirely", "Increase equilibrium"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes impulse?", options: ["Force acting over time", "Moment over distance", "Pressure over area", "Energy over velocity"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why are dynamic analyses important structurally?", options: ["Predict response to changing loads", "Analyze behavior under dynamic forces", "Simulate performance in varying conditions", "Evaluate stability during transient events"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes impulse?", options: ["Force acting over time", "Energy transferred during collision", "Momentum change during impact", "Velocity change during acceleration"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which engineering event requires dynamic loading analysis?", options: ["Earthquake response", "Static painting", "Material coloring", "Roof insulation"], answer: 0, difficulty: 1800, timeLimit: 20 },
 
 // 1900 ELO — predictive maintenance and intelligent infrastructure
 
-{ prompt: "What enables buildings to predict maintenance needs?", options: ["Reactive maintenance", "IoT and machine learning", "Manual inspection only", "Scheduled obsolescence"], answer: 1, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What enables buildings to predict maintenance needs?", options: ["The Reactive maintenance scheduling", "IoT and machine learning", "Predictive modeling and analytics", "The Proactive condition monitoring"], answer: 1, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes predictive maintenance?", options: ["Acts before equipment failure", "Repairs only after breakdown", "Avoids data collection", "Eliminates sensors"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Which data source is critical for predictive analytics?", options: ["Real-time sensor data", "Wall thickness only", "Building color", "Roof geometry"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why is machine learning valuable in smart buildings?", options: ["Detects operational patterns automatically", "Eliminates networking", "Reduces structural strength", "Avoids automation"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What mainly determines predictive-model accuracy?", options: ["Quality and quantity of data", "Wall material", "Paint texture", "Window height"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Why is machine learning valuable in smart buildings?", options: ["Detects operational patterns automatically", "Analyzes energy consumption patterns", "Optimizes system performance automatically", "Enhances building maintenance processes"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What mainly determines predictive-model accuracy?", options: ["Quality and quantity of data", "Type and source of information", "Amount and relevance of feedback", "Level and accuracy of measurements"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Which building equipment commonly uses predictive maintenance?", options: ["HVAC systems", "Concrete walls", "Glass windows", "Steel railings"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes digital twins?", options: ["Virtual replicas of real systems", "Mechanical backup systems", "Static blueprints only", "Manual inspection methods"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why are smart grids important for intelligent buildings?", options: ["Enable optimized energy interaction", "Increase beam strength", "Reduce occupancy", "Eliminate automation"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Which technology helps detect abnormal equipment behavior?", options: ["Anomaly detection algorithms", "Manual switchboards", "Fixed schedules", "Static controls"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes digital twins?", options: ["Virtual replicas of real systems", "Digital models of physical structures", "The Simulated environments for testing", "The Computerized representations of buildings"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Why are smart grids important for intelligent buildings?", options: ["Enable optimized energy interaction", "Facilitate efficient resource allocation", "Support sustainable infrastructure development", "Promote intelligent building operations"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Which technology helps detect abnormal equipment behavior?", options: ["Anomaly detection algorithms", "Predictive maintenance techniques", "Real-time monitoring systems", "Advanced diagnostic tools"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes intelligent infrastructure?", options: ["Self-monitoring adaptive operation", "Purely manual systems", "No connected devices", "Fixed energy consumption"], answer: 0, difficulty: 1900, timeLimit: 20 }
 
 ],
@@ -2383,12 +2383,12 @@ const QUESTIONS = {
 { prompt: "Which quantity is measured in Newtons?", options: ["Energy", "Force", "Pressure", "Power"], answer: 1, difficulty: 1000, timeLimit: 20 },
 { prompt: "What is SI unit of energy?", options: ["Watt", "Pascal", "Joule", "Volt"], answer: 2, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which quantity has magnitude only?", options: ["Velocity", "Force", "Temperature", "Acceleration"], answer: 2, difficulty: 1000, timeLimit: 20 },
-{ prompt: "What does a volt measure?", options: ["Current", "Resistance", "Potential difference", "Power"], answer: 2, difficulty: 1000, timeLimit: 20 },
+{ prompt: "What does a volt measure?", options: ["Electrical current flow", "Electrical resistance level", "Potential difference value", "Electrical power consumption"], answer: 2, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which wave can travel through vacuum?", options: ["Sound wave", "Water wave", "Electromagnetic wave", "Seismic wave"], answer: 2, difficulty: 1000, timeLimit: 20 },
 { prompt: "What is SI unit of frequency?", options: ["Tesla", "Hertz", "Newton", "Farad"], answer: 1, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which particle carries negative charge?", options: ["Proton", "Neutron", "Electron", "Photon"], answer: 2, difficulty: 1000, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes vectors?", options: ["Have magnitude and direction", "Contain only magnitude", "Always periodic", "Represent energy only"], answer: 0, difficulty: 1000, timeLimit: 20 },
-{ prompt: "Why is physics important engineeringly?", options: ["Explains natural laws quantitatively", "Eliminates mathematics", "Avoids experiments", "Reduces measurements"], answer: 0, difficulty: 1000, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes vectors?", options: ["Have magnitude and direction", "Possess magnitude and velocity", "Exhibit direction and acceleration", "Display magnitude and orientation"], answer: 0, difficulty: 1000, timeLimit: 20 },
+{ prompt: "Why is physics important engineeringly?", options: ["Explains natural laws quantitatively", "Describes physical phenomena accurately", "Analyzes complex systems theoretically", "Models real-world problems mathematically"], answer: 0, difficulty: 1000, timeLimit: 20 },
 
 // 1100 ELO — scalar/vector and mechanics basics
 
@@ -2396,7 +2396,7 @@ const QUESTIONS = {
 { prompt: "Which quantity measures rate of motion change?", options: ["Velocity", "Acceleration", "Mass", "Pressure"], answer: 1, difficulty: 1100, timeLimit: 20 },
 { prompt: "What is SI unit of power?", options: ["Joule", "Newton", "Watt", "Tesla"], answer: 2, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which law states every action has equal opposite reaction?", options: ["Newton's first law", "Newton's second law", "Newton's third law", "Hooke's law"], answer: 2, difficulty: 1100, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes acceleration?", options: ["Rate of velocity change", "Distance traveled", "Amount of matter", "Stored energy"], answer: 0, difficulty: 1100, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes acceleration?", options: ["Rate of velocity change", "Measure of speed variation", "Amount of distance covered", "Degree of motion alteration"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which quantity remains conserved in isolated systems?", options: ["Momentum", "Temperature", "Pressure", "Density"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "What mainly determines kinetic energy?", options: ["Mass and velocity", "Pressure and volume", "Charge and voltage", "Temperature only"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which graph slope represents velocity?", options: ["Displacement-time graph", "Velocity-time graph", "Force-time graph", "Energy-time graph"], answer: 0, difficulty: 1100, timeLimit: 20 },
@@ -2413,13 +2413,13 @@ const QUESTIONS = {
 { prompt: "Which phenomenon bends waves around obstacles?", options: ["Diffraction", "Reflection", "Refraction", "Polarization"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes transverse waves?", options: ["Oscillation perpendicular to motion", "Oscillation parallel to motion", "Require vacuum only", "Travel infinitely fast"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which wave type requires material medium?", options: ["Light waves", "Radio waves", "Sound waves", "X-rays"], answer: 2, difficulty: 1200, timeLimit: 20 },
-{ prompt: "Why are interference effects important?", options: ["Reveal wave nature clearly", "Eliminate frequencies", "Reduce amplitudes always", "Avoid diffraction"], answer: 0, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What mainly determines wavelength?", options: ["Wave speed and frequency", "Mass and energy", "Voltage and current", "Pressure and density"], answer: 0, difficulty: 1200, timeLimit: 20 },
+{ prompt: "Why are interference effects important?", options: ["Reveal wave nature clearly", "The Demonstrate particle behavior", "Exhibit energy transfer mechanisms", "Illustrate frequency modulation effects"], answer: 0, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What mainly determines wavelength?", options: ["Wave speed and frequency", "The Wavelength and amplitude", "The Period and oscillation", "The Resonance and vibration"], answer: 0, difficulty: 1200, timeLimit: 20 },
 
 // 1300 ELO — photoelectric effect and quantum foundations
 
 { prompt: "What phenomenon emits electrons under light exposure?", options: ["Compton scattering", "Photoelectric effect", "Pair production", "Thermionic emission"], answer: 1, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What fundamentally causes photoelectric emission?", options: ["Photon energy absorption", "Magnetic induction", "Thermal expansion", "Pressure increase"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What fundamentally causes photoelectric emission?", options: ["Photon energy absorption", "Electron spin interaction", "Magnetic field induction", "Thermal energy transfer"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which scientist explained photoelectric effect quantumly?", options: ["Newton", "Einstein", "Faraday", "Maxwell"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "What mainly determines whether electrons are emitted?", options: ["Light frequency", "Light color only", "Magnetic field", "Pressure"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which quantity represents minimum emission energy?", options: ["Work function", "Potential energy", "Momentum constant", "Threshold pressure"], answer: 0, difficulty: 1300, timeLimit: 20 },
@@ -2427,17 +2427,17 @@ const QUESTIONS = {
 { prompt: "Which constant relates photon energy and frequency?", options: ["Boltzmann constant", "Planck constant", "Gas constant", "Avogadro number"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "Why was photoelectric effect historically important?", options: ["Supported quantum theory", "Disproved wave optics", "Eliminated electrons", "Rejected relativity"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "What mainly determines photon energy?", options: ["Frequency", "Amplitude", "Velocity", "Intensity only"], answer: 0, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes threshold frequency?", options: ["Minimum frequency for emission", "Maximum light speed", "Resonant vibration rate", "Magnetic resonance"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes threshold frequency?", options: ["Minimum frequency for emission", "Threshold energy for excitation", "Critical wavelength for absorption", "Maximum intensity for transmission"], answer: 0, difficulty: 1300, timeLimit: 20 },
 
 // 1400 ELO — lasers and optical physics
 
 { prompt: "What process amplifies light in laser?", options: ["Spontaneous emission", "Stimulated emission", "Absorption", "Refraction"], answer: 1, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes laser light?", options: ["Highly coherent and monochromatic", "Random frequency mixture", "Low intensity always", "Purely mechanical"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes laser light?", options: ["Highly coherent and monochromatic", "Partially polarized and directional", "Completely incoherent and random", "Totally unpolarized and diffuse"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which property allows lasers to remain focused long distances?", options: ["Low divergence", "High density", "Large wavelength", "High resistance"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What mainly determines refractive index?", options: ["Relative light speed in medium", "Temperature only", "Magnetic field", "Material density only"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What mainly determines refractive index?", options: ["Relative light speed in medium", "The Absolute refractive index value", "The Total internal reflection angle", "The Critical angle of incidence"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which optical phenomenon splits white light?", options: ["Dispersion", "Reflection", "Interference", "Polarization"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes coherent waves?", options: ["Constant phase relationship", "Equal amplitudes only", "Identical velocities only", "Zero wavelength"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "Why are lasers important engineeringly?", options: ["Enable precise optical applications", "Reduce wave frequencies", "Eliminate photons", "Avoid diffraction"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "Why are lasers important engineeringly?", options: ["Enable precise optical applications", "Enhance wave frequency stability", "Improve beam coherence properties", "Increase photon emission rates"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which device commonly produces coherent light?", options: ["Laser diode", "Incandescent bulb", "Candle flame", "Fluorescent tube"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "What mainly determines critical angle in optics?", options: ["Refractive-index ratio", "Light intensity", "Magnetic field", "Pressure"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes total internal reflection?", options: ["Light reflects completely internally", "Light stops traveling", "Frequency becomes zero", "Medium disappears"], answer: 0, difficulty: 1400, timeLimit: 20 },
@@ -2447,65 +2447,65 @@ const QUESTIONS = {
 { prompt: "What is De Broglie wavelength equation?", options: ["λ=h/p", "E=mc²", "F=ma", "V=IR"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes matter waves?", options: ["Particles exhibit wave behavior", "Waves have electric charge", "Matter loses mass", "Momentum becomes constant"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which quantity inversely affects De Broglie wavelength?", options: ["Momentum", "Charge", "Temperature", "Density"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "Why are electron diffraction experiments important?", options: ["Verified wave nature of particles", "Disproved quantum theory", "Removed uncertainty", "Eliminated photons"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "Why are electron diffraction experiments important?", options: ["Verified wave nature of particles", "Demonstrated particle nature of waves", "The Established uncertainty principle foundations", "Confirmed quantum theory predictions accurately"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "What mainly determines momentum of moving object?", options: ["Mass and velocity", "Charge and voltage", "Pressure and area", "Temperature"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which particle commonly demonstrates matter-wave effects?", options: ["Electron", "Neutron star", "Planet", "Black hole"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes quantum mechanics?", options: ["Describes microscopic physical behavior", "Ignores probabilities", "Eliminates energy", "Rejects waves"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which principle limits simultaneous position and momentum precision?", options: ["Heisenberg uncertainty principle", "Pauli exclusion principle", "Gauss law", "Hooke law"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "Why are matter waves negligible macroscopically?", options: ["Wavelengths become extremely small", "Mass disappears", "Momentum becomes zero", "Light dominates motion"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What mainly determines quantum wavelength experimentally?", options: ["Planck constant and momentum", "Temperature and density", "Voltage and resistance", "Force and area"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "Why are matter waves negligible macroscopically?", options: ["Wavelengths become extremely small", "Frequencies become extremely high", "Amplitudes become extremely low", "Phases become extremely coherent"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What mainly determines quantum wavelength experimentally?", options: ["Planck constant and momentum", "Boltzmann constant and energy", "Gravitational constant and mass", "Electromagnetic constant and charge"], answer: 0, difficulty: 1500, timeLimit: 20 },
 
 // 1600 ELO — crystal structures and solid-state physics
 
 { prompt: "Which crystal structure characterizes diamond?", options: ["Simple cubic", "FCC with basis", "Body-centered cubic", "Hexagonal close packed"], answer: 1, difficulty: 1600, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes crystalline solids?", options: ["Periodic atomic arrangement", "Completely random atoms", "No bonding", "Infinite density"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which structure packs atoms most efficiently?", options: ["FCC", "Simple cubic", "Orthorhombic", "Monoclinic"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What mainly determines electrical conductivity in solids?", options: ["Electron band structure", "Material color", "Pressure only", "Shape"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What mainly determines electrical conductivity in solids?", options: ["Electron band structure", "Phonon dispersion relations", "Magnetic domain configurations", "Crystal lattice vibrations"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which material behaves as semiconductor?", options: ["Silicon", "Copper", "Glass", "Rubber"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes conductors and insulators?", options: ["Band-gap characteristics", "Atomic size only", "Density only", "Crystal color"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Why is diamond extremely hard?", options: ["Strong covalent lattice bonding", "High density only", "Magnetic ordering", "Electron deficiency"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Which phenomenon explains semiconductor doping?", options: ["Controlled impurity addition", "Crystal melting", "Magnetic alignment", "Pressure balancing"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Why is diamond extremely hard?", options: ["Strong covalent lattice bonding", "High ionic lattice energy", "Dense molecular packing structures", "Stable crystal lattice arrangements"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Which phenomenon explains semiconductor doping?", options: ["Controlled impurity addition", "Deliberate defect introduction", "Intentional alloy formation", "Careful doping concentration"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "What mainly determines semiconductor carrier concentration?", options: ["Doping and temperature", "Pressure only", "Color", "Shape"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Why are crystal structures important engineeringly?", options: ["Determine material properties", "Reduce wavelengths", "Eliminate electrons", "Avoid bonding"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Why are crystal structures important engineeringly?", options: ["Determine material properties", "Influence device performance", "Affect system reliability", "Impact product functionality"], answer: 0, difficulty: 1600, timeLimit: 20 },
 
 // 1700 ELO — electromagnetism and Gauss law
 
 { prompt: "What does Gauss's law for magnetism state?", options: ["Magnetic monopoles do not exist", "Fields always straight", "Force proportional distance", "Electricity creates magnetism"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes magnetic field lines?", options: ["Form closed loops", "Begin at monopoles", "Travel infinitely straight", "Carry electric charge"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which Maxwell equation implies no magnetic monopoles?", options: ["∇·B=0", "∇·E=ρ/ε₀", "∇×E=0", "F=qvB"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "What mainly determines magnetic force on moving charges?", options: ["Charge velocity and field", "Mass only", "Pressure only", "Temperature"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "What mainly determines magnetic force on moving charges?", options: ["Charge velocity and field", "The Mass and acceleration", "The Force and distance", "The Energy and momentum"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which phenomenon generates induced current?", options: ["Electromagnetic induction", "Photoelectric emission", "Diffraction", "Dispersion"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes electric and magnetic fields?", options: ["Produced by charges and moving charges", "Identical always", "Both scalar quantities", "Neither stores energy"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes electric and magnetic fields?", options: ["Produced by charges and moving charges", "The Generated by currents and fields", "The Created by forces and energies", "The Resulting from interactions and motions"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Why are Maxwell equations important physically?", options: ["Unified electromagnetism mathematically", "Removed light waves", "Rejected quantum theory", "Eliminated fields"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which device fundamentally uses electromagnetic induction?", options: ["Transformer", "Resistor", "Capacitor", "Thermometer"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "What mainly determines magnetic flux?", options: ["Field strength and area", "Mass and velocity", "Pressure and density", "Voltage and resistance"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes electromagnetic waves?", options: ["Oscillating electric and magnetic fields", "Require material medium", "Contain massive particles", "Travel slower than sound"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "What mainly determines magnetic flux?", options: ["Field strength and area", "The Current and resistance", "The Voltage and capacitance", "The Inductance and frequency"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes electromagnetic waves?", options: ["Oscillating electric and magnetic fields", "Oscillating electric and magnetic forces", "Oscillating electric and magnetic currents", "Oscillating electric and magnetic potentials"], answer: 0, difficulty: 1700, timeLimit: 20 },
 
 // 1800 ELO — quantum probability and wavefunctions
 
 { prompt: "What represents probability density of particle location?", options: ["|ψ|²", "Hamiltonian", "Planck constant", "Momentum vector"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes wavefunctions?", options: ["Describe quantum states probabilistically", "Represent only energy", "Ignore uncertainty", "Contain no amplitudes"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes wavefunctions?", options: ["Describe quantum states probabilistically", "Describe quantum states deterministically", "Describe quantum states statistically", "Describe quantum states mechanistically"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which equation governs nonrelativistic quantum systems?", options: ["Schrodinger equation", "Maxwell equation", "Navier-Stokes equation", "Bernoulli equation"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "What mainly determines quantum probability distributions?", options: ["Wavefunction amplitude", "Particle color", "Pressure only", "Magnetic density"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why are probabilities central quantumly?", options: ["Exact microscopic predictions impossible", "Particles vanish randomly", "Energy disappears", "Waves stop propagating"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes eigenstates?", options: ["States with definite observable values", "States without energy", "Infinite probability states", "Nonphysical states"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why are probabilities central quantumly?", options: ["Exact microscopic predictions impossible", "Exact microscopic predictions uncertain", "Exact microscopic predictions challenging", "Exact microscopic predictions difficult"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes eigenstates?", options: ["States with definite observable values", "States with definite measurable values", "States with definite quantifiable values", "States with definite calculable values"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which operator represents observable quantities quantumly?", options: ["Hermitian operator", "Scalar constant", "Vector gradient", "Simple matrix only"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "What mainly determines uncertainty relationships?", options: ["Noncommuting observables", "Material density", "Wave speed", "Magnetic flux"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why are quantum models important technologically?", options: ["Enable semiconductor and laser design", "Eliminate electronics", "Avoid probabilities", "Reduce photons"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes tunneling effect?", options: ["Particles cross forbidden barriers", "Energy becomes infinite", "Mass disappears", "Wavefunctions vanish"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why are quantum models important technologically?", options: ["Enable semiconductor and laser design", "Enable semiconductor and transistor design", "Enable semiconductor and circuit design", "Enable semiconductor and device design"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes tunneling effect?", options: ["Particles cross forbidden barriers", "Particles cross restricted barriers", "Particles cross limited barriers", "Particles cross prohibited barriers"], answer: 0, difficulty: 1800, timeLimit: 20 },
 
 // 1900 ELO — Hall effect and semiconductor physics
 
 { prompt: "What does Hall effect determine in semiconductor?", options: ["Material color", "Type of charge carriers", "Melting point", "Refractive index"], answer: 1, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What fundamentally causes Hall voltage?", options: ["Magnetic deflection of charges", "Thermal expansion", "Wave interference", "Crystal diffraction"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What fundamentally causes Hall voltage?", options: ["Magnetic deflection of charges and currents", "Electric attraction of charges and fields", "Thermal expansion of materials and structures", "Quantum fluctuations of particles and waves"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Which semiconductor type mainly contains electrons?", options: ["n-type", "p-type", "Intrinsic type", "Insulating type"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What mainly distinguishes p-type semiconductors?", options: ["Holes are majority carriers", "Electrons absent entirely", "No conductivity exists", "Band gap disappears"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why is Hall effect important electronically?", options: ["Measures carrier properties accurately", "Eliminates magnetic fields", "Avoids semiconductors", "Reduces conductivity"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Which quantity affects Hall voltage magnitude?", options: ["Magnetic field strength", "Light wavelength", "Pressure only", "Crystal color"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What mainly distinguishes p-type semiconductors?", options: ["Holes are majority charge carriers and current", "Electrons are majority charge carriers and current", "Ions are majority charge carriers and current", "Atoms are majority charge carriers and current"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Why is Hall effect important electronically?", options: ["Measures carrier properties and concentrations", "Measures material properties and characteristics", "Measures device properties and performances", "Measures system properties and functionalities"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Which quantity affects Hall voltage magnitude?", options: ["Magnetic field strength and orientation", "Electric field strength and orientation", "Thermal gradient and temperature difference", "Quantum fluctuation and particle interaction"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes intrinsic semiconductors?", options: ["Pure semiconductor material", "Contain only holes", "Contain only electrons", "No band structure"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Which device fundamentally relies on semiconductor junctions?", options: ["Transistor", "Pulley", "Hydraulic piston", "Flywheel"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What mainly determines semiconductor conductivity?", options: ["Carrier concentration and mobility", "Pressure and density", "Color and shape", "Temperature only"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why are semiconductor studies crucial engineeringly?", options: ["Foundation of modern electronics", "Eliminate electromagnetism", "Avoid quantum theory", "Reduce conductivity"], answer: 0, difficulty: 1900, timeLimit: 20 }
+{ prompt: "What mainly determines semiconductor conductivity?", options: ["Carrier concentration and mobility values", "Dopant concentration and impurity levels", "Lattice structure and crystal defects", "Thermal energy and vibrational modes"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Why are semiconductor studies crucial engineeringly?", options: ["Foundation of modern electronics and devices", "Foundation of modern mechanics and machines", "Foundation of modern thermodynamics and systems", "Foundation of modern electromagnetism and fields"], answer: 0, difficulty: 1900, timeLimit: 20 }
 
 ],
   "Environmental Studies": [
@@ -2520,7 +2520,7 @@ const QUESTIONS = {
 { prompt: "Which activity mainly conserves water?", options: ["Rainwater harvesting", "Deforestation", "Plastic burning", "Mining"], answer: 0, difficulty: 1000, timeLimit: 20 },
 { prompt: "What is the primary source of Earth's energy?", options: ["Moon", "Sun", "Volcanoes", "Oceans"], answer: 1, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which pollution mainly affects hearing?", options: ["Noise pollution", "Water pollution", "Soil pollution", "Thermal pollution"], answer: 0, difficulty: 1000, timeLimit: 20 },
-{ prompt: "Why are forests environmentally important?", options: ["Absorb carbon dioxide", "Increase pollution", "Reduce oxygen", "Create plastics"], answer: 0, difficulty: 1000, timeLimit: 20 },
+{ prompt: "Why are forests environmentally important?", options: ["Absorb carbon dioxide and produce oxygen", "Absorb carbon monoxide and produce nitrogen", "Absorb nitrogen dioxide and produce carbon", "Absorb oxygen and produce carbon dioxide"], answer: 0, difficulty: 1000, timeLimit: 20 },
 { prompt: "What mainly causes global warming?", options: ["Greenhouse-gas increase", "Moonlight reflection", "Earthquakes", "Ocean tides"], answer: 0, difficulty: 1000, timeLimit: 20 },
 
 // 1100 ELO — atmosphere and ozone
@@ -2530,19 +2530,19 @@ const QUESTIONS = {
 { prompt: "Which radiation is absorbed by ozone layer?", options: ["Infrared radiation", "Ultraviolet radiation", "Radio waves", "Microwaves"], answer: 1, difficulty: 1100, timeLimit: 20 },
 { prompt: "What fundamentally causes ozone depletion?", options: ["CFC emissions", "Wind currents", "Nitrogen fixation", "Ocean salinity"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which gas mainly forms ozone chemically?", options: ["Oxygen", "Nitrogen", "Hydrogen", "Methane"], answer: 0, difficulty: 1100, timeLimit: 20 },
-{ prompt: "Why is ozone layer environmentally critical?", options: ["Blocks harmful UV rays", "Creates rainfall", "Produces oxygen only", "Controls tides"], answer: 0, difficulty: 1100, timeLimit: 20 },
-{ prompt: "What mainly distinguishes greenhouse effect?", options: ["Heat trapped in atmosphere", "Complete sunlight reflection", "Oxygen depletion", "Acid neutralization"], answer: 0, difficulty: 1100, timeLimit: 20 },
-{ prompt: "Which atmospheric gas contributes most naturally?", options: ["Water vapor", "Helium", "Argon", "Neon"], answer: 0, difficulty: 1100, timeLimit: 20 },
+{ prompt: "Why is ozone layer environmentally critical?", options: ["Blocks harmful ultraviolet and infrared rays", "Blocks harmful X-ray and gamma radiation", "Blocks harmful microwave and radio waves", "Blocks harmful cosmic and solar particles"], answer: 0, difficulty: 1100, timeLimit: 20 },
+{ prompt: "What mainly distinguishes greenhouse effect?", options: ["Heat trapped in atmosphere", "Energy reflected from surfaces", "Moisture condensed in clouds", "Gases emitted by humans"], answer: 0, difficulty: 1100, timeLimit: 20 },
+{ prompt: "Which atmospheric gas contributes most naturally?", options: ["Water vapor", "Carbon dioxide", "Nitrogen gas", "Oxygen levels"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes climate from weather?", options: ["Long-term atmospheric pattern", "Daily temperature only", "Rainfall intensity", "Wind direction"], answer: 0, difficulty: 1100, timeLimit: 20 },
-{ prompt: "Why are atmospheric studies important environmentally?", options: ["Understand climate behavior", "Reduce gravity", "Increase sunlight", "Eliminate rainfall"], answer: 0, difficulty: 1100, timeLimit: 20 },
+{ prompt: "Why are atmospheric studies important environmentally?", options: ["Understand climate behavior", "Predict weather patterns", "Analyze geological processes", "Model ecosystem interactions"], answer: 0, difficulty: 1100, timeLimit: 20 },
 
 // 1200 ELO — sustainability and conservation
 
 { prompt: "What does sustainable development mean?", options: ["Ignore environment", "Meet present needs responsibly", "Stop industrial growth", "Use all resources quickly"], answer: 1, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes renewable resources?", options: ["Naturally replenished resources", "Never consumed", "Always metallic", "Artificially created"], answer: 0, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes renewable resources?", options: ["Naturally replenished resources", "Sustainably managed resources", "Environmentally friendly resources", "Economically viable resources"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which practice supports sustainable agriculture?", options: ["Crop rotation", "Overgrazing", "Deforestation", "Excessive pesticide use"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Why is recycling environmentally beneficial?", options: ["Reduces waste and resource use", "Increases pollution", "Consumes more energy always", "Destroys ecosystems"], answer: 0, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What mainly distinguishes conservation?", options: ["Protection of natural resources", "Resource overuse", "Urban expansion", "Industrial combustion"], answer: 0, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What mainly distinguishes conservation?", options: ["Protection of natural resources", "Preservation of ecosystem services", "The Conservation of biodiversity", "Management of environmental impacts"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which energy source is considered cleanest?", options: ["Coal power", "Solar power", "Diesel combustion", "Petroleum refining"], answer: 1, difficulty: 1200, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes afforestation?", options: ["Planting trees in barren land", "Removing forest cover", "Mining operations", "Building dams"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which action mainly reduces carbon emissions?", options: ["Using public transport", "Burning plastics", "Increasing coal use", "Deforestation"], answer: 0, difficulty: 1200, timeLimit: 20 },
@@ -2552,93 +2552,93 @@ const QUESTIONS = {
 // 1300 ELO — eutrophication and water pollution
 
 { prompt: "What describes nutrient enrichment causing algal blooms?", options: ["Acidification", "Eutrophication", "Salinization", "Desalination"], answer: 1, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What fundamentally causes eutrophication mostly?", options: ["Excess fertilizers in water", "Low sunlight", "High wind speed", "Earthquakes"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What fundamentally causes eutrophication mostly?", options: ["Excess fertilizers in water", "The Imbalanced nutrient cycles", "The Inadequate wastewater treatment", "Insufficient aquatic plant growth"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which effect commonly follows algal bloom decay?", options: ["Oxygen depletion", "Increased biodiversity", "Lower nutrient levels", "Reduced bacteria"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "What mainly distinguishes potable water?", options: ["Safe for drinking", "Highly acidic", "Contains heavy metals", "No dissolved gases"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which pollutant mainly causes acid rain?", options: ["Sulfur dioxide", "Oxygen", "Helium", "Hydrogen"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Why are wastewater-treatment plants important?", options: ["Reduce environmental contamination", "Increase nutrient loading", "Raise water salinity", "Eliminate oxygen"], answer: 0, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes point-source pollution?", options: ["Comes from identifiable source", "Spread naturally everywhere", "Always radioactive", "Occurs underground only"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes point-source pollution?", options: ["Comes from identifiable source", "Results from human activities", "The Affects environmental quality", "The Impacts ecosystem health"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which indicator commonly measures water acidity?", options: ["pH value", "Humidity", "Altitude", "Pressure"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "What mainly determines aquatic ecosystem health?", options: ["Dissolved oxygen level", "Concrete density", "Wind pressure", "Soil texture"], answer: 0, difficulty: 1300, timeLimit: 20 },
-{ prompt: "Why are rivers vulnerable to pollution?", options: ["Receive industrial and urban waste", "Contain no organisms", "Prevent chemical reactions", "Eliminate nutrients"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "Why are rivers vulnerable to pollution?", options: ["Receive industrial and urban waste", "Support diverse aquatic life forms", "Regulate water flow and quality", "The Influence surrounding land uses"], answer: 0, difficulty: 1300, timeLimit: 20 },
 
 // 1400 ELO — carbon footprint and climate change
 
 { prompt: "What is a carbon footprint?", options: ["Dinosaur footprint", "Greenhouse-gas emissions amount", "Carbon inside body", "Tree plantation count"], answer: 1, difficulty: 1400, timeLimit: 20 },
 { prompt: "What fundamentally increases carbon footprint most?", options: ["Fossil-fuel consumption", "Tree growth", "Recycling programs", "Solar installations"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which activity lowers personal carbon footprint?", options: ["Energy-efficient appliance use", "Plastic burning", "Frequent coal usage", "Deforestation"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What mainly distinguishes fossil fuels?", options: ["Formed from ancient organic matter", "Renew instantly", "Contain no carbon", "Absorb all pollution"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What mainly distinguishes fossil fuels?", options: ["Formed from ancient organic matter", "The Extracted using advanced technologies", "Processed into various energy forms", "The Transported through global networks"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Why are glaciers environmentally important indicators?", options: ["Reflect climate-change trends", "Increase ozone formation", "Reduce rainfall", "Store fossil fuels"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which greenhouse gas has highest atmospheric concentration?", options: ["Carbon dioxide", "Methane", "Nitrous oxide", "Ozone"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes mitigation strategies?", options: ["Reduce climate-change causes", "Adapt to consequences only", "Increase emissions", "Ignore ecosystems"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "Which natural system absorbs large carbon amounts?", options: ["Forests and oceans", "Deserts only", "Mountain rocks", "Urban highways"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "Which natural system absorbs large carbon amounts?", options: ["Natural ecosystems absorb large carbon amounts", "Artificial systems absorb large carbon amounts", "Terrestrial rocks absorb large carbon amounts", "Atmospheric gases absorb large carbon amounts"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "What mainly determines global-temperature rise?", options: ["Greenhouse-gas concentration", "Moon phases", "Earth rotation only", "Ocean color"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Why are climate agreements internationally important?", options: ["Coordinate emission reductions", "Increase fuel use", "Reduce biodiversity", "Promote deforestation"], answer: 0, difficulty: 1400, timeLimit: 20 },
 
 // 1500 ELO — Montreal Protocol and ozone protection
 
 { prompt: "Which treaty phased out ozone-depleting CFCs?", options: ["Kyoto protocol", "Paris agreement", "Montreal protocol", "Geneva convention"], answer: 2, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What fundamentally distinguished Montreal Protocol success?", options: ["Global cooperation on CFC reduction", "Increased fossil-fuel use", "Ocean cleanup only", "Forest expansion"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What fundamentally distinguished Montreal Protocol success?", options: ["Global cooperation on CFC reduction efforts", "The International competition on CFC production", "The National regulation on CFC emission", "The Local awareness on CFC effects"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which chemicals were mainly targeted internationally?", options: ["Chlorofluorocarbons", "Carbonates", "Hydrocarbons", "Proteins"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Why are CFCs environmentally harmful?", options: ["Destroy stratospheric ozone", "Increase oxygen", "Reduce UV radiation", "Purify atmosphere"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What mainly determines ozone-recovery progress?", options: ["Reduction in ozone-depleting substances", "Increased methane", "Ocean temperature only", "Volcanic eruptions"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What mainly determines ozone-recovery progress?", options: ["Reduction in ozone-depleting substance emissions", "Increase in ozone-depleting substance production", "Stabilization of ozone-depleting substance levels", "Fluctuation in ozone-depleting substance concentrations"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which technology replaced many older CFC systems?", options: ["Alternative refrigerants", "Coal burners", "Lead fuels", "Plastic incinerators"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes environmental protocols?", options: ["International environmental agreements", "Local construction laws", "Industrial patents", "Military treaties"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Why are refrigerants environmentally monitored?", options: ["Some damage ozone and climate", "Increase biodiversity", "Produce drinking water", "Reduce sunlight"], answer: 0, difficulty: 1500, timeLimit: 20 },
 { prompt: "Which environmental issue is directly linked to UV increase?", options: ["Ozone depletion", "Soil salinity", "Noise pollution", "Deforestation"], answer: 0, difficulty: 1500, timeLimit: 20 },
-{ prompt: "What mainly determines atmospheric ozone balance?", options: ["Formation and destruction reactions", "Ocean salinity", "Mountain height", "Soil acidity"], answer: 0, difficulty: 1500, timeLimit: 20 },
+{ prompt: "What mainly determines atmospheric ozone balance?", options: ["Formation and destruction chemical reactions occur", "Formation and destruction physical reactions occur", "Formation and destruction biological reactions occur", "Formation and destruction geological reactions occur"], answer: 0, difficulty: 1500, timeLimit: 20 },
 
 // 1600 ELO — biodiversity and endemic species
 
 { prompt: "What are species found only in one region called?", options: ["Invasive species", "Endemic species", "Endangered species", "Extinct species"], answer: 1, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes biodiversity?", options: ["Variety of living organisms", "Only plant population", "Only animal population", "Atmospheric diversity"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes biodiversity?", options: ["Variety of living organism populations exist", "Variety of non-living organism populations exist", "The Variety of ecosystem populations exist", "The Variety of species populations exist"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which ecosystem generally contains highest biodiversity?", options: ["Tropical rainforest", "Desert", "Tundra", "Polar ice"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Why are endemic species environmentally vulnerable?", options: ["Limited geographic distribution", "Excess reproduction", "No predators", "High migration ability"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "What mainly distinguishes invasive species?", options: ["Non-native harmful organisms", "Rare local organisms", "Protected species only", "Extinct organisms"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which activity threatens biodiversity most directly?", options: ["Habitat destruction", "Afforestation", "Wetland restoration", "Organic farming"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes endangered species?", options: ["High extinction risk", "Large population growth", "Global dominance", "Unlimited habitat"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "Why are food webs environmentally important?", options: ["Show ecosystem interdependence", "Increase pollution", "Reduce nutrients", "Eliminate competition"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "Why are food webs environmentally important?", options: ["Show ecosystem interdependence and complexity", "Show ecosystem independence and simplicity", "Show ecosystem interdependence and fragility", "Show ecosystem independence and resilience"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which organization globally assesses extinction risk?", options: ["IUCN", "NASA", "UNESCO", "WHO"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "What mainly determines ecosystem stability?", options: ["Healthy biodiversity levels", "Single-species dominance", "Low nutrient flow", "Minimal sunlight"], answer: 0, difficulty: 1600, timeLimit: 20 },
 
 // 1700 ELO — biomagnification and toxicology
 
-{ prompt: "What is biomagnification?", options: ["Bio-image enlargement", "Increasing toxin concentration", "Bacterial reproduction", "Organic decomposition"], answer: 1, difficulty: 1700, timeLimit: 20 },
-{ prompt: "What fundamentally causes biomagnification?", options: ["Toxins accumulate through food chains", "Plants absorb oxygen", "Animals lose nutrients", "Water evaporates"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "What is biomagnification?", options: ["Increasing toxin concentration through consumption", "Increasing toxin concentration through production", "Increasing toxin concentration through decomposition", "Increasing toxin concentration through transformation"], answer: 1, difficulty: 1700, timeLimit: 20 },
+{ prompt: "What fundamentally causes biomagnification?", options: ["Toxins accumulate through food chain consumption", "The Toxins accumulate through water absorption", "The Toxins accumulate through air inhalation", "The Toxins accumulate through soil ingestion"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which organisms usually contain highest toxin levels?", options: ["Top predators", "Primary producers", "Soil bacteria", "Aquatic algae"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Why are persistent pollutants environmentally dangerous?", options: ["Decompose very slowly", "Increase oxygen", "Reduce toxicity", "Prevent contamination"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Why are persistent pollutants environmentally dangerous?", options: ["Decompose very slowly over time periods", "Decompose very quickly over time periods", "The Decompose moderately over time periods", "The Decompose rapidly over time periods"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which pollutant historically caused severe biomagnification?", options: ["DDT pesticide", "Oxygen gas", "Nitrogen fertilizer", "Table salt"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "What mainly distinguishes bioaccumulation from biomagnification?", options: ["Accumulation within single organism", "Increase across trophic levels", "Atmospheric transport", "Water evaporation"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Why are heavy metals environmentally hazardous?", options: ["Toxic and persistent", "Increase soil fertility", "Decompose instantly", "Absorb UV radiation"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which ecosystem commonly suffers biomagnification strongly?", options: ["Aquatic ecosystems", "Mountain glaciers", "Desert dunes", "Volcanic rocks"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes trophic levels?", options: ["Positions in food chain", "Atmospheric layers", "Water-pH ranges", "Climate zones"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "What mainly determines toxic exposure risk?", options: ["Concentration and persistence", "Rainfall only", "Altitude only", "Magnetic field"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes trophic levels?", options: ["Positions in food chain hierarchies exist", "Positions in water cycle hierarchies exist", "Positions in nutrient cycle hierarchies exist", "Positions in energy cycle hierarchies exist"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "What mainly determines toxic exposure risk?", options: ["Concentration and persistence of toxins matter", "Concentration and mobility of toxins matter", "Concentration and reactivity of toxins matter", "Concentration and volatility of toxins matter"], answer: 0, difficulty: 1700, timeLimit: 20 },
 
 // 1800 ELO — BOD and advanced water quality
 
 { prompt: "What does BOD stand for?", options: ["Biological oxygen demand", "Basic ozone depletion", "Bacterial overpopulation degree", "Biochemical oxide dilution"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "What fundamentally does high BOD indicate?", options: ["High organic pollution", "Pure drinking water", "High salinity", "Low bacteria"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which organisms mainly consume dissolved oxygen?", options: ["Aerobic microorganisms", "Minerals", "Sunlight particles", "Nitrogen gases"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why is dissolved oxygen environmentally critical?", options: ["Supports aquatic life", "Increases salinity", "Prevents rainfall", "Eliminates nutrients"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What mainly distinguishes COD from BOD?", options: ["Measures chemical oxidation demand", "Measures biodiversity", "Measures air quality", "Measures pH only"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why is dissolved oxygen environmentally critical?", options: ["Supports aquatic life and ecosystem health", "Supports terrestrial life and ecosystem health", "Supports atmospheric life and ecosystem health", "Supports microbial life and ecosystem health"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What mainly distinguishes COD from BOD?", options: ["Measures chemical oxidation demand accurately", "Measures chemical reduction demand accurately", "Measures biological oxidation demand accurately", "Measures biological reduction demand accurately"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which waste source commonly raises BOD sharply?", options: ["Untreated sewage", "Solar panels", "Wind turbines", "Glass recycling"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes aerobic decomposition?", options: ["Occurs in oxygen presence", "Requires no bacteria", "Produces no energy", "Needs extreme heat"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why are BOD tests important environmentally?", options: ["Assess wastewater pollution level", "Measure atmospheric pressure", "Detect earthquakes", "Determine rainfall"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes aerobic decomposition?", options: ["Occurs in oxygen presence and abundance", "Occurs in oxygen absence and scarcity", "Occurs in oxygen presence and limitation", "Occurs in oxygen absence and excess"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why are BOD tests important environmentally?", options: ["Assess wastewater pollution levels", "Measure atmospheric pressure values", "Detect earthquake seismic activity", "Determine rainfall precipitation rates"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which parameter mainly reflects water cleanliness?", options: ["Low BOD value", "High turbidity", "High toxin level", "Low oxygen"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What mainly determines aquatic oxygen depletion?", options: ["Microbial decomposition activity", "Moon phases", "Mountain height", "Soil density"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What mainly determines aquatic oxygen depletion?", options: ["Microbial decomposition activity rates", "Moon phase gravitational influences", "Mountain height geographical features", "Soil density composition properties"], answer: 0, difficulty: 1800, timeLimit: 20 },
 
 // 1900 ELO — carbon pricing and environmental economics
 
-{ prompt: "Which concept assigns financial cost to carbon emissions?", options: ["Carbon dating", "Carbon pricing or tax", "Carbon sequestration", "Carbon copying"], answer: 1, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes carbon taxes?", options: ["Charge based on emissions", "Subsidize pollution", "Ban all industries", "Eliminate renewable energy"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Which concept assigns financial cost to carbon emissions?", options: ["The Carbon dating archaeological methods", "Carbon pricing or taxation policies", "The Carbon sequestration natural processes", "The Carbon copying document techniques"], answer: 1, difficulty: 1900, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes carbon taxes?", options: ["Charge based on emissions quantities", "The Subsidize pollution reduction efforts", "Ban all industrial production activities", "Eliminate renewable energy sources completely"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Why is carbon pricing environmentally important?", options: ["Encourages lower emissions", "Increases fossil-fuel use", "Reduces renewable adoption", "Eliminates climate policies"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "Which mechanism limits total allowable emissions?", options: ["Cap-and-trade system", "Deforestation policy", "Water harvesting", "Biomagnification"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What mainly determines effectiveness of emission trading?", options: ["Strict emission caps", "Higher ozone depletion", "Reduced biodiversity", "Increased coal reserves"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes carbon sequestration?", options: ["Long-term carbon storage", "Carbon taxation only", "Emission acceleration", "Ozone production"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Which ecosystem naturally sequesters major carbon amounts?", options: ["Forests and wetlands", "Urban highways", "Desert rocks", "Industrial zones"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "Why are environmental economics important globally?", options: ["Link sustainability and policy", "Increase pollution incentives", "Reduce ecosystem value", "Ignore climate impacts"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Which ecosystem naturally sequesters major carbon amounts?", options: ["Forests and wetlands ecosystems naturally", "Urban highways and city infrastructure", "Desert rocks and geological formations", "Industrial zones and manufacturing areas"], answer: 0, difficulty: 1900, timeLimit: 20 },
+{ prompt: "Why are environmental economics important globally?", options: ["Link sustainability and policy decisions", "Increase pollution incentives and rewards", "Reduce ecosystem value and services", "Ignore climate impacts and consequences"], answer: 0, difficulty: 1900, timeLimit: 20 },
 { prompt: "What mainly determines climate-policy success?", options: ["International cooperation and enforcement", "Single-country isolation", "Reduced scientific data", "Ignoring emissions"], answer: 0, difficulty: 1900, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes circular economy models?", options: ["Reuse and resource efficiency", "Unlimited waste generation", "Single-use production", "Continuous extraction"], answer: 0, difficulty: 1900, timeLimit: 20 }
+{ prompt: "What fundamentally distinguishes circular economy models?", options: ["Reuse and resource efficiency strategies", "Unlimited waste generation and disposal", "Single-use production and consumption patterns", "Continuous extraction and depletion methods"], answer: 0, difficulty: 1900, timeLimit: 20 }
 
 ],
   "Fundamentals of Electrical Engineering": [
@@ -2651,9 +2651,9 @@ const QUESTIONS = {
 { prompt: "Which device commonly supplies electrical energy?", options: ["Battery", "Resistor", "Capacitor", "Inductor"], answer: 0, difficulty: 1000, timeLimit: 20 },
 { prompt: "What is SI unit of electrical power?", options: ["Watt", "Tesla", "Henry", "Coulomb"], answer: 0, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which material conducts electricity best?", options: ["Rubber", "Copper", "Glass", "Plastic"], answer: 1, difficulty: 1000, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes conductors?", options: ["Allow easy electron flow", "Block all current", "Store magnetic energy", "Create insulation"], answer: 0, difficulty: 1000, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes conductors?", options: ["Allow easy electron flow and conduction", "Block all current and electron flow", "To Store magnetic energy and fields", "The Create insulation and electrical barriers"], answer: 0, difficulty: 1000, timeLimit: 20 },
 { prompt: "Which component mainly opposes current flow?", options: ["Resistor", "Battery", "Switch", "Fuse"], answer: 0, difficulty: 1000, timeLimit: 20 },
-{ prompt: "Why are insulators electrically useful?", options: ["Prevent unwanted current flow", "Increase conductivity", "Generate voltage", "Store charge"], answer: 0, difficulty: 1000, timeLimit: 20 },
+{ prompt: "Why are insulators electrically useful?", options: ["Prevent unwanted current flow and leakage", "To Increase conductivity and electron flow", "To Generate voltage and electric fields", "To Store charge and electrical energy"], answer: 0, difficulty: 1000, timeLimit: 20 },
 { prompt: "What mainly causes electric current in circuits?", options: ["Potential difference", "Magnetic pressure", "Mechanical force", "Heat energy"], answer: 0, difficulty: 1000, timeLimit: 20 },
 
 // 1100 ELO — Ohm's law and simple relationships
@@ -2664,10 +2664,10 @@ const QUESTIONS = {
 { prompt: "Which quantity is measured in coulombs?", options: ["Charge", "Current", "Resistance", "Power"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "What mainly determines resistance of wire?", options: ["Material and dimensions", "Voltage only", "Current only", "Frequency only"], answer: 0, difficulty: 1100, timeLimit: 20 },
 { prompt: "Which graph slope represents resistance?", options: ["V-I graph", "P-I graph", "Q-t graph", "f-t graph"], answer: 0, difficulty: 1100, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes direct current?", options: ["Flows one direction steadily", "Changes direction periodically", "Contains no electrons", "Requires magnetism"], answer: 0, difficulty: 1100, timeLimit: 20 },
-{ prompt: "Which factor increases conductor resistance?", options: ["Longer wire length", "Larger area", "Lower temperature", "Better conductivity"], answer: 0, difficulty: 1100, timeLimit: 20 },
-{ prompt: "Why are fuses electrically important?", options: ["Protect circuits from excess current", "Increase voltage", "Store energy", "Generate magnetism"], answer: 0, difficulty: 1100, timeLimit: 20 },
-{ prompt: "What mainly determines electric-current direction?", options: ["Potential difference polarity", "Wire thickness", "Material density", "Frequency"], answer: 0, difficulty: 1100, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes direct current?", options: ["Flows one direction steadily and constantly", "The Changes direction periodically and alternately", "Contains no electrons or charge carriers", "The Requires magnetism and magnetic fields"], answer: 0, difficulty: 1100, timeLimit: 20 },
+{ prompt: "Which factor increases conductor resistance?", options: ["Longer wire length and increased distance", "The Larger area and increased cross-section", "The Lower temperature and decreased conductivity", "Better conductivity and increased electron flow"], answer: 0, difficulty: 1100, timeLimit: 20 },
+{ prompt: "Why are fuses electrically important?", options: ["Protect circuits from excess current flow", "To Increase voltage and electric potential", "To Store energy and electrical charge", "To Generate magnetism and magnetic fields"], answer: 0, difficulty: 1100, timeLimit: 20 },
+{ prompt: "What mainly determines electric-current direction?", options: ["Electric potential difference polarity", "Electric conductor material properties", "Electric circuit configuration design", "Electric power source characteristics"], answer: 0, difficulty: 1100, timeLimit: 20 },
 
 // 1200 ELO — series and parallel circuits
 
@@ -2679,32 +2679,32 @@ const QUESTIONS = {
 { prompt: "What fundamentally distinguishes open circuits?", options: ["Current cannot flow", "Voltage becomes maximum", "Resistance becomes zero", "Power increases"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Which component stores electric charge?", options: ["Capacitor", "Resistor", "Inductor", "Transformer"], answer: 0, difficulty: 1200, timeLimit: 20 },
 { prompt: "Why are parallel household circuits preferred?", options: ["Devices operate independently", "Current remains same", "Voltage disappears", "Power reduces always"], answer: 0, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What mainly determines equivalent parallel resistance?", options: ["Reciprocal sum relation", "Direct addition", "Voltage multiplication", "Frequency division"], answer: 0, difficulty: 1200, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes short circuits?", options: ["Very low resistance path", "Infinite resistance path", "Zero voltage source", "No charge movement"], answer: 0, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What mainly determines equivalent parallel resistance?", options: ["Reciprocal sum of parallel resistances", "Direct sum of series resistances", "Product of resistance and voltage", "Ratio of voltage and current"], answer: 0, difficulty: 1200, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes short circuits?", options: ["Very low resistance electrical path", "Very high resistance electrical path", "The Zero voltage electrical source", "The Zero current electrical circuit"], answer: 0, difficulty: 1200, timeLimit: 20 },
 
 // 1300 ELO — transformers and magnetic basics
 
-{ prompt: "What is purpose of transformer?", options: ["Convert AC to DC", "Step AC voltage up or down", "Store charge", "Measure current"], answer: 1, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What is purpose of transformer?", options: ["Convert alternating current to direct", "Step alternating current voltage up", "Step alternating current voltage down", "Regulate direct current voltage levels"], answer: 1, difficulty: 1300, timeLimit: 20 },
 { prompt: "What fundamentally allows transformer operation?", options: ["Electromagnetic induction", "Electrostatic attraction", "Thermal expansion", "Chemical reaction"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Which type of current do transformers require?", options: ["Alternating current", "Direct current", "Static current", "Pulse current"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "What mainly determines transformer voltage ratio?", options: ["Turns ratio", "Core temperature", "Wire resistance", "Frequency alone"], answer: 0, difficulty: 1300, timeLimit: 20 },
-{ prompt: "Which component creates magnetic flux in transformer?", options: ["Primary winding", "Resistor", "Capacitor", "Fuse"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "Which component creates magnetic flux in transformer?", options: ["Primary electrical winding coil", "Secondary electrical winding coil", "Magnetic core material structure", "Electrical insulation material layer"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "Why are transformers important power-wise?", options: ["Enable efficient transmission", "Eliminate resistance", "Store electrical energy", "Reduce frequency"], answer: 0, difficulty: 1300, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes step-up transformers?", options: ["Increase output voltage", "Decrease current always", "Store magnetic energy", "Generate DC"], answer: 0, difficulty: 1300, timeLimit: 20 },
-{ prompt: "Which material commonly forms transformer core?", options: ["Soft iron", "Rubber", "Glass", "Plastic"], answer: 0, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What mainly determines transformer efficiency?", options: ["Core and copper losses", "Wire color", "Ambient pressure", "Humidity"], answer: 0, difficulty: 1300, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes electromagnetic induction?", options: ["Voltage induced by changing flux", "Static electric attraction", "Chemical electron release", "Thermal charge transfer"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "Which material commonly forms transformer core?", options: ["Soft iron magnetic core material", "The Ferrite magnetic core material", "Nickel iron magnetic core material", "The Copper magnetic core material"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What mainly determines transformer efficiency?", options: ["Core and copper electrical losses", "Wire and connection electrical losses", "Magnetic and electric field losses", "Thermal and vibration mechanical losses"], answer: 0, difficulty: 1300, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes electromagnetic induction?", options: ["Voltage induced by changing magnetic", "Current induced by changing electric", "Force induced by changing thermal", "Pressure induced by changing mechanical"], answer: 0, difficulty: 1300, timeLimit: 20 },
 
 // 1400 ELO — Kirchhoff laws and network analysis
 
 { prompt: "Kirchhoff's current law is based on conservation of:", options: ["Energy", "Mass", "Charge", "Momentum"], answer: 2, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What fundamentally states Kirchhoff's voltage law?", options: ["Loop voltages sum to zero", "Currents remain equal", "Power becomes constant", "Resistance disappears"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What fundamentally states Kirchhoff's voltage law?", options: ["Loop voltages sum to zero value", "Node currents sum to zero value", "Power dissipation sum to zero value", "Energy transfer sum to zero value"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which quantity enters and leaves electrical nodes?", options: ["Current", "Resistance", "Capacitance", "Inductance"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What mainly determines branch current division?", options: ["Branch resistance values", "Voltage frequency", "Wire color", "Core material"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "Why are Kirchhoff laws important electrically?", options: ["Analyze complex circuits", "Generate electricity", "Store energy", "Reduce voltage"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes nodes in circuits?", options: ["Points of electrical connection", "Voltage sources only", "Current generators", "Magnetic loops"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What mainly determines branch current division?", options: ["Branch resistance values ratio", "Branch inductance values ratio", "Branch capacitance values ratio", "Branch impedance values ratio"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "Why are Kirchhoff laws important electrically?", options: ["Analyze complex electrical circuits", "Design efficient electrical systems", "Optimize electrical energy transmission", "Improve electrical power distribution"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes nodes in circuits?", options: ["Points of electrical connection nodes", "Points of mechanical connection joints", "Points of thermal connection interfaces", "Points of magnetic connection fields"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which theorem allows separate source analysis?", options: ["Superposition theorem", "Thevenin theorem", "Norton theorem", "Maximum-power theorem"], answer: 0, difficulty: 1400, timeLimit: 20 },
-{ prompt: "What mainly determines voltage drop across resistor?", options: ["Current and resistance", "Frequency only", "Magnetic flux", "Charge density"], answer: 0, difficulty: 1400, timeLimit: 20 },
+{ prompt: "What mainly determines voltage drop across resistor?", options: ["Current and resistance product value", "Voltage and impedance ratio value", "Power and energy transfer value", "Force and pressure ratio value"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "Which quantity is conserved at electrical junctions?", options: ["Charge", "Resistance", "Capacitance", "Frequency"], answer: 0, difficulty: 1400, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes mesh analysis?", options: ["Uses loop equations systematically", "Uses magnetic circuits only", "Avoids voltages", "Requires DC elimination"], answer: 0, difficulty: 1400, timeLimit: 20 },
 
@@ -2724,7 +2724,7 @@ const QUESTIONS = {
 // 1600 ELO — capacitors and phase relationships
 
 { prompt: "In pure capacitive AC circuit, current:", options: ["In phase with voltage", "Leads voltage by 90°", "Lags voltage by 90°", "Opposes voltage fully"], answer: 1, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes capacitors?", options: ["Store energy in electric field", "Store magnetic flux", "Generate resistance", "Increase frequency"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes capacitors?", options: ["Store energy in electric field only", "To Store magnetic flux permanently always", "To Generate resistance in circuits only", "To Increase frequency of signals only"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which quantity opposes AC current in capacitors?", options: ["Capacitive reactance", "Resistance only", "Inductive flux", "Conductance"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "What mainly happens to capacitive reactance as frequency rises?", options: ["Decreases", "Increases", "Remains constant", "Becomes infinite"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Why do capacitors block steady DC?", options: ["No continuous charge flow", "Infinite voltage generation", "Magnetic opposition", "Zero electric field"], answer: 0, difficulty: 1600, timeLimit: 20 },
@@ -2732,7 +2732,7 @@ const QUESTIONS = {
 { prompt: "Which AC circuit has current lagging voltage?", options: ["Pure inductive circuit", "Pure capacitive circuit", "Pure resistive circuit", "Short circuit"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "What mainly determines capacitive reactance formula?", options: ["Frequency and capacitance", "Voltage and resistance", "Current and power", "Flux and torque"], answer: 0, difficulty: 1600, timeLimit: 20 },
 { prompt: "Which quantity describes AC phase difference?", options: ["Phase angle", "Resistance ratio", "Current density", "Power constant"], answer: 0, difficulty: 1600, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes purely resistive AC circuits?", options: ["Voltage and current in phase", "Current leads voltage", "Voltage leads current", "Power becomes reactive"], answer: 0, difficulty: 1600, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes purely resistive AC circuits?", options: ["Voltage and current in phase always", "Current leads voltage in circuits only", "Voltage leads current in systems only", "The Power becomes reactive always only"], answer: 0, difficulty: 1600, timeLimit: 20 },
 
 // 1700 ELO — Thevenin and network theorems
 
@@ -2740,25 +2740,25 @@ const QUESTIONS = {
 { prompt: "What fundamentally distinguishes Norton's theorem?", options: ["Equivalent current-source model", "Equivalent transformer model", "Equivalent capacitor model", "Equivalent AC waveform"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which quantity is found across open terminals in Thevenin analysis?", options: ["Thevenin voltage", "Load current", "Reactive power", "Magnetic flux"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "What mainly determines Thevenin resistance?", options: ["Equivalent resistance seen externally", "Load power only", "Frequency ratio", "Magnetic field"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "Why are network theorems important electrically?", options: ["Simplify circuit analysis greatly", "Increase voltage automatically", "Eliminate resistance", "Avoid calculations"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "Why are network theorems important electrically?", options: ["Simplify circuit analysis greatly always", "To Increase voltage automatically only", "Eliminate resistance in circuits only", "Avoid complex calculations always only"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "What fundamentally distinguishes source transformation?", options: ["Voltage-source/current-source equivalence", "Frequency conversion", "AC-to-DC conversion", "Energy storage"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which theorem studies effects of individual sources separately?", options: ["Superposition theorem", "Maximum-power theorem", "Millman theorem", "Reciprocity theorem"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "What mainly determines load current in Thevenin equivalent?", options: ["Equivalent voltage and resistance", "Core flux", "Frequency only", "Capacitance only"], answer: 0, difficulty: 1700, timeLimit: 20 },
 { prompt: "Which equivalent model uses parallel resistor configuration?", options: ["Norton equivalent", "Thevenin equivalent", "Mesh equivalent", "Bridge equivalent"], answer: 0, difficulty: 1700, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes linear circuits?", options: ["Output proportional to input", "No current exists", "Infinite resistance always", "Contain only AC"], answer: 0, difficulty: 1700, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes linear circuits?", options: ["Output proportional to input always occurs", "No current exists in circuits only", "Infinite resistance is present always only", "Contain only AC signals always only"], answer: 0, difficulty: 1700, timeLimit: 20 },
 
 // 1800 ELO — real/reactive power and power factor
 
 { prompt: "What is real power measured in?", options: ["Volts", "Volt-amperes", "VAR", "Watts"], answer: 3, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes reactive power?", options: ["Oscillates without net work", "Produces mechanical output", "Stores charge permanently", "Eliminates current"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Which quantity measures AC power efficiency?", options: ["Power factor", "Reactance", "Frequency", "Conductance"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes reactive power?", options: ["Oscillates without net work done always", "The Produces mechanical output only always", "The Stores charge permanently only always", "The Eliminates current in circuits only"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Which quantity measures AC power efficiency?", options: ["Power factor is measured always only", "The Reactance is calculated only always", "Frequency is very high always only", "The Conductance is measured only always"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "What mainly determines power factor numerically?", options: ["cos(phase angle)", "sin(frequency)", "Voltage ratio", "Resistance difference"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "Why is high power factor desirable?", options: ["Reduces transmission losses", "Increases reactance", "Eliminates voltage", "Reduces efficiency"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes apparent power?", options: ["Product of RMS voltage/current", "Purely resistive power", "Reactive energy storage", "DC heating effect"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "Why is high power factor desirable?", options: ["Reduces transmission losses always only", "Increases reactance in circuits only", "Eliminates voltage in systems only", "Reduces efficiency in systems only"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes apparent power?", options: ["Product of RMS voltage and current measured", "The Purely resistive power is calculated only", "The Reactive energy storage occurs always only", "DC heating effect is measured only always"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which unit measures reactive power?", options: ["VAR", "Watt", "Tesla", "Henry"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "What mainly improves lagging power factor?", options: ["Capacitor banks", "Additional inductors", "Higher resistance", "Lower voltage"], answer: 0, difficulty: 1800, timeLimit: 20 },
 { prompt: "Which load type commonly causes lagging power factor?", options: ["Inductive loads", "Resistive loads", "Capacitive loads", "Open circuits"], answer: 0, difficulty: 1800, timeLimit: 20 },
-{ prompt: "What fundamentally distinguishes unity power factor?", options: ["Voltage and current fully aligned", "Reactive power maximum", "Resistance infinite", "Current becomes zero"], answer: 0, difficulty: 1800, timeLimit: 20 },
+{ prompt: "What fundamentally distinguishes unity power factor?", options: ["Voltage and current fully aligned always", "Reactive power is maximum always only", "Resistance is infinite in circuits only", "Current becomes zero in systems only"], answer: 0, difficulty: 1800, timeLimit: 20 },
 
 // 1900 ELO — three-phase systems and advanced AC
 

@@ -505,7 +505,37 @@ app.get('/users/:id', requireAuth, async (req, res) => {
 });
 
 const SUBJECT_CATEGORIES = require('./subjects');
-const QUESTIONS = require('./questions');
+const RAW_QUESTIONS = require('./questions');
+
+// Filter out questions where the correct answer is a strict option character-length outlier.
+// This instantly and permanently neutralizes option-length guessing without modifying questions.js!
+const QUESTIONS = {};
+const CHARACTER_DIFF_THRESHOLD = 3; // Max character difference allowed for strictly longest/shortest correct answer
+
+for (const [subject, list] of Object.entries(RAW_QUESTIONS)) {
+  const filtered = list.filter(q => {
+    const charLengths = q.options.map(opt => opt.length);
+    const ansIdx = q.answer;
+    const ansLen = charLengths[ansIdx];
+    const otherLens = charLengths.filter((_, i) => i !== ansIdx);
+    const maxOther = Math.max(...otherLens);
+    const minOther = Math.min(...otherLens);
+    
+    // Filter out if correct answer is strictly the longest and stands out by more than the threshold
+    if (ansLen > maxOther && (ansLen - maxOther) > CHARACTER_DIFF_THRESHOLD) {
+      return false;
+    }
+    // Filter out if correct answer is strictly the shortest and stands out by more than the threshold
+    if (ansLen < minOther && (minOther - ansLen) > CHARACTER_DIFF_THRESHOLD) {
+      return false;
+    }
+    return true;
+  });
+
+  // Safeguard: If a niche category ends up with too few questions, fallback to the original list to maintain playability.
+  QUESTIONS[subject] = filtered.length >= 5 ? filtered : list;
+}
+
 const ALL_SUBJECTS = Object.values(SUBJECT_CATEGORIES).flat();
 const RANKED_SUBJECTS = ALL_SUBJECTS.filter(subject => QUESTIONS[subject]?.length);
 
