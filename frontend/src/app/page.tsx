@@ -624,7 +624,8 @@ export default function Home() {
   const [showFieldElosModal, setShowFieldElosModal] = useState(false);
   const [leaderboardSearch, setLeaderboardSearch] = useState("");
   const [previewAchievements, setPreviewAchievements] = useState(false);
-  const [leaderboardSort, setLeaderboardSort] = useState<"elo" | "level" | "wins" | "winRate">("elo");
+  const [leaderboardMode, setLeaderboardMode] = useState<"pvp" | "bots">("pvp");
+  const [leaderboardSort, setLeaderboardSort] = useState<"elo" | "level" | "wins" | "winRate" | "games">("elo");
   const [leaderboardPage, setLeaderboardPage] = useState(1);
   const [pageInput, setPageInput] = useState("1");
   const [matchesPage, setMatchesPage] = useState(1);
@@ -635,7 +636,15 @@ export default function Home() {
 
   useEffect(() => {
     setLeaderboardPage(1);
-  }, [leaderboardField, leaderboardSearch, leaderboardSort]);
+  }, [leaderboardField, leaderboardSearch, leaderboardSort, leaderboardMode]);
+
+  useEffect(() => {
+    if (leaderboardMode === "bots" && leaderboardSort === "elo") {
+      setLeaderboardSort("wins");
+    } else if (leaderboardMode === "pvp" && leaderboardSort === "games") {
+      setLeaderboardSort("elo");
+    }
+  }, [leaderboardMode]);
 
   // Social & Friends System States
   const [friends, setFriends] = useState<Friendship[]>([]);
@@ -720,23 +729,39 @@ export default function Home() {
   }, [account]);
 
   const displayLeaderboard = useMemo(() => {
+    const isBotMode = leaderboardMode === "bots";
     let filtered = leaderboard.map(entry => {
-      const isGlobal = leaderboardField === "all";
-      const fieldStats = entry.user.fieldStats?.[leaderboardField];
-      const displayWins = fieldStats?.wins || 0;
-      const displayLosses = fieldStats?.losses || 0;
-      const displayGames = displayWins + displayLosses;
-      const displayElo = isGlobal
-        ? entry.user.elo
-        : (entry.user.fieldElos?.[leaderboardField] ?? 1200);
+      if (isBotMode) {
+        const displayWins = entry.user.botWins || 0;
+        const displayLosses = entry.user.botLosses || 0;
+        const displayGames = entry.user.botGamesPlayed || 0;
+        return {
+          ...entry,
+          displayElo: 0,
+          displayWins,
+          displayLosses,
+          displayGames,
+          displayWinRate: displayGames > 0 ? displayWins / displayGames : 0,
+        };
+      } else {
+        const isGlobal = leaderboardField === "all";
+        const fieldStats = entry.user.fieldStats?.[leaderboardField];
+        const displayWins = fieldStats?.wins || 0;
+        const displayLosses = fieldStats?.losses || 0;
+        const displayGames = displayWins + displayLosses;
+        const displayElo = isGlobal
+          ? entry.user.elo
+          : (entry.user.fieldElos?.[leaderboardField] ?? 1200);
 
-      return {
-        ...entry,
-        displayElo,
-        displayWins,
-        displayLosses,
-        displayWinRate: displayGames > 0 ? displayWins / displayGames : 0,
-      };
+        return {
+          ...entry,
+          displayElo,
+          displayWins,
+          displayLosses,
+          displayGames,
+          displayWinRate: displayGames > 0 ? displayWins / displayGames : 0,
+        };
+      }
     });
 
     if (leaderboardSearch.trim()) {
@@ -747,16 +772,20 @@ export default function Home() {
     }
 
     filtered.sort((a, b) => {
-      switch (leaderboardSort) {
+      const activeSort = isBotMode && leaderboardSort === "elo" ? "wins" : leaderboardSort;
+      switch (activeSort) {
         case "elo":
           return b.displayElo - a.displayElo;
         case "level":
           return (b.user.level || 1) - (a.user.level || 1);
         case "wins":
           if (b.displayWins !== a.displayWins) return b.displayWins - a.displayWins;
-          return b.displayElo - a.displayElo;
+          return (b.user.level || 1) - (a.user.level || 1);
         case "winRate":
           if (b.displayWinRate !== a.displayWinRate) return b.displayWinRate - a.displayWinRate;
+          return b.displayWins - a.displayWins;
+        case "games":
+          if (b.displayGames !== a.displayGames) return b.displayGames - a.displayGames;
           return b.displayWins - a.displayWins;
         default:
           return b.displayElo - a.displayElo;
@@ -767,7 +796,7 @@ export default function Home() {
       ...entry,
       rank: idx + 1,
     }));
-  }, [leaderboard, leaderboardField, leaderboardSearch, leaderboardSort]);
+  }, [leaderboard, leaderboardField, leaderboardSearch, leaderboardSort, leaderboardMode]);
 
   const paginatedLeaderboard = useMemo(() => {
     const totalPages = Math.ceil(displayLeaderboard.length / 10) || 1;
@@ -785,36 +814,67 @@ export default function Home() {
 
   const myLeaderboardSnapshot = useMemo(() => {
     if (!account) return null;
+    const isBotMode = leaderboardMode === "bots";
 
-    const isGlobal = leaderboardField === "all";
-    const fieldStats = account.fieldStats?.[leaderboardField];
-    const displayWins = fieldStats?.wins || 0;
-    const displayLosses = fieldStats?.losses || 0;
-    const displayElo = isGlobal ? account.elo : (account.fieldElos?.[leaderboardField] ?? 1200);
-    const displayWinRate = displayWins + displayLosses > 0
-      ? Math.round((displayWins / (displayWins + displayLosses)) * 100)
-      : 0;
-    const entry = displayLeaderboard.find(row => row.user.id === account.id);
+    if (isBotMode) {
+      const displayWins = account.botWins || 0;
+      const displayLosses = account.botLosses || 0;
+      const displayGames = account.botGamesPlayed || 0;
+      const displayDraws = Math.max(0, displayGames - displayWins - displayLosses);
+      const displayWinRate = displayGames > 0 ? Math.round((displayWins / displayGames) * 100) : 0;
+      const entry = displayLeaderboard.find(row => row.user.id === account.id);
 
-    const primaryLabel =
-      leaderboardSort === "wins" ? "Wins"
-        : leaderboardSort === "winRate" ? "Win %"
-          : leaderboardSort === "level" ? "Level"
-            : isGlobal ? "Global Elo" : "Field Elo";
-    const primaryValue =
-      leaderboardSort === "wins" ? displayWins
-        : leaderboardSort === "winRate" ? `${displayWinRate}%`
-          : leaderboardSort === "level" ? (account.level || 1)
-            : displayElo;
+      const primaryLabel =
+        leaderboardSort === "wins" ? "Bot Wins"
+          : leaderboardSort === "winRate" ? "Bot Win %"
+            : leaderboardSort === "level" ? "Level"
+              : leaderboardSort === "games" ? "Bot Games"
+                : "Bot Wins";
+      const primaryValue =
+        leaderboardSort === "wins" ? displayWins
+          : leaderboardSort === "winRate" ? `${displayWinRate}%`
+            : leaderboardSort === "level" ? (account.level || 1)
+              : leaderboardSort === "games" ? displayGames
+                : displayWins;
 
-    return {
-      rank: entry?.rank ?? null,
-      ladderLabel: isGlobal ? "Global" : getFieldLabel(leaderboardField),
-      primaryLabel,
-      primaryValue,
-      record: `${displayWins}W / ${displayLosses}L`,
-    };
-  }, [account, displayLeaderboard, leaderboardField, leaderboardSort]);
+      return {
+        rank: entry?.rank ?? null,
+        ladderLabel: "Practice Bots",
+        primaryLabel,
+        primaryValue,
+        record: `Bot Record: ${displayWins}W / ${displayLosses}L / ${displayDraws}D`,
+      };
+    } else {
+      const isGlobal = leaderboardField === "all";
+      const fieldStats = account.fieldStats?.[leaderboardField];
+      const displayWins = fieldStats?.wins || 0;
+      const displayLosses = fieldStats?.losses || 0;
+      const displayElo = isGlobal ? account.elo : (account.fieldElos?.[leaderboardField] ?? 1200);
+      const displayWinRate = displayWins + displayLosses > 0
+        ? Math.round((displayWins / (displayWins + displayLosses)) * 100)
+        : 0;
+      const entry = displayLeaderboard.find(row => row.user.id === account.id);
+
+      const primaryLabel =
+        leaderboardSort === "wins" ? "Wins"
+          : leaderboardSort === "winRate" ? "Win %"
+            : leaderboardSort === "level" ? "Level"
+              : isGlobal ? "Global Elo" : "Field Elo";
+      const primaryValue =
+        leaderboardSort === "wins" ? displayWins
+          : leaderboardSort === "winRate" ? `${displayWinRate}%`
+            : leaderboardSort === "level" ? (account.level || 1)
+              : displayElo;
+
+      return {
+        rank: entry?.rank ?? null,
+        ladderLabel: isGlobal ? "Global" : getFieldLabel(leaderboardField),
+        primaryLabel,
+        primaryValue,
+        record: `${displayWins}W / ${displayLosses}L`,
+      };
+    }
+  }, [account, displayLeaderboard, leaderboardField, leaderboardSort, leaderboardMode]);
 
   const refreshFriendsList = useCallback(async (activeToken = token) => {
     if (!activeToken) return;
@@ -2940,6 +3000,7 @@ export default function Home() {
   }
 
   function renderLeaderboard() {
+    const isBotMode = leaderboardMode === "bots";
     return (
       <motion.section key="leaderboard" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -16 }} className="grid min-w-0 gap-4 lg:grid-cols-[1fr_0.85fr] lg:gap-6">
         <div className="glass-panel min-w-0 rounded-2xl p-3 sm:p-5">
@@ -2947,20 +3008,46 @@ export default function Home() {
             <div>
               <p className="text-xs font-black uppercase tracking-widest text-teal-300">Leaderboard</p>
               <h1 className="font-display text-2xl font-black uppercase tracking-normal text-glow-teal sm:text-3xl">
-                {leaderboardField === "all" ? "Global" : getFieldLabel(leaderboardField)}
+                {isBotMode ? "Bot Practice Arena" : (leaderboardField === "all" ? "Global" : getFieldLabel(leaderboardField))}
               </h1>
             </div>
             <div className="flex flex-wrap items-center gap-2">
-              <button
-                onClick={() => { playSound("select"); setShowFieldElosModal(true); }}
-                className="rounded-lg border border-amber-300/30 px-3.5 py-2 text-xs font-black uppercase tracking-widest text-amber-200 hover:bg-amber-300/10 transition duration-300"
-              >
-                Your Field Elos
-              </button>
+              {!isBotMode && (
+                <button
+                  onClick={() => { playSound("select"); setShowFieldElosModal(true); }}
+                  className="rounded-lg border border-amber-300/30 px-3.5 py-2 text-xs font-black uppercase tracking-widest text-amber-200 hover:bg-amber-300/10 transition duration-300"
+                >
+                  Your Field Elos
+                </button>
+              )}
               <button onClick={() => refreshPlayerMeta()} className="rounded-lg border border-teal-300/30 px-3.5 py-2 text-xs font-black uppercase tracking-widest text-teal-200 hover:bg-teal-300/10 transition duration-300">
                 {isMetaLoading ? "Syncing" : "Refresh"}
               </button>
             </div>
+          </div>
+
+          {/* Mode Switcher Tabs */}
+          <div className="mb-5 flex border-b border-white/[0.06] pb-2">
+            <button
+              onClick={() => { playSound("select"); setLeaderboardMode("pvp"); }}
+              className={`mr-6 pb-2 text-xs font-black uppercase tracking-widest transition duration-300 border-b-2 ${
+                leaderboardMode === "pvp"
+                  ? "border-teal-400 text-teal-300 font-black"
+                  : "border-transparent text-slate-400 hover:text-slate-200"
+              }`}
+            >
+              Ranked (PvP)
+            </button>
+            <button
+              onClick={() => { playSound("select"); setLeaderboardMode("bots"); }}
+              className={`pb-2 text-xs font-black uppercase tracking-widest transition duration-300 border-b-2 ${
+                leaderboardMode === "bots"
+                  ? "border-teal-400 text-teal-300 font-black"
+                  : "border-transparent text-slate-400 hover:text-slate-200"
+              }`}
+            >
+              Practice (vs Bots)
+            </button>
           </div>
 
           {myLeaderboardSnapshot && (
@@ -2996,15 +3083,17 @@ export default function Home() {
 
             {/* Sort Buttons */}
             <div className="flex flex-wrap gap-2">
-              <button
-                onClick={() => { playSound("select"); setLeaderboardSort("elo"); }}
-                className={`shrink-0 rounded-lg px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider border transition-all ${leaderboardSort === "elo"
-                  ? "bg-teal-400 text-slate-950 border-teal-400 font-black shadow-[0_0_12px_rgba(45,212,191,0.15)]"
-                  : "bg-slate-950/45 text-slate-400 border-white/[0.08] hover:text-white hover:border-teal-500/20"
-                  }`}
-              >
-                Elo
-              </button>
+              {!isBotMode && (
+                <button
+                  onClick={() => { playSound("select"); setLeaderboardSort("elo"); }}
+                  className={`shrink-0 rounded-lg px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider border transition-all ${leaderboardSort === "elo"
+                    ? "bg-teal-400 text-slate-950 border-teal-400 font-black shadow-[0_0_12px_rgba(45,212,191,0.15)]"
+                    : "bg-slate-950/45 text-slate-400 border-white/[0.08] hover:text-white hover:border-teal-500/20"
+                    }`}
+                >
+                  Elo
+                </button>
+              )}
               <button
                 onClick={() => { playSound("select"); setLeaderboardSort("level"); }}
                 className={`shrink-0 rounded-lg px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider border transition-all ${leaderboardSort === "level"
@@ -3021,7 +3110,7 @@ export default function Home() {
                   : "bg-slate-950/45 text-slate-400 border-white/[0.08] hover:text-white hover:border-teal-500/20"
                   }`}
               >
-                Wins
+                {isBotMode ? "Bot Wins" : "Wins"}
               </button>
               <button
                 onClick={() => { playSound("select"); setLeaderboardSort("winRate"); }}
@@ -3030,24 +3119,37 @@ export default function Home() {
                   : "bg-slate-950/45 text-slate-400 border-white/[0.08] hover:text-white hover:border-teal-500/20"
                   }`}
               >
-                Win Rate
+                {isBotMode ? "Bot Win Rate" : "Win Rate"}
               </button>
+              {isBotMode && (
+                <button
+                  onClick={() => { playSound("select"); setLeaderboardSort("games"); }}
+                  className={`shrink-0 rounded-lg px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider border transition-all ${leaderboardSort === "games"
+                    ? "bg-teal-400 text-slate-950 border-teal-400 font-black shadow-[0_0_12px_rgba(45,212,191,0.15)]"
+                    : "bg-slate-950/45 text-slate-400 border-white/[0.08] hover:text-white hover:border-teal-500/20"
+                    }`}
+                >
+                  Bot Games
+                </button>
+              )}
             </div>
 
-            <div className="-mx-1 flex gap-1.5 overflow-x-auto pb-1 scrollbar-thin sm:flex-wrap sm:overflow-visible">
-                {FIELDS.map(f => (
-                  <button
-                    key={f.id}
-                    onClick={() => { playSound("select"); setLeaderboardField(f.id); }}
-                    className={`shrink-0 whitespace-nowrap rounded-lg px-2.5 py-1.5 text-[10px] font-bold transition duration-300 border sm:px-3 sm:text-xs ${leaderboardField === f.id
-                      ? "bg-teal-400 text-slate-950 border-teal-400 font-black shadow-[0_0_12px_rgba(45,212,191,0.15)]"
-                      : "bg-slate-950/45 text-slate-400 border-white/[0.08] hover:text-white hover:border-teal-500/20"
-                      }`}
-                  >
-                    {f.name}
-                  </button>
-                ))}
-            </div>
+            {!isBotMode && (
+              <div className="-mx-1 flex gap-1.5 overflow-x-auto pb-1 scrollbar-thin sm:flex-wrap sm:overflow-visible">
+                  {FIELDS.map(f => (
+                    <button
+                      key={f.id}
+                      onClick={() => { playSound("select"); setLeaderboardField(f.id); }}
+                      className={`shrink-0 whitespace-nowrap rounded-lg px-2.5 py-1.5 text-[10px] font-bold transition duration-300 border sm:px-3 sm:text-xs ${leaderboardField === f.id
+                        ? "bg-teal-400 text-slate-950 border-teal-400 font-black shadow-[0_0_12px_rgba(45,212,191,0.15)]"
+                        : "bg-slate-950/45 text-slate-400 border-white/[0.08] hover:text-white hover:border-teal-500/20"
+                        }`}
+                    >
+                      {f.name}
+                    </button>
+                  ))}
+              </div>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -3077,16 +3179,29 @@ export default function Home() {
               const rankIcon = rank === 1 ? "🥇" : rank === 2 ? "🥈" : rank === 3 ? "🥉" : `#${rank}`;
               const rankColor = rank === 1 ? "text-amber-400" : rank === 2 ? "text-slate-300" : rank === 3 ? "text-amber-600" : "text-slate-400";
               const wrPercent = Math.round(entry.displayWinRate * 100);
-              const statLabel =
-                leaderboardSort === "wins" ? "Wins"
+              
+              const statLabel = isBotMode
+                ? (leaderboardSort === "wins" ? "Bot Wins"
+                  : leaderboardSort === "winRate" ? "Bot Win %"
+                    : leaderboardSort === "level" ? "Level"
+                      : leaderboardSort === "games" ? "Bot Games"
+                        : "Bot Wins")
+                : (leaderboardSort === "wins" ? "Wins"
                   : leaderboardSort === "winRate" ? "Win %"
                     : leaderboardSort === "level" ? "Level"
-                      : leaderboardField === "all" ? "Global Elo" : "Field Elo";
-              const statValue =
-                leaderboardSort === "wins" ? entry.displayWins
+                      : leaderboardField === "all" ? "Global Elo" : "Field Elo");
+
+              const statValue = isBotMode
+                ? (leaderboardSort === "wins" ? entry.displayWins
                   : leaderboardSort === "winRate" ? `${wrPercent}%`
                     : leaderboardSort === "level" ? (entry.user.level || 1)
-                      : entry.displayElo;
+                      : leaderboardSort === "games" ? entry.displayGames
+                        : entry.displayWins)
+                : (leaderboardSort === "wins" ? entry.displayWins
+                  : leaderboardSort === "winRate" ? `${wrPercent}%`
+                    : leaderboardSort === "level" ? (entry.user.level || 1)
+                      : entry.displayElo);
+
               return (
                 <motion.div
                   key={entry.user.id}
@@ -3110,7 +3225,15 @@ export default function Home() {
                         <span className="shrink-0 rounded border border-slate-700 bg-slate-800 px-1.5 py-0.5 text-[9px] font-mono font-black text-amber-300">Lvl {entry.user.level || 1}</span>
                       </div>
                       <p className="font-mono text-[9px] uppercase tracking-wider text-slate-400 sm:text-[10px]">
-                        {entry.displayWins}W / {entry.displayLosses}L · {wrPercent}% WR
+                        {isBotMode ? (
+                          <>
+                            {entry.displayWins}W / {entry.displayLosses}L / {Math.max(0, entry.displayGames - entry.displayWins - entry.displayLosses)}D · {entry.displayGames} Bot Games
+                          </>
+                        ) : (
+                          <>
+                            {entry.displayWins}W / {entry.displayLosses}L · {wrPercent}% WR
+                          </>
+                        )}
                       </p>
                     </div>
                   </div>
@@ -3122,7 +3245,9 @@ export default function Home() {
                 </motion.div>
               );
             }) : (
-              <div className="rounded-xl border border-white/[0.06] bg-slate-950/20 p-8 text-center text-slate-400">No ranked players yet.</div>
+              <div className="rounded-xl border border-white/[0.06] bg-slate-950/20 p-8 text-center text-slate-400">
+                {isBotMode ? "No practice sessions recorded yet." : "No ranked players yet."}
+              </div>
             )}
           </div>
           {displayLeaderboard.length > 10 && (
