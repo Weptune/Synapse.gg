@@ -604,34 +604,7 @@ app.get('/users/:id', requireAuth, async (req, res) => {
 const SUBJECT_CATEGORIES = require('./subjects');
 const RAW_QUESTIONS = require('./questions');
 
-// Filter out questions where the correct answer is a strict option character-length outlier.
-// This instantly and permanently neutralizes option-length guessing without modifying questions.js!
-const QUESTIONS = {};
-const CHARACTER_DIFF_THRESHOLD = 3; // Max character difference allowed for strictly longest/shortest correct answer
-
-for (const [subject, list] of Object.entries(RAW_QUESTIONS)) {
-  const filtered = list.filter(q => {
-    const charLengths = q.options.map(opt => opt.length);
-    const ansIdx = q.answer;
-    const ansLen = charLengths[ansIdx];
-    const otherLens = charLengths.filter((_, i) => i !== ansIdx);
-    const maxOther = Math.max(...otherLens);
-    const minOther = Math.min(...otherLens);
-    
-    // Filter out if correct answer is strictly the longest and stands out by more than the threshold
-    if (ansLen > maxOther && (ansLen - maxOther) > CHARACTER_DIFF_THRESHOLD) {
-      return false;
-    }
-    // Filter out if correct answer is strictly the shortest and stands out by more than the threshold
-    if (ansLen < minOther && (minOther - ansLen) > CHARACTER_DIFF_THRESHOLD) {
-      return false;
-    }
-    return true;
-  });
-
-  // Safeguard: If a niche category ends up with too few questions, fallback to the original list to maintain playability.
-  QUESTIONS[subject] = filtered.length >= 5 ? filtered : list;
-}
+const QUESTIONS = RAW_QUESTIONS;
 
 function seededRandom(seed) {
   return function() {
@@ -2023,15 +1996,23 @@ async function simulateTournamentScores(tournamentId) {
       if (!u) {
         const salt = crypto.randomBytes(16).toString('hex');
         const hash = crypto.randomBytes(32).toString('hex');
-        u = await storage.createUser(name, salt, hash);
-        await storage.updateUserWith(u.id, curr => ({
-          ...curr,
+        const botUser = {
+          id: crypto.randomUUID(),
+          username: name,
+          passwordSalt: salt,
+          passwordHash: hash,
           elo: 1300 + Math.floor(Math.random() * 500),
-          level: 10 + Math.floor(Math.random() * 15),
+          bestElo: 1300,
+          wins: 0,
+          losses: 0,
+          gamesPlayed: 0,
           avatarUrl: `https://api.dicebear.com/9.x/bottts/svg?seed=${name}`,
           bannerUrl: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1400&q=80',
-          bio: `Collegiate grandmaster bot participating in Synapse timed events.`
-        }));
+          bio: `Collegiate grandmaster bot participating in Synapse timed events.`,
+          fieldElos: {},
+          fieldStats: {}
+        };
+        u = await storage.createUser(botUser);
       }
       botIds.push(u.id);
     }
