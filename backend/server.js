@@ -80,6 +80,7 @@ const BOT_SPEED_BOT_ADVANTAGE_DIVISOR = 400;
 // Basic Game State
 let players = {};
 let queue = [];
+let tournamentQueue = [];
 let matches = {};
 const userSockets = new Map();
 const activeChallenges = new Map();
@@ -125,6 +126,8 @@ function publicUser(user) {
     fieldStats: user.fieldStats || {},
     xp: user.xp || 0,
     level: user.level || 1,
+    dailyStreak: user.dailyStreak || 0,
+    lastDailyChallengeAt: user.lastDailyChallengeAt || null,
     createdAt: user.createdAt
   };
 }
@@ -387,6 +390,99 @@ app.get('/me/matches', requireAuth, async (req, res) => {
   res.json({ matches });
 });
 
+app.get('/daily-challenge', requireAuth, async (req, res) => {
+  try {
+    const todayStr = new Date().toISOString().split('T')[0];
+    const questions = getDailyChallengeQuestions(todayStr);
+
+    const user = await storage.getUserById(req.user.id);
+    const alreadyPlayed = user.lastDailyChallengeAt === todayStr;
+
+    // Send the questions with answers stripped for security
+    const strippedQuestions = questions.map(q => ({
+      prompt: q.prompt,
+      options: q.options,
+      subject: q.subject,
+      timeLimit: q.timeLimit
+    }));
+
+    res.json({
+      date: todayStr,
+      alreadyPlayed,
+      streak: user.dailyStreak || 0,
+      questions: strippedQuestions
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/daily-challenge/attempt', requireAuth, async (req, res) => {
+  try {
+    const todayStr = new Date().toISOString().split('T')[0];
+    const user = await storage.getUserById(req.user.id);
+
+    const alreadyPlayed = user.lastDailyChallengeAt === todayStr;
+
+    let newStreak = user.dailyStreak || 0;
+    let xpAwarded = 0;
+
+    if (!alreadyPlayed) {
+      newStreak = await storage.updateDailyStreak(user.id, todayStr);
+      xpAwarded = 150;
+
+      await storage.updateUserWith(user.id, current => {
+        const nextXp = (current.xp || 0) + xpAwarded;
+        const nextLevel = Math.floor(nextXp / 500) + 1;
+        return {
+          ...current,
+          xp: nextXp,
+          level: nextLevel
+        };
+      });
+    }
+
+    res.json({
+      success: true,
+      streak: newStreak,
+      xpAwarded,
+      alreadyPlayed
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/tournaments/active', requireAuth, async (req, res) => {
+  try {
+    const tour = await storage.getOrCreateActiveTournament();
+    await storage.joinTournament(tour.id, req.user.id);
+
+    // Simulate other participant scores to make leaderboard competitive!
+    await simulateTournamentScores(tour.id);
+
+    const leaderboard = await storage.getTournamentLeaderboard(tour.id);
+    const userScore = await storage.getTournamentParticipant(tour.id, req.user.id);
+
+    res.json({
+      tournament: tour,
+      leaderboard,
+      userScore
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/me/tournament-history', requireAuth, async (req, res) => {
+  try {
+    const history = await storage.getTournamentHistory(req.user.id);
+    res.json({ history });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.get('/friends', requireAuth, async (req, res) => {
   try {
     const list = await storage.getFriendships(req.user.id);
@@ -498,7 +594,8 @@ app.get('/users/:id', requireAuth, async (req, res) => {
     const user = await storage.getUserById(req.params.id);
     if (!user) return res.status(404).json({ error: 'User not found.' });
     const matches = await storage.listRecentMatches(user.id, 10);
-    res.json({ user: publicUser(user), matches });
+    const tournamentHistory = await storage.getTournamentHistory(user.id);
+    res.json({ user: publicUser(user), matches, tournamentHistory });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -534,6 +631,70 @@ for (const [subject, list] of Object.entries(RAW_QUESTIONS)) {
 
   // Safeguard: If a niche category ends up with too few questions, fallback to the original list to maintain playability.
   QUESTIONS[subject] = filtered.length >= 5 ? filtered : list;
+}
+
+function seededRandom(seed) {
+  return function() {
+    let t = seed += 0x6D2B79F5;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  }
+}
+
+function hashString(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash |= 0;
+  }
+  return hash;
+}
+
+function getDailyChallengeQuestions(dateStr) {
+  const seed = hashString(dateStr);
+  const rnd = seededRandom(seed);
+
+  const disciplines = Object.keys(SUBJECT_CATEGORIES);
+  const selectedQuestions = [];
+
+  for (const discipline of disciplines) {
+    const subjects = SUBJECT_CATEGORIES[discipline] || [];
+    const validSubjects = subjects.filter(sub => QUESTIONS[sub] && QUESTIONS[sub].length > 0);
+    if (validSubjects.length > 0) {
+      // Pick a random subject in this discipline
+      const sub = validSubjects[Math.floor(rnd() * validSubjects.length)];
+      const list = QUESTIONS[sub];
+      const qIdx = Math.floor(rnd() * list.length);
+      const q = list[qIdx];
+      selectedQuestions.push({
+        prompt: q.prompt,
+        options: q.options,
+        answer: q.answer,
+        subject: sub,
+        timeLimit: q.timeLimit || 15
+      });
+    }
+  }
+
+  // Fallback: if we need 5 questions, pad with random questions from any subject
+  const allSubs = Object.values(SUBJECT_CATEGORIES).flat().filter(sub => QUESTIONS[sub] && QUESTIONS[sub].length > 0);
+  while (selectedQuestions.length < 5 && allSubs.length > 0) {
+    const sub = allSubs[Math.floor(rnd() * allSubs.length)];
+    const list = QUESTIONS[sub];
+    const qIdx = Math.floor(rnd() * list.length);
+    const q = list[qIdx];
+    selectedQuestions.push({
+      prompt: q.prompt,
+      options: q.options,
+      answer: q.answer,
+      subject: sub,
+      timeLimit: q.timeLimit || 15
+    });
+  }
+
+  return selectedQuestions.slice(0, 5);
 }
 
 const ALL_SUBJECTS = Object.values(SUBJECT_CATEGORIES).flat();
@@ -702,6 +863,7 @@ function emitToPlayer(player, event, payload) {
 
 function removeFromQueue(playerId) {
   queue = queue.filter(p => p.id !== playerId);
+  tournamentQueue = tournamentQueue.filter(p => p.id !== playerId);
 }
 
 function findRankedOpponent(player) {
@@ -815,6 +977,7 @@ function createMatch(p1, p2, domain = 'all') {
     selectedSubject: null,
     currentRound: 0,
     questions: [],
+    roundsHistory: [],
   };
 
   matches[matchId] = match;
@@ -1161,6 +1324,67 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('join_tournament_queue', async (data) => {
+    removeFromQueue(socket.id);
+    const player = await createPlayer(socket, data);
+    if (!player) {
+      socket.emit('auth_required');
+      return;
+    }
+
+    const activeTour = await storage.getOrCreateActiveTournament();
+    player.tournamentId = activeTour.id;
+    player.domain = activeTour.domain;
+
+    players[socket.id] = player;
+
+    // Symmetrically clear any other sockets with the exact same userId from tournamentQueue
+    tournamentQueue = tournamentQueue.filter(p => p.userId !== player.userId);
+
+    // Try to match with someone in the tournament queue
+    if (tournamentQueue.length > 0) {
+      const opponent = tournamentQueue.shift();
+      const match = createMatch(opponent, player, activeTour.domain);
+      match.tournamentId = activeTour.id;
+      emitMatchFound(match);
+      startDiscardTimer(match.id);
+    } else {
+      tournamentQueue.push(player);
+      socket.emit('waiting_in_queue');
+
+      // Auto bot matching fallback after 8 seconds of waiting
+      setTimeout(() => {
+        const idx = tournamentQueue.findIndex(p => p.id === socket.id);
+        if (idx !== -1) {
+          const [pl] = tournamentQueue.splice(idx, 1);
+
+          // Generate a bot matching the tournament theme
+          const botNames = ['AlphaZero', 'DeepBlue', 'Stockfish', 'LeelaZero', 'Watson'];
+          const botName = botNames[Math.floor(Math.random() * botNames.length)];
+          const bot = {
+            id: 'bot_' + Date.now(),
+            name: `${botName} (Bot)`,
+            username: 'bot',
+            elo: 1300 + Math.floor(Math.random() * 500),
+            avatarUrl: `https://api.dicebear.com/9.x/bottts/svg?seed=${botName}`,
+            bannerUrl: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1400&q=80',
+            hp: 100,
+            socketId: 'bot_socket',
+            isBot: true,
+            domain: pl.domain,
+            level: 10 + Math.floor(Math.random() * 15)
+          };
+          players[bot.id] = bot;
+
+          const match = createMatch(bot, pl, pl.domain);
+          match.tournamentId = activeTour.id;
+          emitMatchFound(match);
+          startDiscardTimer(match.id);
+        }
+      }, 8000);
+    }
+  });
+
   function handleAnswer(playerId, answerIndex) {
     const player = players[playerId];
     if (!player || !player.matchId) return;
@@ -1449,6 +1673,33 @@ function resolveRound(match) {
   match.p1.hp = Math.max(0, match.p1.hp - p1Damage);
   match.p2.hp = Math.max(0, match.p2.hp - p2Damage);
 
+  const p1Key = match.p1.isBot ? 'bot' : match.p1.userId;
+  const p2Key = match.p2.isBot ? 'bot' : match.p2.userId;
+
+  const roundLog = {
+    roundNumber: match.currentRound + 1,
+    subject: match.selectedSubject,
+    question: {
+      prompt: question.prompt,
+      options: question.options,
+      answer: question.answer
+    },
+    answers: {
+      [p1Key]: ans1 ? { answer: ans1.answer, timeTaken: ans1.timeTaken } : null,
+      [p2Key]: ans2 ? { answer: ans2.answer, timeTaken: ans2.timeTaken } : null
+    },
+    damageDealt: {
+      [p1Key]: p1Damage,
+      [p2Key]: p2Damage
+    },
+    hpData: {
+      [p1Key]: match.p1.hp,
+      [p2Key]: match.p2.hp
+    }
+  };
+  if (!match.roundsHistory) match.roundsHistory = [];
+  match.roundsHistory.push(roundLog);
+
   const resultPayload = {
     answers,
     correctAnswer: question.answer,
@@ -1678,22 +1929,36 @@ async function endMatch(match) {
     playerTwoDelta: match.p2.eloDelta || 0,
     rounds: match.currentRound + 1,
     finishedAt: new Date().toISOString(),
-    domain: match.domain || 'all'
+    domain: match.domain || 'all',
+    roundsHistory: match.roundsHistory || []
   });
+
+  if (match.tournamentId) {
+    if (!match.p1.isBot && match.p1.userId) {
+      const isP1Win = winner && winner.id === match.p1.id;
+      await storage.updateTournamentScore(match.tournamentId, match.p1.userId, isP1Win);
+    }
+    if (!match.p2.isBot && match.p2.userId) {
+      const isP2Win = winner && winner.id === match.p2.id;
+      await storage.updateTournamentScore(match.tournamentId, match.p2.userId, isP2Win);
+    }
+  }
 
   emitToPlayer(match.p1, 'match_end', {
     winner: winner ? winner.id : 'draw',
     elo: match.p1.elo,
     eloDelta: match.p1.eloDelta || 0,
     domain: match.domain || 'all',
-    reason: match.endReason
+    reason: match.endReason,
+    roundsHistory: match.roundsHistory || []
   });
   emitToPlayer(match.p2, 'match_end', {
     winner: winner ? winner.id : 'draw',
     elo: match.p2.elo,
     eloDelta: match.p2.eloDelta || 0,
     domain: match.domain || 'all',
-    reason: match.endReason
+    reason: match.endReason,
+    roundsHistory: match.roundsHistory || []
   });
 
   delete matches[match.id];
@@ -1745,6 +2010,45 @@ function checkDiscardPhase(match) {
         }
       }, 1500);
     }
+  }
+}
+
+async function simulateTournamentScores(tournamentId) {
+  try {
+    const botUsernames = ['AlphaZero', 'DeepBlue', 'Stockfish', 'LeelaZero', 'Watson'];
+    const botIds = [];
+
+    for (const name of botUsernames) {
+      let u = await storage.getUserByUsername(name);
+      if (!u) {
+        const salt = crypto.randomBytes(16).toString('hex');
+        const hash = crypto.randomBytes(32).toString('hex');
+        u = await storage.createUser(name, salt, hash);
+        await storage.updateUserWith(u.id, curr => ({
+          ...curr,
+          elo: 1300 + Math.floor(Math.random() * 500),
+          level: 10 + Math.floor(Math.random() * 15),
+          avatarUrl: `https://api.dicebear.com/9.x/bottts/svg?seed=${name}`,
+          bannerUrl: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1400&q=80',
+          bio: `Collegiate grandmaster bot participating in Synapse timed events.`
+        }));
+      }
+      botIds.push(u.id);
+    }
+
+    for (const bid of botIds) {
+      await storage.joinTournament(tournamentId, bid);
+    }
+
+    // Give a 30% chance for bot scores to change, representing live active matches
+    for (const bid of botIds) {
+      if (Math.random() > 0.7) {
+        const isWin = Math.random() > 0.45;
+        await storage.updateTournamentScore(tournamentId, bid, isWin);
+      }
+    }
+  } catch (err) {
+    console.error("Failed to simulate tournament scores:", err);
   }
 }
 

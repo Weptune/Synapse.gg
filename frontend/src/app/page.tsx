@@ -30,7 +30,9 @@ import {
   Calendar,
   Bot,
   Scale,
-  GraduationCap
+  GraduationCap,
+  History,
+  Info
 } from "lucide-react";
 
 const getFontSize = (text: string) => {
@@ -64,6 +66,8 @@ type Account = {
   createdAt: string;
   level?: number;
   xp?: number;
+  dailyStreak?: number;
+  lastDailyChallengeAt?: string | null;
 };
 
 type Friendship = {
@@ -275,6 +279,7 @@ type IncomingChallenge = {
 };
 
 type MatchData = {
+  id?: string;
   draftTurn?: string;
   currentRound?: number;
   domain?: string;
@@ -302,6 +307,7 @@ type WinnerInfo = {
   eloDelta: number;
   domain?: string;
   reason?: string;
+  roundsHistory?: any[];
 };
 
 type FighterProfile = {
@@ -342,6 +348,39 @@ type MatchRecord = {
   finished_at?: string;
   finishedAt?: string;
   domain?: string;
+  roundsHistory?: any[];
+};
+
+type Tournament = {
+  id: string;
+  name: string;
+  domain: string;
+  starts_at: string;
+  ends_at: string;
+  status: string;
+};
+
+type TournamentParticipant = {
+  tournament_id: string;
+  user_id: string;
+  wins: number;
+  losses: number;
+  points: number;
+  username: string;
+  avatar_url: string;
+  level: number;
+  elo: number;
+};
+
+type TournamentHistoryEntry = {
+  id: string;
+  tournament_name: string;
+  wins: number;
+  losses: number;
+  points: number;
+  placed: number;
+  total_participants: number;
+  finished_at: string;
 };
 
 const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:3001";
@@ -657,7 +696,57 @@ export default function Home() {
   const [challengeStatus, setChallengeStatus] = useState<string | null>(null);
   const [viewingUser, setViewingUser] = useState<Account | null>(null);
   const [viewingUserMatches, setViewingUserMatches] = useState<MatchRecord[]>([]);
+  const [viewingUserTournamentHistory, setViewingUserTournamentHistory] = useState<TournamentHistoryEntry[]>([]);
+  const [selectedReplayMatch, setSelectedReplayMatch] = useState<MatchRecord | null>(null);
+  const [expandedRound, setExpandedRound] = useState<number | null>(null);
   const [isViewingUserLoading, setIsViewingUserLoading] = useState(false);
+
+  // Daily Challenge & Tournament States
+  const [dailyQuestions, setDailyQuestions] = useState<any[]>([]);
+  const [dailyStreak, setDailyStreak] = useState<number>(0);
+  const [alreadyPlayedDaily, setAlreadyPlayedDaily] = useState<boolean>(false);
+
+  const [activeTournament, setActiveTournament] = useState<Tournament | null>(null);
+  const [tournamentLeaderboard, setTournamentLeaderboard] = useState<TournamentParticipant[]>([]);
+  const [myTournamentScore, setMyTournamentScore] = useState<{ wins: number; losses: number; points: number } | null>(null);
+  const [tournamentHistory, setTournamentHistory] = useState<TournamentHistoryEntry[]>([]);
+  const [isTournamentMatchmaking, setIsTournamentMatchmaking] = useState<boolean>(false);
+  const [tournamentTimeLeftStr, setTournamentTimeLeftStr] = useState<string>("");
+  const [showTournamentLeaderboardModal, setShowTournamentLeaderboardModal] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!activeTournament) return;
+    const updateTimer = () => {
+      const end = new Date(activeTournament.ends_at).getTime();
+      const now = Date.now();
+      const diff = end - now;
+      if (diff <= 0) {
+        setTournamentTimeLeftStr("Tournament Ended");
+        return;
+      }
+      const h = Math.floor(diff / (1000 * 60 * 60));
+      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((diff % (1000 * 60)) / 1000);
+      setTournamentTimeLeftStr(`${h}h ${m}m ${s}s remaining`);
+    };
+    updateTimer();
+    const interval = setInterval(updateTimer, 1000);
+    return () => clearInterval(interval);
+  }, [activeTournament]);
+
+  // Daily Challenge Gameplay States
+  const [isDailyChallengeActive, setIsDailyChallengeActive] = useState<boolean>(false);
+  const [dailyChallengeStatus, setDailyChallengeStatus] = useState<"intro" | "playing" | "summary">("intro");
+  const [dailyChallengeIndex, setDailyChallengeIndex] = useState<number>(0);
+  const [dailyChallengeAnswers, setDailyChallengeAnswers] = useState<{ questionIndex: number; selectedIndex: number; correct: boolean; timeTaken: number }[]>([]);
+  const [dailyChallengeTimeLeft, setDailyChallengeTimeLeft] = useState<number>(15);
+  const [dailyChallengeSelectedOpt, setDailyChallengeSelectedOpt] = useState<number | null>(null);
+  const [dailyChallengeRevealed, setDailyChallengeRevealed] = useState<boolean>(false);
+  const [dailyChallengeStartTime, setDailyChallengeStartTime] = useState<number>(0);
+
+  useEffect(() => {
+    setExpandedRound(null);
+  }, [selectedReplayMatch]);
   const [challengeChosenField, setChallengeChosenField] = useState<string>("all");
   const [isChallenging, setIsChallenging] = useState(false);
   const [dmFriendId, setDmFriendId] = useState<string | null>(null);
@@ -922,10 +1011,13 @@ export default function Home() {
 
     setIsMetaLoading(true);
     try {
-      const [leaderboardData, matchData, meData] = await Promise.all([
+      const [leaderboardData, matchData, meData, dailyData, tournamentData, tourHistoryData] = await Promise.all([
         apiRequest<{ leaderboard: LeaderboardEntry[] }>("/leaderboard"),
         apiRequest<{ matches: MatchRecord[] }>("/me/matches", { headers: { Authorization: `Bearer ${activeToken}` } }),
         apiRequest<{ user: Account }>("/me", { headers: { Authorization: `Bearer ${activeToken}` } }),
+        apiRequest<{ date: string; alreadyPlayed: boolean; streak: number; questions: any[] }>("/daily-challenge", { headers: { Authorization: `Bearer ${activeToken}` } }),
+        apiRequest<{ tournament: Tournament; leaderboard: TournamentParticipant[]; userScore: any }>("/tournaments/active", { headers: { Authorization: `Bearer ${activeToken}` } }),
+        apiRequest<{ history: TournamentHistoryEntry[] }>("/me/tournament-history", { headers: { Authorization: `Bearer ${activeToken}` } }),
       ]);
       setLeaderboard(leaderboardData.leaderboard);
       setRecentMatches(matchData.matches);
@@ -940,9 +1032,18 @@ export default function Home() {
         level: meData.user.level || 1
       });
 
+      setDailyQuestions(dailyData.questions);
+      setDailyStreak(dailyData.streak);
+      setAlreadyPlayedDaily(dailyData.alreadyPlayed);
+
+      setActiveTournament(tournamentData.tournament);
+      setTournamentLeaderboard(tournamentData.leaderboard);
+      setMyTournamentScore(tournamentData.userScore);
+      setTournamentHistory(tourHistoryData.history);
+
       refreshFriendsList(activeToken);
-    } catch {
-      // Meta panels are non-critical; auth/profile errors are shown elsewhere.
+    } catch (err) {
+      console.error("Failed to load player meta:", err);
     } finally {
       setIsMetaLoading(false);
     }
@@ -960,11 +1061,12 @@ export default function Home() {
     playSound("select");
     setIsViewingUserLoading(true);
     try {
-      const data = await apiRequest<{ user: Account; matches: MatchRecord[] }>(`/users/${userId}`, {
+      const data = await apiRequest<{ user: Account; matches: MatchRecord[]; tournamentHistory?: TournamentHistoryEntry[] }>(`/users/${userId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setViewingUser(data.user);
       setViewingUserMatches(data.matches);
+      setViewingUserTournamentHistory(data.tournamentHistory || []);
     } catch (err) {
       console.error("Failed to load user profile:", err);
       setStatus(err instanceof Error ? err.message : "Failed to load profile.");
@@ -1146,6 +1248,7 @@ export default function Home() {
 
     activeSocket.on("match_found", data => {
       answerLockedRef.current = false;
+      setIsTournamentMatchmaking(false);
       setOpponent({
         ...data.opponent,
         id: data.opponent?.id ?? "",
@@ -1544,6 +1647,104 @@ export default function Home() {
     socketRef.current.emit(bot ? "join_bot_queue" : "join_queue", { authToken: token, domain });
   };
 
+  const joinTournamentQueue = () => {
+    if (!socketRef.current || !token || !account) {
+      setScreen("auth");
+      setStatus("Create an account or sign in before playing.");
+      playSound("error");
+      return;
+    }
+    playSound("queue");
+    setIsTournamentMatchmaking(true);
+    socketRef.current.emit("join_tournament_queue", { authToken: token });
+  };
+
+  // Daily Challenge Logic
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isDailyChallengeActive && dailyChallengeStatus === "playing" && !dailyChallengeRevealed) {
+      timer = setInterval(() => {
+        setDailyChallengeTimeLeft(prev => {
+          if (prev <= 1) {
+            handleDailyChallengeAnswer(-1);
+            return 15;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [isDailyChallengeActive, dailyChallengeStatus, dailyChallengeRevealed]);
+
+  const startDailyChallenge = async () => {
+    if (alreadyPlayedDaily || dailyQuestions.length === 0) return;
+    playSound("confirm");
+    setDailyChallengeAnswers([]);
+    setDailyChallengeIndex(0);
+    setDailyChallengeSelectedOpt(null);
+    setDailyChallengeRevealed(false);
+    setDailyChallengeStatus("playing");
+    setDailyChallengeTimeLeft(15);
+    setDailyChallengeStartTime(Date.now());
+    setIsDailyChallengeActive(true);
+
+    try {
+      const data = await apiRequest<{ success: boolean; streak: number; xpAwarded: number }>("/daily-challenge/attempt", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (data.success) {
+        setDailyStreak(data.streak);
+        setAlreadyPlayedDaily(true);
+        // Refresh account metadata (updates Level/XP)
+        apiRequest<{ user: Account }>("/me", { headers: { Authorization: `Bearer ${token}` } })
+          .then(res => setAccount(res.user))
+          .catch(() => {});
+      }
+    } catch (err) {
+      console.error("Failed to record daily challenge attempt:", err);
+    }
+  };
+
+  const handleDailyChallengeAnswer = (optIdx: number) => {
+    if (dailyChallengeRevealed) return;
+
+    const timeTaken = Date.now() - dailyChallengeStartTime;
+    const currentQuestion = dailyQuestions[dailyChallengeIndex];
+    const isCorrect = optIdx === currentQuestion.answer;
+
+    if (isCorrect) {
+      playSound("confirm");
+    } else {
+      playSound("damage");
+    }
+
+    setDailyChallengeSelectedOpt(optIdx);
+    setDailyChallengeRevealed(true);
+
+    setDailyChallengeAnswers(prev => [
+      ...prev,
+      {
+        questionIndex: dailyChallengeIndex,
+        selectedIndex: optIdx,
+        correct: isCorrect,
+        timeTaken
+      }
+    ]);
+
+    setTimeout(() => {
+      if (dailyChallengeIndex + 1 < dailyQuestions.length) {
+        setDailyChallengeIndex(prev => prev + 1);
+        setDailyChallengeSelectedOpt(null);
+        setDailyChallengeRevealed(false);
+        setDailyChallengeTimeLeft(15);
+        setDailyChallengeStartTime(Date.now());
+      } else {
+        setDailyChallengeStatus("summary");
+      }
+    }, 2000);
+  };
+
   const pickSubject = (subject: string) => {
     if (matchData?.draftTurn === socketId && !lockedSubject) {
       playSound("select");
@@ -1827,6 +2028,12 @@ export default function Home() {
                             <span className="rounded bg-gradient-to-r from-teal-400 to-emerald-400 border border-teal-300 px-1.5 py-0.5 text-[10px] font-mono font-black text-slate-950 shadow-[0_0_10px_rgba(45,212,191,0.2)]">
                               Lvl {viewingUser.level || 1}
                             </span>
+                            {viewingUser.dailyStreak ? (
+                              <span className="shrink-0 rounded border border-orange-500/30 bg-orange-950/50 px-1.5 py-0.5 text-[10px] font-mono font-black text-orange-405 flex items-center gap-1 shadow-[0_0_10px_rgba(249,115,22,0.2)] animate-pulse">
+                                <Flame size={11} fill="currentColor" />
+                                {viewingUser.dailyStreak}D STREAK
+                              </span>
+                            ) : null}
                           </div>
                           <p className="font-mono text-[10px] text-teal-400 mt-0.5">@{viewingUser.username}</p>
                           <div className="mt-2 w-full max-w-[200px]">
@@ -2083,7 +2290,14 @@ export default function Home() {
                               })();
 
                               return (
-                                <div key={m.id} className="flex items-center justify-between text-[10px] border-b border-white/5 pb-1.5 last:border-b-0 last:pb-0">
+                                <div
+                                  key={m.id}
+                                  onClick={() => {
+                                    playSound("select");
+                                    setSelectedReplayMatch(m);
+                                  }}
+                                  className="flex items-center justify-between text-[10px] border-b border-white/5 pb-1.5 last:border-b-0 last:pb-0 cursor-pointer hover:bg-white/5 px-1 py-0.5 rounded transition"
+                                >
                                   <div className="min-w-0 flex-1 pr-2">
                                     <span className={`font-black uppercase tracking-wider block text-[9px] ${isDraw ? "text-slate-400" : isWin ? "text-emerald-400" : "text-red-400"}`}>
                                       {isDraw ? "Draw" : isWin ? "Victory" : "Defeat"}
@@ -2110,6 +2324,65 @@ export default function Home() {
                       </div>
                     </div>
 
+                    {/* Event Trophy Case */}
+                    <div className="mt-4 rounded-xl border border-white/[0.08] bg-white/[0.03] p-4">
+                      <div className="flex items-center justify-between border-b border-white/[0.06] pb-2 mb-3">
+                        <h4 className="text-xs font-black uppercase tracking-widest text-slate-300 flex items-center gap-1.5">
+                          <Trophy size={14} className="text-purple-400" /> Event Trophy Case
+                        </h4>
+                        <span className="font-mono text-[9px] text-purple-300 uppercase tracking-widest bg-purple-500/10 border border-purple-500/20 px-1.5 py-0.2 rounded">
+                          {viewingUserTournamentHistory.length} Played
+                        </span>
+                      </div>
+                      
+                      {viewingUserTournamentHistory.length === 0 ? (
+                        <p className="text-[10px] text-slate-500 text-center py-4 font-mono">No tournament trophies earned yet.</p>
+                      ) : (
+                        <div className="grid gap-2.5 grid-cols-1 sm:grid-cols-2 max-h-[140px] overflow-y-auto pr-1">
+                          {viewingUserTournamentHistory.map((entry: TournamentHistoryEntry) => {
+                            const isGold = entry.placed === 1;
+                            const isSilver = entry.placed === 2 || entry.placed === 3;
+                            
+                            let gradient = "from-slate-800 to-slate-900 border-white/5";
+                            let cupColor = "text-slate-500";
+                            if (isGold) {
+                              gradient = "from-yellow-500/20 to-amber-500/10 border-yellow-500/30";
+                              cupColor = "text-yellow-400";
+                            } else if (isSilver) {
+                              gradient = "from-purple-500/20 to-pink-500/10 border-purple-500/30";
+                              cupColor = "text-purple-300";
+                            }
+
+                            return (
+                              <div key={entry.id} className={`rounded-lg border p-2.5 transition bg-gradient-to-br ${gradient} text-[10px]`}>
+                                <div className="flex items-center gap-2">
+                                  <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded bg-slate-950/50 border border-white/5 ${cupColor}`}>
+                                    <Trophy size={13} fill="currentColor" />
+                                  </div>
+                                  <div className="min-w-0 flex-1">
+                                    <div className="flex justify-between items-center">
+                                      <span className={`font-black uppercase tracking-wider ${cupColor}`}>
+                                        Rank #{entry.placed}
+                                      </span>
+                                      <span className="text-[8px] text-slate-500 font-mono">
+                                        {new Date(entry.finished_at).toLocaleDateString()}
+                                      </span>
+                                    </div>
+                                    <h5 className="font-bold text-slate-200 truncate mt-0.5 uppercase tracking-wide">
+                                      {entry.tournament_name}
+                                    </h5>
+                                  </div>
+                                </div>
+                                <div className="mt-1.5 flex justify-between border-t border-white/[0.04] pt-1 text-[8px] font-mono text-slate-400">
+                                  <span>Record: {entry.wins}W-{entry.losses}L</span>
+                                  <span className="text-purple-400">{entry.points}</span>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </>
               ) : null}
@@ -2245,6 +2518,513 @@ export default function Home() {
                 >
                   Reply
                 </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Match Replay Modal */}
+      <AnimatePresence>
+        {selectedReplayMatch && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-slate-950/85 backdrop-blur-md"
+              onClick={() => setSelectedReplayMatch(null)}
+            />
+            <motion.div
+              initial={{ scale: 0.95, y: 15, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.95, y: 15, opacity: 0 }}
+              className="relative flex max-h-[90dvh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-slate-900/95 p-5 sm:p-6 shadow-2xl backdrop-blur-2xl z-10"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="mb-5 flex items-start justify-between">
+                <div>
+                  <p className="text-[10px] font-black uppercase tracking-widest text-teal-400">Match Analysis & Replay</p>
+                  <h3 className="text-xl sm:text-2xl font-black uppercase text-white tracking-wide">
+                    vs {(() => {
+                      const p1Name = selectedReplayMatch.player_one_name || selectedReplayMatch.playerOneName || "Player 1";
+                      const p2Name = selectedReplayMatch.player_two_name || selectedReplayMatch.playerTwoName || "Player 2";
+                      const p1Id = selectedReplayMatch.player_one_id ?? selectedReplayMatch.playerOneId;
+                      const myId = account?.id;
+                      const iAmP1 = myId && p1Id === myId;
+                      return iAmP1 ? p2Name : p1Name;
+                    })()}
+                  </h3>
+                  <p className="text-xs text-slate-400 mt-1">
+                    {selectedReplayMatch.domain && selectedReplayMatch.domain !== "all" 
+                      ? `${getFieldLabel(selectedReplayMatch.domain)} Category` 
+                      : "All Subjects Arena"} &bull; {selectedReplayMatch.rounds} Rounds
+                  </p>
+                </div>
+                <button
+                  onClick={() => { playSound("close" as any); setSelectedReplayMatch(null); }}
+                  className="rounded-lg bg-white/5 p-2 text-slate-400 hover:bg-white/10 hover:text-white transition"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <div className="space-y-4 overflow-y-auto pr-1 flex-1 scrollbar-thin max-h-[65vh]">
+                {(!selectedReplayMatch.roundsHistory || selectedReplayMatch.roundsHistory.length === 0) ? (
+                  <div className="flex flex-col items-center justify-center py-10 px-4 text-center border border-white/5 bg-black/20 rounded-xl">
+                    <Info className="text-slate-400 mb-3" size={32} />
+                    <p className="text-sm font-bold text-slate-200 uppercase tracking-wider">Replay Not Available</p>
+                    <p className="text-xs text-slate-500 mt-2 max-w-xs leading-relaxed">
+                      Detailed round logs are not available for matches completed prior to this update. Play a new match to test this feature!
+                    </p>
+                  </div>
+                ) : (
+                  selectedReplayMatch.roundsHistory.map((rnd: any, idx: number) => {
+                    const isExpanded = expandedRound === idx;
+                    const roundNum = rnd.roundNumber || (idx + 1);
+                    const subjectLabel = getFieldLabel(rnd.subject || selectedReplayMatch.domain || "all");
+                    
+                    const p1Id = selectedReplayMatch.player_one_id ?? selectedReplayMatch.playerOneId ?? "bot";
+                    const p2Id = selectedReplayMatch.player_two_id ?? selectedReplayMatch.playerTwoId ?? "bot";
+                    const p1Name = selectedReplayMatch.player_one_name || selectedReplayMatch.playerOneName || "Player 1";
+                    const p2Name = selectedReplayMatch.player_two_name || selectedReplayMatch.playerTwoName || "Player 2";
+
+                    const myId = account?.id || "";
+
+                    // Resolve who the focus player is and who the opponent is
+                    let focusId = p1Id;
+                    if (myId === p1Id || myId === p2Id) {
+                      focusId = myId;
+                    } else if (viewingUser && (viewingUser.id === p1Id || viewingUser.id === p2Id)) {
+                      focusId = viewingUser.id;
+                    }
+
+                    const oppId = focusId === p1Id ? p2Id : p1Id;
+                    const focusName = focusId === p1Id ? p1Name : p2Name;
+                    const oppName = focusId === p1Id ? p2Name : p1Name;
+
+                    const myAnsData = rnd.answers?.[focusId];
+                    const oppAnsData = rnd.answers?.[oppId];
+
+                    const myCorrect = myAnsData && myAnsData.answer === rnd.question.answer;
+                    const oppCorrect = oppAnsData && oppAnsData.answer === rnd.question.answer;
+
+                    let roundWinnerLabel = "Draw / No Winner";
+                    let outcomeColor = "text-slate-400";
+                    if (myCorrect && !oppCorrect) {
+                      roundWinnerLabel = focusId === myId ? "You Won!" : `${focusName} Won`;
+                      outcomeColor = "text-emerald-400";
+                    } else if (!myCorrect && oppCorrect) {
+                      roundWinnerLabel = oppId === "bot" ? "AlphaZero (Bot) Won" : `${oppName} Won`;
+                      outcomeColor = "text-rose-400";
+                    } else if (myCorrect && oppCorrect) {
+                      if (myAnsData.timeTaken < oppAnsData.timeTaken) {
+                        roundWinnerLabel = focusId === myId ? "You Won (Faster!)" : `${focusName} Won (Faster)`;
+                        outcomeColor = "text-emerald-400 font-bold";
+                      } else if (oppAnsData.timeTaken < myAnsData.timeTaken) {
+                        roundWinnerLabel = oppId === "bot" ? "AlphaZero (Bot) Won (Faster)" : `${oppName} Won (Faster)`;
+                        outcomeColor = "text-rose-400";
+                      } else {
+                        roundWinnerLabel = "Simultaneous Draw";
+                        outcomeColor = "text-purple-400";
+                      }
+                    } else {
+                      roundWinnerLabel = "Double Fault";
+                      outcomeColor = "text-red-400/80";
+                    }
+
+                    return (
+                      <div 
+                        key={idx} 
+                        className="rounded-xl border border-white/[0.05] bg-white/[0.02] overflow-hidden transition-all duration-200"
+                      >
+                        <button
+                          onClick={() => { playSound("select"); setExpandedRound(isExpanded ? null : idx); }}
+                          className="w-full flex items-center justify-between p-4 text-left hover:bg-white/[0.03] transition"
+                        >
+                          <div className="min-w-0 pr-2">
+                            <span className="text-[9px] font-black uppercase tracking-wider text-teal-400 font-mono">
+                              Round {roundNum} &bull; {subjectLabel}
+                            </span>
+                            <h4 className="text-sm font-bold text-white truncate mt-0.5">
+                              {rnd.question.prompt}
+                            </h4>
+                          </div>
+                          <div className="flex items-center gap-3 shrink-0">
+                            <span className={`text-xs font-black uppercase tracking-wider ${outcomeColor}`}>
+                              {roundWinnerLabel}
+                            </span>
+                            <span className="text-slate-400 text-xs">
+                              {isExpanded ? "▲" : "▼"}
+                            </span>
+                          </div>
+                        </button>
+
+                        {isExpanded && (
+                          <div className="border-t border-white/[0.05] bg-black/40 p-4 space-y-4">
+                            <div>
+                              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 font-mono">
+                                Question
+                              </p>
+                              <div className="rounded-lg bg-slate-950/50 border border-white/5 p-3.5 mb-3 text-slate-100 text-sm font-medium leading-relaxed">
+                                {rnd.question.prompt}
+                              </div>
+
+                              <div className="grid gap-2 sm:grid-cols-2">
+                                {rnd.question.options.map((opt: string, optIdx: number) => {
+                                  const isCorrect = optIdx === rnd.question.answer;
+                                  const selectedByMe = myAnsData && myAnsData.answer === optIdx;
+                                  const selectedByOpp = oppAnsData && oppAnsData.answer === optIdx;
+
+                                  return (
+                                    <div
+                                      key={optIdx}
+                                      className={`relative flex items-center justify-between rounded-lg border p-3 text-xs leading-normal transition ${
+                                        isCorrect
+                                          ? "border-emerald-500/40 bg-emerald-500/[0.08] text-emerald-300 font-semibold"
+                                          : (selectedByMe || selectedByOpp)
+                                          ? "border-red-500/25 bg-red-500/[0.04] text-slate-300"
+                                          : "border-white/5 bg-white/[0.02] text-slate-400"
+                                      }`}
+                                    >
+                                      <span className="pr-4">{opt}</span>
+                                      
+                                      <div className="flex items-center gap-1.5 shrink-0 select-none">
+                                        {selectedByMe && (
+                                          <span className="rounded bg-teal-500/25 border border-teal-500/30 px-1 py-0.5 text-[8px] font-black uppercase text-teal-300">
+                                            {focusId === myId ? "You" : focusName.substring(0, 8)}
+                                          </span>
+                                        )}
+                                        {selectedByOpp && (
+                                          <span className="rounded bg-rose-500/20 border border-rose-500/25 px-1 py-0.5 text-[8px] font-black uppercase text-rose-300">
+                                            {oppId === "bot" ? "Bot" : oppName.substring(0, 8)}
+                                          </span>
+                                        )}
+                                        {isCorrect && (
+                                          <Check size={14} className="text-emerald-400 font-black shrink-0" />
+                                        )}
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </div>
+
+                            <div className="grid gap-3 sm:grid-cols-2 border-t border-white/5 pt-3">
+                              <div className="rounded-lg bg-white/[0.02] border border-white/5 p-3">
+                                <p className="text-[9px] font-black uppercase tracking-wider text-slate-400 font-mono">
+                                  {focusId === myId ? "Your Performance" : `${focusName}'s Performance`}
+                                </p>
+                                <div className="mt-1.5 flex items-center justify-between">
+                                  <span className={`text-xs font-bold ${myCorrect ? "text-emerald-400" : "text-rose-400"}`}>
+                                    {myAnsData 
+                                      ? (myCorrect ? "Correct Choice" : `Selected Option ${myAnsData.answer + 1}`) 
+                                      : "No Answer / Timed Out"}
+                                  </span>
+                                  <span className="font-mono text-xs text-slate-300 font-semibold">
+                                    {myAnsData ? `${(myAnsData.timeTaken / 1000).toFixed(2)}s` : "--"}
+                                  </span>
+                                </div>
+                              </div>
+
+                              <div className="rounded-lg bg-white/[0.02] border border-white/5 p-3">
+                                <p className="text-[9px] font-black uppercase tracking-wider text-slate-400 font-mono">
+                                  {oppId === "bot" ? "AlphaZero (Bot)'s Performance" : `${oppName}'s Performance`}
+                                </p>
+                                <div className="mt-1.5 flex items-center justify-between">
+                                  <span className={`text-xs font-bold ${oppCorrect ? "text-emerald-400" : "text-rose-400"}`}>
+                                    {oppAnsData 
+                                      ? (oppCorrect ? "Correct Choice" : `Selected Option ${oppAnsData.answer + 1}`) 
+                                      : "No Answer / Timed Out"}
+                                  </span>
+                                  <span className="font-mono text-xs text-slate-300 font-semibold">
+                                    {oppAnsData ? `${(oppAnsData.timeTaken / 1000).toFixed(2)}s` : "--"}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="border-t border-white/5 pt-3">
+                              <p className="text-[9px] font-black uppercase tracking-wider text-slate-400 font-mono mb-2">
+                                Health Status After Round
+                              </p>
+                              
+                              <div className="grid gap-3 sm:grid-cols-2">
+                                <div>
+                                  <div className="flex justify-between text-[10px] text-slate-300 mb-1 font-bold">
+                                    <span>{focusId === myId ? "You (HP)" : `${focusName} (HP)`}</span>
+                                    <span>{rnd.hpData?.[focusId] ?? 100}/100</span>
+                                  </div>
+                                  <div className="h-1.5 w-full bg-slate-950/60 rounded-full overflow-hidden">
+                                    <div 
+                                      className="h-full bg-emerald-400 transition-all duration-300"
+                                      style={{ width: `${rnd.hpData?.[focusId] ?? 100}%` }}
+                                    />
+                                  </div>
+                                </div>
+
+                                <div>
+                                  <div className="flex justify-between text-[10px] text-slate-300 mb-1 font-bold">
+                                    <span>{oppId === "bot" ? "AlphaZero (Bot) (HP)" : `${oppName} (HP)`}</span>
+                                    <span>{rnd.hpData?.[oppId] ?? 100}/100</span>
+                                  </div>
+                                  <div className="h-1.5 w-full bg-slate-950/60 rounded-full overflow-hidden">
+                                    <div 
+                                      className="h-full bg-red-400 transition-all duration-300"
+                                      style={{ width: `${rnd.hpData?.[oppId] ?? 100}%` }}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Daily Challenge Gameplay Overlay */}
+      <AnimatePresence>
+        {isDailyChallengeActive && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-slate-950/90 backdrop-blur-md"
+            />
+            <motion.div
+              initial={{ scale: 0.95, y: 15, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.95, y: 15, opacity: 0 }}
+              className="relative flex max-h-[90dvh] w-full max-w-lg flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-slate-900/95 p-6 shadow-2xl backdrop-blur-2xl z-10"
+              onClick={e => e.stopPropagation()}
+            >
+              {dailyChallengeStatus === "playing" && dailyQuestions[dailyChallengeIndex] ? (
+                <>
+                  <div className="mb-4 flex items-center justify-between">
+                    <div>
+                      <span className="rounded-full bg-teal-500/10 border border-teal-500/20 px-2.5 py-1 text-[9px] font-black uppercase tracking-wider text-teal-400 font-mono">
+                        Daily Challenge &bull; {getFieldLabel(dailyQuestions[dailyChallengeIndex].subject)}
+                      </span>
+                      <h3 className="text-sm font-bold text-slate-400 mt-1.5 font-mono">
+                        Question {dailyChallengeIndex + 1} of {dailyQuestions.length}
+                      </h3>
+                    </div>
+
+                    <div className="relative flex items-center justify-center h-10 w-10 rounded-full border border-white/5 bg-slate-950/40">
+                      <span className={`font-mono text-sm font-black ${
+                        dailyChallengeTimeLeft <= 4 ? "text-red-400 animate-pulse" : "text-teal-400"
+                      }`}>
+                        {dailyChallengeTimeLeft}s
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="rounded-2xl bg-slate-950/50 border border-white/5 p-4 mb-4 text-slate-100 text-sm font-medium leading-relaxed">
+                    {dailyQuestions[dailyChallengeIndex].prompt}
+                  </div>
+
+                  <div className="space-y-2.5 mb-2 overflow-y-auto pr-0.5 flex-1 scrollbar-thin">
+                    {dailyQuestions[dailyChallengeIndex].options.map((opt: string, optIdx: number) => {
+                      const isCorrect = optIdx === dailyQuestions[dailyChallengeIndex].answer;
+                      const isSelected = dailyChallengeSelectedOpt === optIdx;
+                      
+                      let btnStyle = "border-white/5 bg-white/[0.02] text-slate-300 hover:border-white/10 hover:bg-white/[0.04]";
+                      if (dailyChallengeRevealed) {
+                        if (isCorrect) {
+                          btnStyle = "border-emerald-500/40 bg-emerald-500/[0.1] text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.15)]";
+                        } else if (isSelected) {
+                          btnStyle = "border-red-500/40 bg-red-500/[0.1] text-red-300";
+                        } else {
+                          btnStyle = "border-white/5 bg-white/[0.01] text-slate-500 opacity-60";
+                        }
+                      }
+
+                      return (
+                        <button
+                          key={optIdx}
+                          onClick={() => handleDailyChallengeAnswer(optIdx)}
+                          disabled={dailyChallengeRevealed}
+                          className={`w-full flex items-center justify-between rounded-xl border p-3 text-xs leading-normal font-medium transition-all duration-200 text-left ${btnStyle}`}
+                        >
+                          <span className="pr-4">{opt}</span>
+                          {dailyChallengeRevealed && isCorrect && (
+                            <Check size={16} className="text-emerald-400 shrink-0 font-black" />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </>
+              ) : dailyChallengeStatus === "summary" ? (
+                <div className="flex flex-col items-center text-center py-6">
+                  <motion.div 
+                    animate={{ y: [0, -6, 0] }}
+                    transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                    className="relative flex items-center justify-center h-20 w-20 rounded-full bg-orange-500/10 border border-orange-500/25 mb-4 text-orange-500 shadow-[0_0_30px_rgba(249,115,22,0.25)]"
+                  >
+                    <Flame size={44} fill="currentColor" />
+                  </motion.div>
+
+                  <h3 className="text-2xl font-black uppercase text-white tracking-wide">
+                    Daily Quest Attempted!
+                  </h3>
+                  <p className="text-slate-400 text-xs mt-1 font-mono">
+                    Date: {new Date().toISOString().split('T')[0]}
+                  </p>
+
+                  <div className="mt-6 w-full max-w-sm rounded-2xl border border-white/5 bg-slate-950/40 p-4 space-y-3">
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="text-slate-400">Score Achieved:</span>
+                      <span className="text-white font-mono font-black">
+                        {dailyChallengeAnswers.filter(a => a.correct).length} / {dailyQuestions.length} Correct
+                      </span>
+                    </div>
+
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="text-slate-400">Streak Status:</span>
+                      <span className="text-orange-400 font-mono font-black uppercase flex items-center gap-1.5">
+                        <Flame size={14} fill="currentColor" /> {dailyStreak} Day Streak
+                      </span>
+                    </div>
+
+                    <div className="flex justify-between items-center text-xs border-t border-white/5 pt-3">
+                      <span className="text-slate-400">XP Reward:</span>
+                      <span className="text-teal-400 font-mono font-black uppercase">
+                        +150 XP Earned
+                      </span>
+                    </div>
+                  </div>
+
+                  <p className="text-[10px] text-slate-500 mt-4 leading-relaxed max-w-xs">
+                    Completing or attempting the daily quest once per day keeps your streak active. Return tomorrow for new challenges!
+                  </p>
+
+                  <button
+                    onClick={() => { playSound("confirm"); setIsDailyChallengeActive(false); }}
+                    className="w-full mt-6 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 py-3 text-xs font-black uppercase tracking-wider text-slate-950 shadow-[0_0_20px_rgba(249,115,22,0.25)] hover:from-orange-450 hover:to-amber-450 transition duration-300"
+                  >
+                    Done &bull; Return to Arena
+                  </button>
+                </div>
+              ) : null}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Tournament Leaderboard Modal */}
+      <AnimatePresence>
+        {showTournamentLeaderboardModal && activeTournament && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-slate-950/85 backdrop-blur-md"
+              onClick={() => setShowTournamentLeaderboardModal(false)}
+            />
+            <motion.div
+              initial={{ scale: 0.95, y: 15, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.95, y: 15, opacity: 0 }}
+              className="relative flex max-h-[85dvh] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-slate-900/95 p-5 shadow-2xl backdrop-blur-2xl z-10"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="mb-4 flex items-start justify-between">
+                <div>
+                  <span className="rounded bg-purple-500/10 border border-purple-500/20 px-2 py-0.5 text-[9px] font-black uppercase text-purple-400 font-mono tracking-wider">
+                    Event Leaderboard
+                  </span>
+                  <h3 className="text-xl font-black uppercase text-white mt-1.5 tracking-wide">
+                    {activeTournament.name}
+                  </h3>
+                  <p className="text-xs text-purple-300 font-mono mt-0.5">
+                    {tournamentTimeLeftStr || "Event active"}
+                  </p>
+                </div>
+                <button
+                  onClick={() => { playSound("select"); setShowTournamentLeaderboardModal(false); }}
+                  className="rounded-lg border border-white/5 bg-white/[0.02] p-1.5 text-slate-400 hover:text-white transition"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              <div className="space-y-2 overflow-y-auto pr-0.5 flex-1 scrollbar-thin">
+                {tournamentLeaderboard.length === 0 ? (
+                  <div className="text-center py-10 text-slate-500 text-xs font-mono">
+                    No participants registered yet. Join the queue to make history!
+                  </div>
+                ) : (
+                  tournamentLeaderboard.map((player: TournamentParticipant, idx: number) => {
+                    const isMe = player.user_id === account?.id;
+                    const rankNum = idx + 1;
+                    
+                    let rankBg = "text-slate-400 font-mono";
+                    if (rankNum === 1) rankBg = "text-yellow-400 font-black";
+                    else if (rankNum === 2) rankBg = "text-slate-300 font-black";
+                    else if (rankNum === 3) rankBg = "text-amber-600 font-black";
+
+                    return (
+                      <div
+                        key={player.user_id}
+                        className={`flex items-center justify-between rounded-xl border p-3 transition duration-150 ${
+                          isMe
+                            ? "border-purple-500/40 bg-purple-500/[0.08] shadow-[0_0_15px_rgba(168,85,247,0.12)]"
+                            : "border-white/[0.04] bg-white/[0.01] hover:border-white/[0.08]"
+                        }`}
+                      >
+                        <div className="flex items-center gap-3 min-w-0">
+                          <span className={`w-6 text-center text-xs font-bold ${rankBg}`}>
+                            #{rankNum}
+                          </span>
+
+                          <AvatarImage
+                            username={player.username}
+                            avatarUrl={player.avatar_url}
+                            className="h-8 w-8 rounded-lg border border-white/10 bg-white/5 object-cover"
+                          />
+
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-1.5">
+                              <span className={`text-xs font-bold truncate ${isMe ? "text-purple-300" : "text-slate-200"}`}>
+                                {player.username}
+                              </span>
+                              {player.username.endsWith('Bot') && (
+                                <span className="rounded bg-slate-900 border border-white/5 px-1 py-0.2 text-[8px] font-mono text-slate-400 uppercase">
+                                  BOT
+                                </span>
+                              )}
+                            </div>
+                            <span className="font-mono text-[9px] text-slate-500">
+                              Lvl {player.level} &bull; {player.elo} ELO
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-4 text-right shrink-0">
+                          <div className="text-[10px] font-mono text-slate-400">
+                            <span className="text-emerald-400 font-bold">{player.wins}W</span>
+                            <span className="mx-1 text-slate-600">/</span>
+                            <span className="text-rose-400 font-bold">{player.losses}L</span>
+                          </div>
+                          <div className="text-xs font-mono font-black text-purple-400 bg-purple-500/10 border border-purple-500/20 px-2 py-1 rounded-lg">
+                            {player.points} pts
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
               </div>
             </motion.div>
           </div>
@@ -2858,6 +3638,12 @@ export default function Home() {
                     </span>
                   )}
                   <span className="rounded bg-gradient-to-r from-teal-400 to-emerald-400 border border-teal-300 px-2 py-0.5 text-xs font-mono font-black text-slate-950 shadow-[0_0_12px_rgba(45,212,191,0.25)]">Lvl {account.level || 1}</span>
+                  {account.dailyStreak ? (
+                    <span className="shrink-0 rounded border border-orange-500/30 bg-orange-950/50 px-2 py-0.5 text-xs font-mono font-black text-orange-405 flex items-center gap-1 shadow-[0_0_12px_rgba(249,115,22,0.3)] animate-pulse">
+                      <Flame size={12} fill="currentColor" />
+                      {account.dailyStreak}D STREAK
+                    </span>
+                  ) : null}
                 </div>
 
                 {/* XP Progress Bar */}
@@ -2994,6 +3780,76 @@ export default function Home() {
               );
             })}
           </div>
+        </div>
+
+        {/* Tournament Trophy Case Section */}
+        <div className="glass-panel col-span-full rounded-2xl p-4 sm:p-6 mt-4 bg-purple-950/[0.02] border-purple-500/10">
+          <div className="mb-4 flex items-center justify-between border-b border-white/[0.06] pb-4">
+            <h2 className="flex items-center gap-2 text-xl font-black uppercase text-white">
+              <Trophy className="text-purple-400" size={20} /> Event Trophy Case
+            </h2>
+            <span className="font-mono text-[10px] text-purple-300 uppercase tracking-widest bg-purple-500/10 border border-purple-500/20 px-2 py-0.5 rounded">
+              {tournamentHistory.length} Event(s) played
+            </span>
+          </div>
+
+          {tournamentHistory.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-8 text-center">
+              <Trophy className="text-slate-600 mb-2.5" size={32} />
+              <p className="text-xs text-slate-400 font-mono">No tournament trophies earned yet.</p>
+              <p className="text-[10px] text-slate-500 max-w-xs mt-1 leading-relaxed">
+                Compete in active Timed Events from the Dashboard queue to climb rankings and display your trophies!
+              </p>
+            </div>
+          ) : (
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {tournamentHistory.map((entry: TournamentHistoryEntry) => {
+                const isGold = entry.placed === 1;
+                const isSilver = entry.placed === 2 || entry.placed === 3;
+                
+                let gradient = "from-slate-800 to-slate-900 border-white/5";
+                let cupColor = "text-slate-500";
+                if (isGold) {
+                  gradient = "from-yellow-500/20 to-amber-500/10 border-yellow-500/30 shadow-[0_0_15px_rgba(234,179,8,0.1)] animate-pulse";
+                  cupColor = "text-yellow-400";
+                } else if (isSilver) {
+                  gradient = "from-purple-500/20 to-pink-500/10 border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.1)]";
+                  cupColor = "text-purple-300";
+                }
+
+                return (
+                  <div key={entry.id} className={`relative rounded-xl border p-4 transition-all duration-300 bg-gradient-to-br ${gradient}`}>
+                    <div className="flex items-start gap-3">
+                      <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-slate-950/50 border border-white/5 ${cupColor}`}>
+                        <Trophy size={20} fill="currentColor" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center justify-between">
+                          <span className={`text-[10px] font-black uppercase tracking-wider ${cupColor}`}>
+                            Rank #{entry.placed}
+                          </span>
+                          <span className="text-[9px] text-slate-500 font-mono">
+                            {new Date(entry.finished_at).toLocaleDateString()}
+                          </span>
+                        </div>
+                        <h4 className="text-xs font-black uppercase tracking-wider text-slate-100 mt-1 truncate">
+                          {entry.tournament_name}
+                        </h4>
+                        <div className="mt-3 flex items-center justify-between border-t border-white/[0.04] pt-2">
+                          <span className="text-[10px] text-slate-400 font-mono font-medium">
+                            Record: <span className="text-emerald-400 font-bold">{entry.wins}W</span> / <span className="text-rose-400 font-bold">{entry.losses}L</span>
+                          </span>
+                          <span className="text-[10px] font-mono font-black text-purple-400">
+                            {entry.points} pts
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </motion.section>
     );
@@ -3346,7 +4202,17 @@ export default function Home() {
               return (
                 <div
                   key={match.id}
-                  className={`rounded-lg border p-4 ${isWin ? "border-emerald-500/30 bg-emerald-500/[0.06]" : isLoss ? "border-red-500/25 bg-red-500/[0.05]" : "border-white/10 bg-black/25"}`}
+                  onClick={() => {
+                    playSound("select");
+                    setSelectedReplayMatch(match);
+                  }}
+                  className={`cursor-pointer rounded-lg border p-4 transition-all duration-200 hover:scale-[1.01] hover:bg-white/[0.04] active:scale-[0.995] ${
+                    isWin
+                      ? "border-emerald-500/30 bg-emerald-500/[0.06] hover:border-emerald-500/50"
+                      : isLoss
+                      ? "border-red-500/25 bg-red-500/[0.05] hover:border-red-500/40"
+                      : "border-white/10 bg-black/25 hover:border-white/20"
+                  }`}
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
@@ -3440,6 +4306,61 @@ export default function Home() {
                   <Stat icon={<Swords size={20} />} label="Games" value={String(account?.gamesPlayed || 0)} delay={0.1} />
                   <Stat icon={<Flame size={20} />} label="Win Rate" value={`${winRate}%`} delay={0.15} />
                 </div>
+
+                {/* Daily Challenge Quest Widget */}
+                <div className="glass-panel rounded-2xl border-orange-500/10 bg-orange-950/[0.04] p-5 shadow-[0_0_30px_rgba(249,115,22,0.02)]">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <span className="rounded bg-orange-500/10 border border-orange-500/20 px-2 py-0.5 text-[9px] font-black uppercase text-orange-400 font-mono tracking-wider">
+                        Daily Arena Quest
+                      </span>
+                      <h3 className="text-lg font-black uppercase tracking-wide text-white mt-2">
+                        Seeded Trivia Run
+                      </h3>
+                      <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+                        Test your discipline-wide knowledge today. Attempts maintain your active streak.
+                      </p>
+                    </div>
+
+                    <div className="flex flex-col items-center shrink-0">
+                      <div className="relative flex items-center justify-center h-11 w-11 rounded-xl bg-orange-500/10 border border-orange-500/25 text-orange-400 shadow-[0_0_15px_rgba(249,115,22,0.15)]">
+                        <Flame size={20} fill="currentColor" className="animate-pulse" />
+                      </div>
+                      <span className="font-mono text-[10px] font-black text-orange-300 mt-1.5 uppercase tracking-wider">
+                        {dailyStreak}d streak
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 border-t border-white/[0.06] pt-4">
+                    {alreadyPlayedDaily ? (
+                      <div className="flex items-center justify-between gap-4">
+                        <span className="text-xs text-slate-500 font-mono">
+                          TODAY'S ATTEMPT LOGGED &bull; STREAK SECURED
+                        </span>
+                        <button
+                          disabled
+                          className="rounded-lg border border-white/5 bg-white/[0.02] px-4 py-2.5 text-xs font-black uppercase tracking-wider text-slate-500 cursor-not-allowed select-none"
+                        >
+                          Completed
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <span className="text-xs text-slate-400 font-mono uppercase tracking-wide flex items-center gap-1.5">
+                          <span className="h-1.5 w-1.5 rounded-full bg-orange-500 animate-ping" />
+                          Challenge active &bull; +150 XP Reward
+                        </span>
+                        <button
+                          onClick={startDailyChallenge}
+                          className="rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 px-5 py-2.5 text-xs font-black uppercase tracking-wider text-slate-950 shadow-[0_0_15px_rgba(249,115,22,0.2)] hover:from-orange-450 hover:to-amber-450 transition duration-300"
+                        >
+                          Start Challenge
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
 
               <div className="space-y-4">
@@ -3505,6 +4426,77 @@ export default function Home() {
                     </motion.button>
                   </div>
                 </div>
+
+                {/* Timed Tournament Arena Widget */}
+                {activeTournament && (
+                  <div className="glass-panel rounded-2xl border-purple-500/20 bg-purple-950/20 p-5 shadow-[0_0_30px_rgba(168,85,247,0.06)] relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/5 rounded-full blur-xl pointer-events-none" />
+                    
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="rounded bg-purple-500/10 border border-purple-500/20 px-2 py-0.5 text-[9px] font-black uppercase text-purple-400 font-mono tracking-wider">
+                            Timed Event
+                          </span>
+                          <span className="rounded bg-slate-900 border border-white/5 px-2 py-0.5 text-[9px] font-mono text-slate-400">
+                            {getFieldLabel(activeTournament.domain)}
+                          </span>
+                        </div>
+                        <h3 className="text-lg font-black uppercase tracking-wide text-white mt-2">
+                          {activeTournament.name}
+                        </h3>
+                        <p className="text-xs text-purple-300 font-mono mt-1 flex items-center gap-1.5 font-semibold">
+                          <span className="h-1.5 w-1.5 rounded-full bg-purple-400 animate-pulse" />
+                          {tournamentTimeLeftStr || "Loading timer..."}
+                        </p>
+                      </div>
+
+                      <div className="relative flex items-center justify-center h-11 w-11 rounded-xl bg-purple-500/10 border border-purple-500/25 text-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.15)]">
+                        <Trophy size={20} fill="currentColor" />
+                      </div>
+                    </div>
+
+                    <div className="mt-4 rounded-xl border border-white/[0.04] bg-black/40 p-3.5 space-y-2">
+                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 font-mono">
+                        Your Event Performance
+                      </p>
+                      <div className="grid grid-cols-3 gap-2 text-center">
+                        <div className="rounded-lg bg-white/[0.02] border border-white/5 p-2">
+                          <p className="text-[9.5px] font-bold text-slate-500 uppercase">Wins</p>
+                          <p className="font-mono text-sm font-black text-emerald-400 mt-0.5">{myTournamentScore?.wins ?? 0}</p>
+                        </div>
+                        <div className="rounded-lg bg-white/[0.02] border border-white/5 p-2">
+                          <p className="text-[9.5px] font-bold text-slate-500 uppercase">Losses</p>
+                          <p className="font-mono text-sm font-black text-rose-400 mt-0.5">{myTournamentScore?.losses ?? 0}</p>
+                        </div>
+                        <div className="rounded-lg bg-white/[0.02] border border-white/5 p-2">
+                          <p className="text-[9.5px] font-bold text-slate-500 uppercase">Points</p>
+                          <p className="font-mono text-sm font-black text-purple-400 mt-0.5">{myTournamentScore?.points ?? 0}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 border-t border-white/[0.06] pt-4 grid gap-3 sm:grid-cols-2">
+                      <button
+                        onClick={joinTournamentQueue}
+                        disabled={isTournamentMatchmaking}
+                        className={`rounded-lg py-2.5 text-xs font-black uppercase tracking-wider transition-all duration-300 shadow-md ${
+                          isTournamentMatchmaking 
+                            ? "bg-purple-900/40 border border-purple-500/30 text-purple-300 animate-pulse cursor-wait"
+                            : "bg-gradient-to-r from-purple-500 to-pink-500 text-slate-950 hover:from-purple-450 hover:to-pink-450"
+                        }`}
+                      >
+                        {isTournamentMatchmaking ? "Searching Match..." : "Join Event Queue"}
+                      </button>
+                      <button
+                        onClick={() => { playSound("confirm"); setShowTournamentLeaderboardModal(true); }}
+                        className="rounded-lg border border-white/10 bg-white/[0.02] hover:bg-white/[0.04] text-slate-200 hover:text-white transition-all py-2.5 text-xs font-black uppercase tracking-wider"
+                      >
+                        Leaderboard
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Creator / Community Promo Footer */}
@@ -3670,7 +4662,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-4">
+              <div className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
                 {hand.map((sub, i) => (
                   <motion.button
                     key={sub}
@@ -3694,13 +4686,15 @@ export default function Home() {
                       }
                     }}
                     disabled={lockedSubject === "WAITING"}
-                    className={`flex min-h-36 items-center justify-center rounded-lg border p-4 text-center font-bold transition ${
+                    className={`flex min-h-[140px] flex-col items-center justify-center rounded-2xl border p-4 text-center font-display font-black tracking-wide uppercase transition duration-200 shadow-lg backdrop-blur-md cursor-pointer select-none ${
                       discardedSubjects.includes(sub)
-                        ? "border-red-400 bg-red-500/25 text-white shadow-[0_0_20px_rgba(239,68,68,0.2)]"
-                        : "border-white/15 bg-white/[0.06] hover:bg-white/10 hover:border-red-300/40"
+                        ? "border-red-500 bg-red-500/[0.12] text-red-200 shadow-[0_0_20px_rgba(239,68,68,0.2)]"
+                        : "border-white/[0.08] bg-slate-900/40 text-slate-300 hover:border-red-400/40 hover:bg-white/[0.03] hover:text-white"
                     }`}
                   >
-                    {sub}
+                    <span className="text-[10px] sm:text-xs leading-snug break-words max-w-full">
+                      {sub}
+                    </span>
                   </motion.button>
                 ))}
               </div>
@@ -4120,9 +5114,47 @@ export default function Home() {
                     {(winnerInfo?.eloDelta ?? 0) >= 0 ? "+" : ""}{winnerInfo?.eloDelta ?? 0}
                   </p>
                 </div>
-                <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} onClick={() => { playSound("select"); setGameState("menu"); }} className="btn-arena-primary mt-2 px-8 py-4">
-                  <span className="relative z-10">Return to Menu</span>
-                </motion.button>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-4">
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => {
+                      playSound("select");
+                      const tempMatchRecord: MatchRecord = {
+                        id: matchData?.id || "temp",
+                        winner_id: winnerInfo?.winner === "draw" ? null : winnerInfo?.winner,
+                        winnerId: winnerInfo?.winner === "draw" ? null : winnerInfo?.winner,
+                        playerOneId: player.id || socketId || "p1",
+                        playerTwoId: opponent.id || "p2",
+                        playerOneName: player.name,
+                        playerTwoName: opponent.name,
+                        playerOneDelta: winnerInfo ? (winnerInfo.winner === (player.id || socketId) ? winnerInfo.eloDelta : -winnerInfo.eloDelta) : 0,
+                        playerTwoDelta: winnerInfo ? (winnerInfo.winner === opponent.id ? winnerInfo.eloDelta : -winnerInfo.eloDelta) : 0,
+                        player_one_name: player.name,
+                        player_two_name: opponent.name,
+                        rounds: winnerInfo?.roundsHistory ? winnerInfo.roundsHistory.length : (matchData?.currentRound || 0) + 1,
+                        finishedAt: new Date().toISOString(),
+                        domain: winnerInfo?.domain || "all",
+                        roundsHistory: winnerInfo?.roundsHistory || []
+                      };
+                      setSelectedReplayMatch(tempMatchRecord);
+                    }}
+                    className="btn-arena-secondary px-8 py-4 w-full sm:w-auto"
+                  >
+                    <span className="relative z-10 flex items-center gap-2">
+                      <History size={16} /> Review Match
+                    </span>
+                  </motion.button>
+
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => { playSound("select"); setGameState("menu"); }}
+                    className="btn-arena-primary px-8 py-4 w-full sm:w-auto"
+                  >
+                    <span className="relative z-10">Return to Menu</span>
+                  </motion.button>
+                </div>
               </div>
             </motion.div>
           )}

@@ -25,6 +25,10 @@ const pool = new Pool({
   ssl: process.env.DATABASE_SSL === 'false' ? false : { rejectUnauthorized: false }
 });
 
+pool.on('error', (err) => {
+  console.error('⚠️ Unexpected error on idle client:', err.message || err);
+});
+
 let initialized = false;
 
 async function init() {
@@ -111,6 +115,7 @@ async function init() {
     ALTER TABLE users ADD COLUMN IF NOT EXISTS xp INTEGER DEFAULT 0;
     ALTER TABLE users ADD COLUMN IF NOT EXISTS level INTEGER DEFAULT 1;
     ALTER TABLE match_history ADD COLUMN IF NOT EXISTS domain TEXT DEFAULT 'all';
+    ALTER TABLE match_history ADD COLUMN IF NOT EXISTS rounds_history TEXT DEFAULT '[]';
 
     ALTER TABLE users ADD COLUMN IF NOT EXISTS bot_wins INTEGER NOT NULL DEFAULT 0;
     ALTER TABLE users ADD COLUMN IF NOT EXISTS bot_losses INTEGER NOT NULL DEFAULT 0;
@@ -127,6 +132,39 @@ async function init() {
       data_base64 TEXT NOT NULL,
       created_at TIMESTAMPTZ NOT NULL DEFAULT now()
     );
+
+    CREATE TABLE IF NOT EXISTS tournaments (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      domain TEXT NOT NULL DEFAULT 'all',
+      starts_at TIMESTAMPTZ NOT NULL,
+      ends_at TIMESTAMPTZ NOT NULL,
+      status TEXT NOT NULL DEFAULT 'active'
+    );
+
+    CREATE TABLE IF NOT EXISTS tournament_participants (
+      tournament_id TEXT REFERENCES tournaments(id) ON DELETE CASCADE,
+      user_id TEXT REFERENCES users(id) ON DELETE CASCADE,
+      wins INTEGER NOT NULL DEFAULT 0,
+      losses INTEGER NOT NULL DEFAULT 0,
+      points INTEGER NOT NULL DEFAULT 0,
+      PRIMARY KEY (tournament_id, user_id)
+    );
+
+    CREATE TABLE IF NOT EXISTS tournament_history (
+      id TEXT PRIMARY KEY,
+      user_id TEXT REFERENCES users(id) ON DELETE CASCADE,
+      tournament_name TEXT NOT NULL,
+      wins INTEGER NOT NULL DEFAULT 0,
+      losses INTEGER NOT NULL DEFAULT 0,
+      points INTEGER NOT NULL DEFAULT 0,
+      placed INTEGER NOT NULL,
+      total_participants INTEGER NOT NULL DEFAULT 1,
+      finished_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+
+    ALTER TABLE users ADD COLUMN IF NOT EXISTS daily_streak INTEGER DEFAULT 0;
+    ALTER TABLE users ADD COLUMN IF NOT EXISTS last_daily_challenge_at TEXT;
   `);
 
   initialized = true;
@@ -186,6 +224,8 @@ function rowToUser(row) {
     fieldStats: fieldStats,
     xp: row.xp || 0,
     level: row.level || 1,
+    dailyStreak: row.daily_streak || 0,
+    lastDailyChallengeAt: row.last_daily_challenge_at || null,
     createdAt: row.created_at instanceof Date ? row.created_at.toISOString() : row.created_at,
     updatedAt: row.updated_at instanceof Date ? row.updated_at.toISOString() : row.updated_at
   };
@@ -215,6 +255,8 @@ function userToRow(user) {
     field_stats: user.fieldStats ? JSON.stringify(user.fieldStats) : '{}',
     xp: user.xp || 0,
     level: user.level || 1,
+    daily_streak: user.dailyStreak || 0,
+    last_daily_challenge_at: user.lastDailyChallengeAt || null,
     created_at: user.createdAt,
     updated_at: user.updatedAt || new Date().toISOString()
   };
@@ -354,13 +396,13 @@ async function recordMatch(match) {
     `INSERT INTO match_history (
       id, winner_id, loser_id, player_one_id, player_two_id, player_one_name, player_two_name,
       player_one_elo_before, player_two_elo_before, player_one_elo_after, player_two_elo_after,
-      player_one_delta, player_two_delta, rounds, finished_at, domain
-    ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)`,
+      player_one_delta, player_two_delta, rounds, finished_at, domain, rounds_history
+    ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)`,
     [
       match.id, match.winnerId, match.loserId, match.playerOneId, match.playerTwoId,
       match.playerOneName, match.playerTwoName, match.playerOneEloBefore, match.playerTwoEloBefore,
       match.playerOneEloAfter, match.playerTwoEloAfter, match.playerOneDelta, match.playerTwoDelta,
-      match.rounds, match.finishedAt, match.domain || 'all'
+      match.rounds, match.finishedAt, match.domain || 'all', match.roundsHistory ? JSON.stringify(match.roundsHistory) : '[]'
     ]
   );
 }
@@ -374,7 +416,25 @@ async function listRecentMatches(userId, limit = 20) {
      LIMIT $2`,
     [userId, limit]
   );
-  return result.rows;
+  return result.rows.map(row => ({
+    id: row.id,
+    winner_id: row.winner_id,
+    loser_id: row.loser_id,
+    player_one_id: row.player_one_id,
+    player_two_id: row.player_two_id,
+    player_one_name: row.player_one_name,
+    player_two_name: row.player_two_name,
+    player_one_elo_before: row.player_one_elo_before,
+    player_two_elo_before: row.player_two_elo_before,
+    player_one_elo_after: row.player_one_elo_after,
+    player_two_elo_after: row.player_two_elo_after,
+    player_one_delta: row.player_one_delta,
+    player_two_delta: row.player_two_delta,
+    rounds: row.rounds,
+    finished_at: row.finished_at,
+    domain: row.domain,
+    roundsHistory: row.rounds_history ? JSON.parse(row.rounds_history) : []
+  }));
 }
 
 async function getFriendships(userId) {
@@ -658,7 +718,15 @@ module.exports = {
   saveUserAsset,
   getUserAsset,
   migrateLocalUploadUrlsToAssets,
-  recalculateAllUsersStats
+  recalculateAllUsersStats,
+  getOrCreateActiveTournament,
+  getTournamentLeaderboard,
+  getTournamentParticipant,
+  joinTournament,
+  updateTournamentScore,
+  getTournamentHistory,
+  recordTournamentHistory,
+  updateDailyStreak
 };
 
 async function recalculateAllUsersStats() {
@@ -756,4 +824,165 @@ async function recalculateAllUsersStats() {
   } catch (error) {
     console.error("❌ Failed to recalculate user stats:", error);
   }
+}
+
+async function getOrCreateActiveTournament() {
+  await init();
+  const activeRes = await pool.query(
+    "SELECT * FROM tournaments WHERE status = 'active' AND ends_at > NOW() ORDER BY starts_at DESC LIMIT 1"
+  );
+  if (activeRes.rows.length > 0) {
+    return activeRes.rows[0];
+  }
+
+  // None active! Close any expired active tournaments
+  await pool.query("UPDATE tournaments SET status = 'finished' WHERE status = 'active' AND ends_at <= NOW()");
+
+  // Select a random domain for the tournament
+  const domains = ['all', 'Computer Science / AI / IT / Data', 'Electronics / Electrical / Embedded', 'Mechanical / Automobile / Aerospace', 'Civil / Chemical / Biotech / Biomedical', 'Common / First Year'];
+  const chosenDomain = domains[Math.floor(Math.random() * domains.length)];
+
+  const id = 'tour_' + Date.now();
+  const names = {
+    'all': 'Global Synapse Arena Championship',
+    'Computer Science / AI / IT / Data': 'Turing AI Invitational',
+    'Electronics / Electrical / Embedded': 'Maxwell Electromagnetics Open',
+    'Mechanical / Automobile / Aerospace': 'Newton Mechanical Propulsion Cup',
+    'Civil / Chemical / Biotech / Biomedical': 'Da Vinci Architecture & Bio Grand Prix',
+    'Common / First Year': 'First Year Freshman Scholar Challenge'
+  };
+  const name = names[chosenDomain] || 'Synapse Collegiate Challenge';
+
+  const startsAt = new Date();
+  const endsAt = new Date(startsAt.getTime() + 4 * 60 * 60 * 1000); // 4 hours from now
+
+  await pool.query(
+    `INSERT INTO tournaments (id, name, domain, starts_at, ends_at, status)
+     VALUES ($1, $2, $3, $4, $5, 'active')`,
+    [id, name, chosenDomain, startsAt.toISOString(), endsAt.toISOString()]
+  );
+
+  return {
+    id,
+    name,
+    domain: chosenDomain,
+    starts_at: startsAt.toISOString(),
+    ends_at: endsAt.toISOString(),
+    status: 'active'
+  };
+}
+
+async function getTournamentLeaderboard(tournamentId) {
+  await init();
+  const result = await pool.query(
+    `SELECT tp.*, u.username, u.avatar_url, u.level, u.elo
+     FROM tournament_participants tp
+     JOIN users u ON tp.user_id = u.id
+     WHERE tp.tournament_id = $1
+     ORDER BY tp.points DESC, tp.wins DESC
+     LIMIT 50`,
+    [tournamentId]
+  );
+  return result.rows;
+}
+
+async function getTournamentParticipant(tournamentId, userId) {
+  await init();
+  const res = await pool.query(
+    "SELECT wins, losses, points FROM tournament_participants WHERE tournament_id = $1 AND user_id = $2",
+    [tournamentId, userId]
+  );
+  return res.rows[0] || { wins: 0, losses: 0, points: 0 };
+}
+
+async function joinTournament(tournamentId, userId) {
+  await init();
+  await pool.query(
+    `INSERT INTO tournament_participants (tournament_id, user_id, wins, losses, points)
+     VALUES ($1, $2, 0, 0, 0)
+     ON CONFLICT (tournament_id, user_id) DO NOTHING`,
+    [tournamentId, userId]
+  );
+}
+
+async function updateTournamentScore(tournamentId, userId, isWin) {
+  await init();
+  if (isWin) {
+    await pool.query(
+      `UPDATE tournament_participants
+       SET wins = wins + 1, points = points + 15
+       WHERE tournament_id = $1 AND user_id = $2`,
+      [tournamentId, userId]
+    );
+  } else {
+    await pool.query(
+      `UPDATE tournament_participants
+       SET losses = losses + 1, points = GREATEST(0, points - 5)
+       WHERE tournament_id = $1 AND user_id = $2`,
+      [tournamentId, userId]
+    );
+  }
+}
+
+async function getTournamentHistory(userId) {
+  await init();
+  const result = await pool.query(
+    `SELECT * FROM tournament_history
+     WHERE user_id = $1
+     ORDER BY finished_at DESC
+     LIMIT 30`,
+    [userId]
+  );
+  return result.rows;
+}
+
+async function recordTournamentHistory(userId, tournamentName, wins, losses, points, placed, totalParticipants) {
+  await init();
+  const id = 'th_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
+  await pool.query(
+    `INSERT INTO tournament_history (id, user_id, tournament_name, wins, losses, points, placed, total_participants, finished_at)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW())`,
+    [id, userId, tournamentName, wins, losses, points, placed, totalParticipants]
+  );
+}
+
+async function updateDailyStreak(userId, dateStr) {
+  await init();
+  const userResult = await pool.query("SELECT daily_streak, last_daily_challenge_at FROM users WHERE id = $1", [userId]);
+  if (userResult.rows.length === 0) return null;
+
+  const user = userResult.rows[0];
+  const lastChallenge = user.last_daily_challenge_at;
+  let currentStreak = user.daily_streak || 0;
+
+  if (lastChallenge === dateStr) {
+    // Already attempted today, keep streak as is
+    return currentStreak;
+  }
+
+  // Check if last attempt was yesterday
+  let isYesterday = false;
+  if (lastChallenge) {
+    const today = new Date(dateStr);
+    const prevDate = new Date(lastChallenge);
+    const diffTime = Math.abs(today - prevDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    if (diffDays === 1) {
+      isYesterday = true;
+    }
+  }
+
+  if (isYesterday || currentStreak === 0 || !lastChallenge) {
+    currentStreak += 1;
+  } else {
+    // Streak broken
+    currentStreak = 1;
+  }
+
+  await pool.query(
+    "UPDATE users SET daily_streak = $1, last_daily_challenge_at = $2 WHERE id = $3",
+    [currentStreak, dateStr, userId]
+  );
+
+  return currentStreak;
 }
