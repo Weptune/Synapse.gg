@@ -253,6 +253,204 @@
   80% { transform: translateX(6px); }
 }
 
+/* ── Premium Sci-Fi HUD Panel Elements ── */
+.cyber-panel {
+  @apply relative rounded-2xl border bg-slate-950/75 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.6)] overflow-hidden transition-all duration-300;
+}
+
+.cyber-panel-teal {
+  @apply border-teal-500/30 shadow-[0_0_35px_rgba(45,212,191,0.06)];
+  background: radial-gradient(circle at 100% 0%, rgba(45, 212, 191, 0.12) 0%, transparent 55%), rgba(3, 7, 18, 0.85);
+}
+.cyber-panel-teal::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  border-top: 3px solid rgba(45, 212, 191, 0.8);
+  border-left: 3px solid rgba(45, 212, 191, 0.8);
+  pointer-events: none;
+}
+.cyber-panel-teal::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  border-bottom: 3px solid rgba(45, 212, 191, 0.8);
+  border-right: 3px solid rgba(45, 212, 191, 0.8);
+  pointer-events: none;
+}
+
+.cyber-panel-purple {
+  @apply border-purple-500/30 shadow-[0_0_35px_rgba(168,85,247,0.06)];
+  background: radial-gradient(circle at 100% 0%, rgba(168, 85, 247, 0.12) 0%, transparent 55%), rgba(3, 7, 18, 0.85);
+}
+.cyber-panel-purple::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  border-top: 3px solid rgba(168, 85, 247, 0.8);
+  border-left: 3px solid rgba(168, 85, 247, 0.8);
+  pointer-events: none;
+}
+.cyber-panel-purple::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  border-bottom: 3px solid rgba(168, 85, 247, 0.8);
+  border-right: 3px solid rgba(168, 85, 247, 0.8);
+  pointer-events: none;
+}
+
+.cyber-panel-orange {
+  @apply border-orange-500/35 shadow-[0_0_35px_rgba(249,115,22,0.06)];
+  background: radial-gradient(circle at 100% 0%, rgba(249, 115, 22, 0.12) 0%, transparent 55%), rgba(3, 7, 18, 0.85);
+}
+.cyber-panel-orange::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  border-top: 3px solid rgba(249, 115, 22, 0.8);
+  border-left: 3px solid rgba(249, 115, 22, 0.8);
+  pointer-events: none;
+}
+.cyber-panel-orange::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  border-bottom: 3px solid rgba(249, 115, 22, 0.8);
+  border-right: 3px solid rgba(249, 115, 22, 0.8);
+  pointer-events: none;
+}
+
+.cyber-card {
+  @apply relative rounded-xl border border-white/[0.08] bg-slate-950/60 p-5 transition-all duration-300 overflow-hidden shadow-lg;
+}
+
+/* Stat card customized variants */
+.cyber-card-teal {
+  @apply border-teal-500/30 hover:border-teal-400/80 hover:-translate-y-1.5 hover:shadow-[0_12px_30px_rgba(45,212,191,0.18)];
+  background: radial-gradient(circle at 0% 100%, rgba(45, 212, 191, 0.08) 0%, transparent 65%), rgba(4, 9, 28, 0.65);
+}
+.cyber-card-teal::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  border-top: 2.5px solid rgba(45, 212, 191, 0.85);
+  border-left: 2.5px solid rgba(45, 212, 191, 0.85);
+}
+.cyber-card-teal::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  border-bottom: 2.5px solid rgba(45, 212, 191, 0.85);
+  border-right: 2.5px solid rgba(45, 212, 191, 0.85);
+}
+
+.cyber-card-amber {
+  @apply border-amber-500/30 hover:border-amber-400/80 hover:-translate-y-1.5 hover:shadow-[0_12px_30px_rgba(245,158,11,0.18)];
+  background: radial-gradient(circle at 0% 100%, rgba(245, 158, 11, 0.08) 0%, transparent 65%), rgba(4, 9, 28, 0.65);
+}
+.cyber-card-amber::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  border-top: 2.5px solid rgba(245, 158, 11, 0.85);
+  border-left: 2.5px solid rgba(245, 158, 11, 0.85);
+}
+.cyber-card-amber::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  border-bottom: 2.5px solid rgba(245, 158, 11, 0.85);
+  border-right: 2.5px solid rgba(245, 158, 11, 0.85);
+}
+
+.cyber-card-purple {
+  @apply border-purple-500/30 hover:border-purple-400/80 hover:-translate-y-1.5 hover:shadow-[0_12px_30px_rgba(168,85,247,0.18)];
+  background: radial-gradient(circle at 0% 100%, rgba(168, 85, 247, 0.08) 0%, transparent 65%), rgba(4, 9, 28, 0.65);
+}
+.cyber-card-purple::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  border-top: 2.5px solid rgba(168, 85, 247, 0.85);
+  border-left: 2.5px solid rgba(168, 85, 247, 0.85);
+}
+.cyber-card-purple::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  border-bottom: 2.5px solid rgba(168, 85, 247, 0.85);
+  border-right: 2.5px solid rgba(168, 85, 247, 0.85);
+}
+
+.cyber-card-rose {
+  @apply border-rose-500/30 hover:border-rose-400/80 hover:-translate-y-1.5 hover:shadow-[0_12px_30px_rgba(244,63,94,0.18)];
+  background: radial-gradient(circle at 0% 100%, rgba(244, 63, 94, 0.08) 0%, transparent 65%), rgba(4, 9, 28, 0.65);
+}
+.cyber-card-rose::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  border-top: 2.5px solid rgba(244, 63, 94, 0.85);
+  border-left: 2.5px solid rgba(244, 63, 94, 0.85);
+}
+.cyber-card-rose::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  border-bottom: 2.5px solid rgba(244, 63, 94, 0.85);
+  border-right: 2.5px solid rgba(244, 63, 94, 0.85);
+}
+
+/* Tech-styled font utilities */
+.tech-readout {
+  font-family: var(--font-mono), monospace;
+  letter-spacing: 0.06em;
+  text-shadow: 0 0 10px currentColor;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .arena-orb,
   .arena-grid,
