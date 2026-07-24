@@ -5554,12 +5554,24 @@ export default function Home() {
 function ArenaBackdrop() {
   return (
     <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden>
-      <div className="absolute inset-0 bg-[#070912]" />
-      <div className="arena-orb arena-orb-1" />
-      <div className="arena-orb arena-orb-2" />
-      <div className="arena-orb arena-orb-3" />
-      <div className="arena-grid" />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,rgba(7,9,18,0.4)_50%,rgba(7,9,18,0.85)_100%)]" />
+      <div className="absolute inset-0 bg-[#020208]" />
+      <div 
+        className="absolute inset-0 opacity-40 mix-blend-screen"
+        style={{
+          backgroundImage: `
+            radial-gradient(circle at 15% 20%, rgba(20, 184, 166, 0.2) 0%, transparent 45%),
+            radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.22) 0%, transparent 45%),
+            radial-gradient(circle at 50% 80%, rgba(45, 212, 191, 0.15) 0%, transparent 50%),
+            radial-gradient(circle at 25% 85%, rgba(16, 185, 129, 0.1) 0%, transparent 40%),
+            radial-gradient(circle at 75% 80%, rgba(249, 115, 22, 0.08) 0%, transparent 35%)
+          `
+        }}
+      />
+      <div className="arena-orb arena-orb-1 opacity-70" />
+      <div className="arena-orb arena-orb-2 opacity-50" />
+      <div className="arena-orb arena-orb-3 opacity-40" />
+      <div className="arena-grid opacity-40" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,rgba(2,2,8,0.3)_50%,rgba(2,2,8,0.7)_100%)]" />
     </div>
   );
 }
