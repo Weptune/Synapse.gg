@@ -164,7 +164,11 @@ async function init() {
     );
 
     ALTER TABLE users ADD COLUMN IF NOT EXISTS daily_streak INTEGER DEFAULT 0;
+    ALTER TABLE users ADD COLUMN IF NOT EXISTS highest_daily_streak INTEGER DEFAULT 0;
     ALTER TABLE users ADD COLUMN IF NOT EXISTS last_daily_challenge_at TEXT;
+    UPDATE users SET highest_daily_streak = daily_streak WHERE highest_daily_streak < daily_streak;
+    DELETE FROM users WHERE username IN ('AlphaZero', 'DeepBlue', 'Stockfish', 'LeelaZero', 'Watson');
+    ALTER TABLE tournaments ADD COLUMN IF NOT EXISTS bracket TEXT;
   `);
 
   initialized = true;
@@ -225,6 +229,7 @@ function rowToUser(row) {
     xp: row.xp || 0,
     level: row.level || 1,
     dailyStreak: row.daily_streak || 0,
+    highestDailyStreak: row.highest_daily_streak || 0,
     lastDailyChallengeAt: row.last_daily_challenge_at || null,
     createdAt: row.created_at instanceof Date ? row.created_at.toISOString() : row.created_at,
     updatedAt: row.updated_at instanceof Date ? row.updated_at.toISOString() : row.updated_at
@@ -256,6 +261,7 @@ function userToRow(user) {
     xp: user.xp || 0,
     level: user.level || 1,
     daily_streak: user.dailyStreak || 0,
+    highest_daily_streak: user.highestDailyStreak || 0,
     last_daily_challenge_at: user.lastDailyChallengeAt || null,
     created_at: user.createdAt,
     updated_at: user.updatedAt || new Date().toISOString()
@@ -726,7 +732,9 @@ module.exports = {
   updateTournamentScore,
   getTournamentHistory,
   recordTournamentHistory,
-  updateDailyStreak
+  updateDailyStreak,
+  updateTournamentBracket,
+  query
 };
 
 async function recalculateAllUsersStats() {
@@ -835,8 +843,50 @@ async function getOrCreateActiveTournament() {
     return activeRes.rows[0];
   }
 
-  // None active! Close any expired active tournaments
-  await pool.query("UPDATE tournaments SET status = 'finished' WHERE status = 'active' AND ends_at <= NOW()");
+  // None active! Close and resolve any expired active tournaments
+  const expiredRes = await pool.query(
+    "SELECT * FROM tournaments WHERE status = 'active' AND ends_at <= NOW()"
+  );
+
+  for (const tour of expiredRes.rows) {
+    // 1. Resolve standings
+    const leaderboard = await getTournamentLeaderboard(tour.id);
+    const totalParticipants = leaderboard.length;
+
+    for (let i = 0; i < leaderboard.length; i++) {
+      const p = leaderboard[i];
+      const placed = i + 1;
+
+      // 2. Record to history
+      await recordTournamentHistory(
+        p.user_id,
+        tour.name,
+        p.wins,
+        p.losses,
+        p.points,
+        placed,
+        totalParticipants
+      );
+
+      // 3. Award XP rewards based on standing
+      let xpReward = 100; // Participation reward
+      if (placed === 1) xpReward = 1000;
+      else if (placed <= 3) xpReward = 500;
+      else if (placed <= 10) xpReward = 250;
+
+      // Update user XP & Level
+      await pool.query(
+        `UPDATE users
+         SET xp = xp + $1,
+             level = FLOOR((xp + $1) / 500) + 1
+         WHERE id = $2`,
+        [xpReward, p.user_id]
+      );
+    }
+
+    // 4. Set tournament status to finished
+    await pool.query("UPDATE tournaments SET status = 'finished' WHERE id = $1", [tour.id]);
+  }
 
   // Select a random domain for the tournament
   const domains = ['all', 'Computer Science / AI / IT / Data', 'Electronics / Electrical / Embedded', 'Mechanical / Automobile / Aerospace', 'Civil / Chemical / Biotech / Biomedical', 'Common / First Year'];
@@ -878,7 +928,7 @@ async function getTournamentLeaderboard(tournamentId) {
     `SELECT tp.*, u.username, u.avatar_url, u.level, u.elo
      FROM tournament_participants tp
      JOIN users u ON tp.user_id = u.id
-     WHERE tp.tournament_id = $1
+     WHERE tp.tournament_id = $1 AND u.username NOT IN ('AlphaZero', 'DeepBlue', 'Stockfish', 'LeelaZero', 'Watson')
      ORDER BY tp.points DESC, tp.wins DESC
      LIMIT 50`,
     [tournamentId]
@@ -948,16 +998,17 @@ async function recordTournamentHistory(userId, tournamentName, wins, losses, poi
 
 async function updateDailyStreak(userId, dateStr) {
   await init();
-  const userResult = await pool.query("SELECT daily_streak, last_daily_challenge_at FROM users WHERE id = $1", [userId]);
+  const userResult = await pool.query("SELECT daily_streak, highest_daily_streak, last_daily_challenge_at FROM users WHERE id = $1", [userId]);
   if (userResult.rows.length === 0) return null;
 
   const user = userResult.rows[0];
   const lastChallenge = user.last_daily_challenge_at;
   let currentStreak = user.daily_streak || 0;
+  let highestStreak = user.highest_daily_streak || 0;
 
   if (lastChallenge === dateStr) {
     // Already attempted today, keep streak as is
-    return currentStreak;
+    return { dailyStreak: currentStreak, highestDailyStreak: highestStreak };
   }
 
   // Check if last attempt was yesterday
@@ -979,10 +1030,27 @@ async function updateDailyStreak(userId, dateStr) {
     currentStreak = 1;
   }
 
+  highestStreak = Math.max(highestStreak, currentStreak);
+
   await pool.query(
-    "UPDATE users SET daily_streak = $1, last_daily_challenge_at = $2 WHERE id = $3",
-    [currentStreak, dateStr, userId]
+    "UPDATE users SET daily_streak = $1, highest_daily_streak = $2, last_daily_challenge_at = $3 WHERE id = $4",
+    [currentStreak, highestStreak, dateStr, userId]
   );
 
-  return currentStreak;
+  return { dailyStreak: currentStreak, highestDailyStreak: highestStreak };
 }
+
+async function updateTournamentBracket(tournamentId, bracket) {
+  await init();
+  const bracketStr = typeof bracket === 'object' ? JSON.stringify(bracket) : bracket;
+  await pool.query(
+    "UPDATE tournaments SET bracket = $1 WHERE id = $2",
+    [bracketStr, tournamentId]
+  );
+}
+
+async function query(text, params) {
+  await init();
+  return pool.query(text, params);
+}
+

@@ -81,6 +81,10 @@ const BOT_SPEED_BOT_ADVANTAGE_DIVISOR = 400;
 let players = {};
 let queue = [];
 let tournamentQueue = [];
+let tournamentLobby = [];
+let lobbyCountdown = 90;
+let lobbyTimerId = null;
+const activeTournaments = {};
 let matches = {};
 const userSockets = new Map();
 const activeChallenges = new Map();
@@ -127,6 +131,7 @@ function publicUser(user) {
     xp: user.xp || 0,
     level: user.level || 1,
     dailyStreak: user.dailyStreak || 0,
+    highestDailyStreak: user.highestDailyStreak || 0,
     lastDailyChallengeAt: user.lastDailyChallengeAt || null,
     createdAt: user.createdAt
   };
@@ -410,6 +415,7 @@ app.get('/daily-challenge', requireAuth, async (req, res) => {
       date: todayStr,
       alreadyPlayed,
       streak: user.dailyStreak || 0,
+      highestStreak: user.highestDailyStreak || 0,
       questions: strippedQuestions
     });
   } catch (err) {
@@ -425,10 +431,13 @@ app.post('/daily-challenge/attempt', requireAuth, async (req, res) => {
     const alreadyPlayed = user.lastDailyChallengeAt === todayStr;
 
     let newStreak = user.dailyStreak || 0;
+    let highestStreak = user.highestDailyStreak || 0;
     let xpAwarded = 0;
 
     if (!alreadyPlayed) {
-      newStreak = await storage.updateDailyStreak(user.id, todayStr);
+      const streakResult = await storage.updateDailyStreak(user.id, todayStr);
+      newStreak = streakResult.dailyStreak;
+      highestStreak = streakResult.highestDailyStreak;
       xpAwarded = 150;
 
       await storage.updateUserWith(user.id, current => {
@@ -445,6 +454,7 @@ app.post('/daily-challenge/attempt', requireAuth, async (req, res) => {
     res.json({
       success: true,
       streak: newStreak,
+      highestStreak: highestStreak,
       xpAwarded,
       alreadyPlayed
     });
@@ -456,11 +466,6 @@ app.post('/daily-challenge/attempt', requireAuth, async (req, res) => {
 app.get('/tournaments/active', requireAuth, async (req, res) => {
   try {
     const tour = await storage.getOrCreateActiveTournament();
-    await storage.joinTournament(tour.id, req.user.id);
-
-    // Simulate other participant scores to make leaderboard competitive!
-    await simulateTournamentScores(tour.id);
-
     const leaderboard = await storage.getTournamentLeaderboard(tour.id);
     const userScore = await storage.getTournamentParticipant(tour.id, req.user.id);
 
@@ -992,6 +997,15 @@ io.on('connection', (socket) => {
       io.emit('online_count', userSockets.size);
       await notifyFriendsStatusChange(user.id, true);
 
+      socket.emit('tournament_lobby_status', {
+        players: tournamentLobby.map(p => ({
+          userId: p.userId,
+          username: p.username,
+          avatarUrl: p.avatarUrl
+        })),
+        countdown: lobbyCountdown
+      });
+
       // Track unique days logged in
       try {
         const todayStr = new Date().toISOString().split('T')[0];
@@ -1297,64 +1311,156 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('join_tournament_queue', async (data) => {
-    removeFromQueue(socket.id);
+  socket.on('join_tournament_lobby', async (data) => {
     const player = await createPlayer(socket, data);
     if (!player) {
       socket.emit('auth_required');
       return;
     }
 
-    const activeTour = await storage.getOrCreateActiveTournament();
-    player.tournamentId = activeTour.id;
-    player.domain = activeTour.domain;
+    if (!tournamentLobby.some(p => p.userId === player.userId)) {
+      tournamentLobby.push({
+        socketId: socket.id,
+        userId: player.userId,
+        username: player.username,
+        avatarUrl: player.avatarUrl,
+        elo: player.elo
+      });
+      console.log(`User ${player.username} joined tournament lobby. Size: ${tournamentLobby.length}`);
+    }
 
-    players[socket.id] = player;
+    if (tournamentLobby.length >= 16) {
+      if (lobbyTimerId) {
+        clearInterval(lobbyTimerId);
+        lobbyTimerId = null;
+      }
+      startTournamentBracket();
+      return;
+    }
 
-    // Symmetrically clear any other sockets with the exact same userId from tournamentQueue
-    tournamentQueue = tournamentQueue.filter(p => p.userId !== player.userId);
+    if (tournamentLobby.length === 1 && !lobbyTimerId) {
+      lobbyCountdown = 90;
+      lobbyTimerId = setInterval(() => {
+        lobbyCountdown--;
+        io.emit('tournament_lobby_status', {
+          players: tournamentLobby.map(p => ({
+            userId: p.userId,
+            username: p.username,
+            avatarUrl: p.avatarUrl
+          })),
+          countdown: lobbyCountdown
+        });
 
-    // Try to match with someone in the tournament queue
-    if (tournamentQueue.length > 0) {
-      const opponent = tournamentQueue.shift();
-      const match = createMatch(opponent, player, activeTour.domain);
-      match.tournamentId = activeTour.id;
-      emitMatchFound(match);
-      startDiscardTimer(match.id);
-    } else {
-      tournamentQueue.push(player);
-      socket.emit('waiting_in_queue');
-
-      // Auto bot matching fallback after 8 seconds of waiting
-      setTimeout(() => {
-        const idx = tournamentQueue.findIndex(p => p.id === socket.id);
-        if (idx !== -1) {
-          const [pl] = tournamentQueue.splice(idx, 1);
-
-          // Generate a bot matching the tournament theme
-          const botNames = ['AlphaZero', 'DeepBlue', 'Stockfish', 'LeelaZero', 'Watson'];
-          const botName = botNames[Math.floor(Math.random() * botNames.length)];
-          const bot = {
-            id: 'bot_' + Date.now(),
-            name: `${botName} (Bot)`,
-            username: 'bot',
-            elo: 1300 + Math.floor(Math.random() * 500),
-            avatarUrl: `https://api.dicebear.com/9.x/bottts/svg?seed=${botName}`,
-            bannerUrl: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1400&q=80',
-            hp: 100,
-            socketId: 'bot_socket',
-            isBot: true,
-            domain: pl.domain,
-            level: 10 + Math.floor(Math.random() * 15)
-          };
-          players[bot.id] = bot;
-
-          const match = createMatch(bot, pl, pl.domain);
-          match.tournamentId = activeTour.id;
-          emitMatchFound(match);
-          startDiscardTimer(match.id);
+        if (lobbyCountdown <= 0) {
+          clearInterval(lobbyTimerId);
+          lobbyTimerId = null;
+          startTournamentBracket();
         }
-      }, 8000);
+      }, 1000);
+    }
+
+    io.emit('tournament_lobby_status', {
+      players: tournamentLobby.map(p => ({
+        userId: p.userId,
+        username: p.username,
+        avatarUrl: p.avatarUrl
+      })),
+      countdown: lobbyCountdown
+    });
+  });
+
+  socket.on('leave_tournament_lobby', () => {
+    tournamentLobby = tournamentLobby.filter(p => p.socketId !== socket.id);
+    console.log(`Socket ${socket.id} left tournament lobby. Size: ${tournamentLobby.length}`);
+
+    if (tournamentLobby.length === 0 && lobbyTimerId) {
+      clearInterval(lobbyTimerId);
+      lobbyTimerId = null;
+      lobbyCountdown = 90;
+    }
+
+    io.emit('tournament_lobby_status', {
+      players: tournamentLobby.map(p => ({
+        userId: p.userId,
+        username: p.username,
+        avatarUrl: p.avatarUrl
+      })),
+      countdown: lobbyCountdown
+    });
+  });
+
+  socket.on('queue_tournament_match', async (data) => {
+    if (!data || !data.tournamentId || !data.matchId) return;
+    const tour = activeTournaments[data.tournamentId];
+    if (!tour) {
+      socket.emit('tournament_error', { error: "Tournament not active." });
+      return;
+    }
+
+    const bracket = tour.bracket;
+    const currentRoundMatches = bracket.rounds[bracket.currentRound].matches;
+    const match = currentRoundMatches.find(m => m.id === data.matchId);
+    if (!match) return;
+
+    const userId = socket.userId;
+    if (match.p1?.userId !== userId && match.p2?.userId !== userId) return;
+
+    if (!match.queued) match.queued = [];
+    if (!match.queued.includes(userId)) {
+      match.queued.push(userId);
+    }
+
+    if (match.p1 && match.p2 && match.queued.length === 2) {
+      const p1SocketId = userSockets.get(match.p1.userId);
+      const p2SocketId = userSockets.get(match.p2.userId);
+
+      const p1Socket = io.sockets.sockets.get(p1SocketId);
+      const p2Socket = io.sockets.sockets.get(p2SocketId);
+
+      if (p1Socket && p2Socket) {
+        const p1Player = {
+          id: p1SocketId,
+          userId: match.p1.userId,
+          name: match.p1.username,
+          username: match.p1.username,
+          elo: match.p1.elo || 1200,
+          avatarUrl: match.p1.avatarUrl,
+          hp: 100,
+          socketId: p1SocketId,
+          domain: tour.domain
+        };
+        const p2Player = {
+          id: p2SocketId,
+          userId: match.p2.userId,
+          name: match.p2.username,
+          username: match.p2.username,
+          elo: match.p2.elo || 1200,
+          avatarUrl: match.p2.avatarUrl,
+          hp: 100,
+          socketId: p2SocketId,
+          domain: tour.domain
+        };
+
+        players[p1SocketId] = p1Player;
+        players[p2SocketId] = p2Player;
+
+        const gameMatch = createMatch(p1Player, p2Player, tour.domain);
+        gameMatch.tournamentId = tour.id;
+        gameMatch.tournamentMatchId = match.id;
+        
+        match.matchId = gameMatch.id;
+        match.status = 'playing';
+
+        emitMatchFound(gameMatch);
+        startDiscardTimer(gameMatch.id);
+        
+        await storage.updateTournamentBracket(tour.id, bracket);
+        io.emit('bracket_updated', { tournamentId: tour.id, bracket });
+      }
+    } else {
+      socket.emit('waiting_in_queue');
+      await storage.updateTournamentBracket(tour.id, bracket);
+      io.emit('bracket_updated', { tournamentId: tour.id, bracket });
     }
   });
 
@@ -1460,6 +1566,26 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     console.log('User disconnected:', socket.id);
+    
+    // Clean up tournament lobby
+    const originalLobbyLength = tournamentLobby.length;
+    tournamentLobby = tournamentLobby.filter(p => p.socketId !== socket.id);
+    if (tournamentLobby.length !== originalLobbyLength) {
+      if (tournamentLobby.length === 0 && lobbyTimerId) {
+        clearInterval(lobbyTimerId);
+        lobbyTimerId = null;
+        lobbyCountdown = 90;
+      }
+      io.emit('tournament_lobby_status', {
+        players: tournamentLobby.map(p => ({
+          userId: p.userId,
+          username: p.username,
+          avatarUrl: p.avatarUrl
+        })),
+        countdown: lobbyCountdown
+      });
+    }
+
     const player = players[socket.id];
     if (player) {
       queue = queue.filter(p => p.id !== socket.id);
@@ -1906,14 +2032,23 @@ async function endMatch(match) {
     roundsHistory: match.roundsHistory || []
   });
 
-  if (match.tournamentId) {
-    if (!match.p1.isBot && match.p1.userId) {
-      const isP1Win = winner && winner.id === match.p1.id;
-      await storage.updateTournamentScore(match.tournamentId, match.p1.userId, isP1Win);
-    }
-    if (!match.p2.isBot && match.p2.userId) {
-      const isP2Win = winner && winner.id === match.p2.id;
-      await storage.updateTournamentScore(match.tournamentId, match.p2.userId, isP2Win);
+  if (match.tournamentId && match.tournamentMatchId) {
+    const tour = activeTournaments[match.tournamentId];
+    if (tour) {
+      const bracket = tour.bracket;
+      const currentRoundMatches = bracket.rounds[bracket.currentRound].matches;
+      const bracketMatch = currentRoundMatches.find(m => m.id === match.tournamentMatchId);
+      if (bracketMatch) {
+        const winnerObj = winner && winner.id === match.p1.id ? bracketMatch.p1 : bracketMatch.p2;
+        bracketMatch.winner = winnerObj;
+        bracketMatch.status = 'completed';
+        
+        await storage.updateTournamentBracket(match.tournamentId, bracket);
+        io.emit('bracket_updated', { tournamentId: match.tournamentId, bracket });
+        
+        // Check if round done & advance
+        await advanceBracketOrFinish(match.tournamentId);
+      }
     }
   }
 
@@ -2032,6 +2167,292 @@ async function simulateTournamentScores(tournamentId) {
     console.error("Failed to simulate tournament scores:", err);
   }
 }
+
+function propagateBracketWinners(bracket) {
+  for (let r = 0; r < bracket.rounds.length - 1; r++) {
+    const curRound = bracket.rounds[r];
+    const nextRound = bracket.rounds[r + 1];
+    
+    for (let m = 0; m < curRound.matches.length; m++) {
+      const match = curRound.matches[m];
+      
+      if (match.status === "scheduled" && match.p1 && !match.p2) {
+        match.winner = match.p1;
+        match.status = "completed";
+      }
+      
+      if (match.status === "completed" && match.winner) {
+        const targetMatchIdx = Math.floor(m / 2);
+        const slotKey = m % 2 === 0 ? "p1" : "p2";
+        nextRound.matches[targetMatchIdx][slotKey] = match.winner;
+      }
+    }
+  }
+}
+
+function generateBracket(players) {
+  const count = players.length;
+  let size = 2;
+  if (count > 8) size = 16;
+  else if (count > 4) size = 8;
+  else if (count > 2) size = 4;
+  
+  const rounds = [];
+  let currentMatchesCount = size / 2;
+  let roundIdx = 0;
+  
+  while (currentMatchesCount >= 1) {
+    let roundName = "";
+    if (currentMatchesCount === 1) roundName = "Finals";
+    else if (currentMatchesCount === 2) roundName = "Semifinals";
+    else if (currentMatchesCount === 4) roundName = "Quarterfinals";
+    else if (currentMatchesCount === 8) roundName = "Round of 16";
+    else roundName = `Round of ${currentMatchesCount * 2}`;
+    
+    const matches = [];
+    for (let m = 0; m < currentMatchesCount; m++) {
+      matches.push({
+        id: `r${roundIdx}_m${m}`,
+        p1: null,
+        p2: null,
+        winner: null,
+        status: "scheduled",
+        matchId: null,
+        queued: []
+      });
+    }
+    
+    rounds.push({
+      roundIndex: roundIdx,
+      name: roundName,
+      matches
+    });
+    
+    currentMatchesCount /= 2;
+    roundIdx++;
+  }
+  
+  const round0 = rounds[0];
+  for (let i = 0; i < size; i += 2) {
+    const matchIdx = i / 2;
+    round0.matches[matchIdx].p1 = players[i] || null;
+    round0.matches[matchIdx].p2 = players[i + 1] || null;
+  }
+  
+  const bracket = {
+    size,
+    currentRound: 0,
+    roundDeadline: Date.now() + 90000,
+    rounds
+  };
+  
+  propagateBracketWinners(bracket);
+  
+  return bracket;
+}
+
+async function startTournamentBracket() {
+  const size = tournamentLobby.length;
+  if (size < 2) {
+    io.emit('tournament_canceled', { reason: "Not enough players. Minimum 2 players required." });
+    tournamentLobby = [];
+    return;
+  }
+
+  const lobbyPlayers = [...tournamentLobby];
+  tournamentLobby = []; 
+
+  const themes = [
+    { name: "Turing AI Championship", domain: "Computer Science / AI / IT / Data" },
+    { name: "Maxwell Electromagnetics Open", domain: "Electronics / Electrical / Embedded" },
+    { name: "Newton Mechanical Grand Prix", domain: "Mechanical / Automobile / Aerospace" },
+    { name: "Archimedes Fluids Invitational", domain: "Civil / Chemical / Biotech / Biomedical" },
+    { name: "Curie Chemistry Masters", domain: "Common / First Year" }
+  ];
+  const theme = themes[Math.floor(Math.random() * themes.length)];
+
+  try {
+    const tourId = 'tour_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
+    const startsAt = new Date();
+    const endsAt = new Date(startsAt.getTime() + 1 * 60 * 60 * 1000); 
+    
+    const bracket = generateBracket(lobbyPlayers);
+    
+    await storage.query(
+      "INSERT INTO tournaments (id, name, domain, starts_at, ends_at, status, bracket) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+      [tourId, theme.name, theme.domain, startsAt, endsAt, 'active', JSON.stringify(bracket)]
+    );
+
+    for (const p of lobbyPlayers) {
+      await storage.joinTournament(tourId, p.userId);
+    }
+
+    activeTournaments[tourId] = {
+      id: tourId,
+      name: theme.name,
+      domain: theme.domain,
+      bracket,
+      timerId: null
+    };
+
+    io.emit('tournament_started', {
+      tournamentId: tourId,
+      name: theme.name,
+      domain: theme.domain,
+      bracket
+    });
+
+    startRoundTimer(tourId);
+  } catch (err) {
+    console.error("Failed to start tournament:", err);
+    io.emit('tournament_error', { error: "Failed to initialize tournament." });
+  }
+}
+
+function startRoundTimer(tournamentId) {
+  const tour = activeTournaments[tournamentId];
+  if (!tour) return;
+
+  if (tour.timerId) clearTimeout(tour.timerId);
+
+  tour.timerId = setTimeout(async () => {
+    await resolveRoundForfeits(tournamentId);
+  }, 90000);
+}
+
+async function resolveRoundForfeits(tournamentId) {
+  const tour = activeTournaments[tournamentId];
+  if (!tour) return;
+
+  const bracket = tour.bracket;
+  const currentRoundMatches = bracket.rounds[bracket.currentRound].matches;
+  let changed = false;
+
+  for (const match of currentRoundMatches) {
+    if (match.status !== 'completed') {
+      changed = true;
+      const queued = match.queued || [];
+      const hasP1 = queued.includes(match.p1?.userId);
+      const hasP2 = queued.includes(match.p2?.userId);
+
+      if (hasP1 && !hasP2) {
+        match.winner = match.p1;
+        match.status = 'completed';
+      } else if (hasP2 && !hasP1) {
+        match.winner = match.p2;
+        match.status = 'completed';
+      } else {
+        const winner = Math.random() > 0.5 ? match.p1 : (match.p2 || match.p1);
+        match.winner = winner;
+        match.status = 'completed';
+      }
+    }
+  }
+
+  if (changed) {
+    await advanceBracketOrFinish(tournamentId);
+  }
+}
+
+async function advanceBracketOrFinish(tournamentId) {
+  const tour = activeTournaments[tournamentId];
+  if (!tour) return;
+
+  const bracket = tour.bracket;
+  const currentRoundMatches = bracket.rounds[bracket.currentRound].matches;
+  const allDone = currentRoundMatches.every(m => m.status === 'completed');
+
+  if (!allDone) {
+    await storage.updateTournamentBracket(tournamentId, bracket);
+    io.emit('bracket_updated', { tournamentId, bracket });
+    return;
+  }
+
+  if (bracket.currentRound === bracket.rounds.length - 1) {
+    const finalMatch = currentRoundMatches[0];
+    const champion = finalMatch.winner;
+
+    if (champion) {
+      try {
+        const runnerUp = finalMatch.p1.userId === champion.userId ? finalMatch.p2 : finalMatch.p1;
+        const size = bracket.size;
+        
+        await storage.query(
+          `UPDATE users SET xp = xp + 1000, level = FLOOR((xp + 1000) / 500) + 1 WHERE id = $1`,
+          [champion.userId]
+        );
+        await storage.recordTournamentHistory(champion.userId, tour.name, 2, 0, 30, 1, size);
+
+        if (runnerUp) {
+          await storage.query(
+            `UPDATE users SET xp = xp + 500, level = FLOOR((xp + 500) / 500) + 1 WHERE id = $1`,
+            [runnerUp.userId]
+          );
+          await storage.recordTournamentHistory(runnerUp.userId, tour.name, 1, 1, 15, 2, size);
+        }
+
+        for (let r = 0; r < bracket.rounds.length - 1; r++) {
+          const round = bracket.rounds[r];
+          const divisor = Math.pow(2, bracket.rounds.length - r);
+          const roundXp = Math.max(75, Math.floor(1000 / divisor));
+          const rank = bracket.rounds.length - r + 1;
+
+          for (const match of round.matches) {
+            const loser = match.p1?.userId === match.winner?.userId ? match.p2 : match.p1;
+            if (loser && loser.userId !== runnerUp?.userId && loser.userId !== champion.userId) {
+              let advanced = false;
+              for (let nr = r + 1; nr < bracket.rounds.length; nr++) {
+                if (bracket.rounds[nr].matches.some(m => m.p1?.userId === loser.userId || m.p2?.userId === loser.userId)) {
+                  advanced = true;
+                  break;
+                }
+              }
+              if (!advanced) {
+                await storage.query(
+                  `UPDATE users SET xp = xp + $1, level = FLOOR((xp + $1) / 500) + 1 WHERE id = $2`,
+                  [roundXp, loser.userId]
+                );
+                await storage.recordTournamentHistory(loser.userId, tour.name, r, 1, r * 10, rank, size);
+              }
+            }
+          }
+        }
+
+        await storage.query("UPDATE tournaments SET status = 'finished' WHERE id = $1", [tournamentId]);
+
+        bracket.champion = champion;
+        await storage.updateTournamentBracket(tournamentId, bracket);
+
+        io.emit('tournament_completed', { tournamentId, winner: champion, bracket });
+      } catch (e) {
+        console.error("Failed to crown champion:", e);
+      }
+    }
+
+    if (tour.timerId) clearTimeout(tour.timerId);
+    delete activeTournaments[tournamentId];
+  } else {
+    const nextRound = bracket.rounds[bracket.currentRound + 1];
+    for (let i = 0; i < nextRound.matches.length; i++) {
+      const matchA = currentRoundMatches[i * 2];
+      const matchB = currentRoundMatches[i * 2 + 1];
+
+      nextRound.matches[i].p1 = matchA?.winner || null;
+      nextRound.matches[i].p2 = matchB?.winner || null;
+    }
+
+    propagateBracketWinners(bracket);
+
+    bracket.currentRound++;
+    bracket.roundDeadline = Date.now() + 90000;
+
+    await storage.updateTournamentBracket(tournamentId, bracket);
+    io.emit('bracket_updated', { tournamentId, bracket });
+
+    startRoundTimer(tournamentId);
+  }
+}
+
 
 storage.init()
   .then(() => storage.migrateLocalUploadUrlsToAssets(UPLOADS_DIR))

@@ -67,6 +67,7 @@ type Account = {
   level?: number;
   xp?: number;
   dailyStreak?: number;
+  highestDailyStreak?: number;
   lastDailyChallengeAt?: string | null;
 };
 
@@ -351,6 +352,37 @@ type MatchRecord = {
   roundsHistory?: any[];
 };
 
+type BracketPlayer = {
+  userId: string;
+  username: string;
+  avatarUrl: string;
+  elo?: number;
+};
+
+type BracketMatch = {
+  id: string;
+  p1: BracketPlayer | null;
+  p2: BracketPlayer | null;
+  winner: BracketPlayer | null;
+  status: 'scheduled' | 'playing' | 'completed';
+  matchId: string | null;
+  queued?: string[];
+};
+
+type BracketRound = {
+  roundIndex: number;
+  name: string;
+  matches: BracketMatch[];
+};
+
+type TournamentBracket = {
+  size: number;
+  currentRound: number;
+  roundDeadline: number;
+  rounds: BracketRound[];
+  champion?: BracketPlayer;
+};
+
 type Tournament = {
   id: string;
   name: string;
@@ -358,6 +390,7 @@ type Tournament = {
   starts_at: string;
   ends_at: string;
   status: string;
+  bracket?: string;
 };
 
 type TournamentParticipant = {
@@ -704,6 +737,7 @@ export default function Home() {
   // Daily Challenge & Tournament States
   const [dailyQuestions, setDailyQuestions] = useState<any[]>([]);
   const [dailyStreak, setDailyStreak] = useState<number>(0);
+  const [highestDailyStreak, setHighestDailyStreak] = useState<number>(0);
   const [alreadyPlayedDaily, setAlreadyPlayedDaily] = useState<boolean>(false);
 
   const [activeTournament, setActiveTournament] = useState<Tournament | null>(null);
@@ -713,6 +747,15 @@ export default function Home() {
   const [isTournamentMatchmaking, setIsTournamentMatchmaking] = useState<boolean>(false);
   const [tournamentTimeLeftStr, setTournamentTimeLeftStr] = useState<string>("");
   const [showTournamentLeaderboardModal, setShowTournamentLeaderboardModal] = useState<boolean>(false);
+
+  // Tournament Bracket & Lobby States
+  const [tournamentLobby, setTournamentLobby] = useState<{ userId: string; username: string; avatarUrl: string }[]>([]);
+  const [isInTournamentLobby, setIsInTournamentLobby] = useState<boolean>(false);
+  const [lobbyCountdown, setLobbyCountdown] = useState<number>(0);
+  const [activeBracket, setActiveBracket] = useState<TournamentBracket | null>(null);
+  const [showBracketModal, setShowBracketModal] = useState<boolean>(false);
+  const [roundCountdown, setRoundCountdown] = useState<number>(0);
+  const [isBracketQueueing, setIsBracketQueueing] = useState<boolean>(false);
 
   useEffect(() => {
     if (!activeTournament) return;
@@ -733,6 +776,31 @@ export default function Home() {
     const interval = setInterval(updateTimer, 1000);
     return () => clearInterval(interval);
   }, [activeTournament]);
+
+  // Lobby countdown timer
+  useEffect(() => {
+    if (lobbyCountdown <= 0) return;
+    const interval = setInterval(() => {
+      setLobbyCountdown(prev => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [lobbyCountdown]);
+
+  // Round countdown timer
+  useEffect(() => {
+    if (!activeBracket || activeBracket.roundDeadline === 0) {
+      setRoundCountdown(0);
+      return;
+    }
+    const updateRoundCountdown = () => {
+      const diff = activeBracket.roundDeadline - Date.now();
+      setRoundCountdown(Math.max(0, Math.floor(diff / 1000)));
+    };
+    updateRoundCountdown();
+    const interval = setInterval(updateRoundCountdown, 1000);
+    return () => clearInterval(interval);
+  }, [activeBracket]);
+
 
   // Daily Challenge Gameplay States
   const [isDailyChallengeActive, setIsDailyChallengeActive] = useState<boolean>(false);
@@ -1015,7 +1083,7 @@ export default function Home() {
         apiRequest<{ leaderboard: LeaderboardEntry[] }>("/leaderboard"),
         apiRequest<{ matches: MatchRecord[] }>("/me/matches", { headers: { Authorization: `Bearer ${activeToken}` } }),
         apiRequest<{ user: Account }>("/me", { headers: { Authorization: `Bearer ${activeToken}` } }),
-        apiRequest<{ date: string; alreadyPlayed: boolean; streak: number; questions: any[] }>("/daily-challenge", { headers: { Authorization: `Bearer ${activeToken}` } }),
+        apiRequest<{ date: string; alreadyPlayed: boolean; streak: number; highestStreak: number; questions: any[] }>("/daily-challenge", { headers: { Authorization: `Bearer ${activeToken}` } }),
         apiRequest<{ tournament: Tournament; leaderboard: TournamentParticipant[]; userScore: any }>("/tournaments/active", { headers: { Authorization: `Bearer ${activeToken}` } }),
         apiRequest<{ history: TournamentHistoryEntry[] }>("/me/tournament-history", { headers: { Authorization: `Bearer ${activeToken}` } }),
       ]);
@@ -1034,6 +1102,7 @@ export default function Home() {
 
       setDailyQuestions(dailyData.questions);
       setDailyStreak(dailyData.streak);
+      setHighestDailyStreak(dailyData.highestStreak);
       setAlreadyPlayedDaily(dailyData.alreadyPlayed);
 
       setActiveTournament(tournamentData.tournament);
@@ -1452,6 +1521,51 @@ export default function Home() {
       }
     });
 
+    activeSocket.on("tournament_lobby_status", (data: { players: any[]; countdown: number }) => {
+      setTournamentLobby(data.players);
+      setLobbyCountdown(data.countdown);
+      setIsInTournamentLobby(true);
+    });
+
+    activeSocket.on("tournament_started", (data: { tournamentId: string; name: string; domain: string; bracket: TournamentBracket }) => {
+      setActiveTournament({
+        id: data.tournamentId,
+        name: data.name,
+        domain: data.domain,
+        starts_at: new Date().toISOString(),
+        ends_at: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
+        status: "active"
+      });
+      setActiveBracket(data.bracket);
+      setIsInTournamentLobby(false);
+      setShowBracketModal(true);
+      playSound("confirm");
+    });
+
+    activeSocket.on("bracket_updated", (data: { tournamentId: string; bracket: TournamentBracket }) => {
+      setActiveBracket(data.bracket);
+    });
+
+    activeSocket.on("tournament_completed", (data: { tournamentId: string; winner: any; bracket: TournamentBracket }) => {
+      setActiveBracket(data.bracket);
+      setIsBracketQueueing(false);
+      refreshPlayerMetaRef.current();
+      playSound("victory");
+    });
+
+    activeSocket.on("tournament_canceled", (data: { reason: string }) => {
+      setIsInTournamentLobby(false);
+      setTournamentLobby([]);
+      setLobbyCountdown(0);
+      setStatus(data.reason);
+      playSound("error");
+    });
+
+    activeSocket.on("tournament_error", (data: { error: string }) => {
+      setStatus(data.error);
+      playSound("error");
+    });
+
     return () => {
       activeSocket.removeAllListeners();
       activeSocket.disconnect();
@@ -1647,7 +1761,7 @@ export default function Home() {
     socketRef.current.emit(bot ? "join_bot_queue" : "join_queue", { authToken: token, domain });
   };
 
-  const joinTournamentQueue = () => {
+  const joinTournamentLobby = () => {
     if (!socketRef.current || !token || !account) {
       setScreen("auth");
       setStatus("Create an account or sign in before playing.");
@@ -1655,8 +1769,27 @@ export default function Home() {
       return;
     }
     playSound("queue");
-    setIsTournamentMatchmaking(true);
-    socketRef.current.emit("join_tournament_queue", { authToken: token });
+    socketRef.current.emit("join_tournament_lobby", { authToken: token });
+    setIsInTournamentLobby(true);
+  };
+
+  const leaveTournamentLobby = () => {
+    if (!socketRef.current) return;
+    playSound("select");
+    socketRef.current.emit("leave_tournament_lobby");
+    setIsInTournamentLobby(false);
+    setTournamentLobby([]);
+    setLobbyCountdown(0);
+  };
+
+  const queueTournamentMatch = (matchId: string) => {
+    if (!socketRef.current || !activeTournament) return;
+    playSound("queue");
+    setIsBracketQueueing(true);
+    socketRef.current.emit("queue_tournament_match", {
+      tournamentId: activeTournament.id,
+      matchId
+    });
   };
 
   // Daily Challenge Logic
@@ -1689,12 +1822,13 @@ export default function Home() {
     setIsDailyChallengeActive(true);
 
     try {
-      const data = await apiRequest<{ success: boolean; streak: number; xpAwarded: number }>("/daily-challenge/attempt", {
+      const data = await apiRequest<{ success: boolean; streak: number; highestStreak: number; xpAwarded: number }>("/daily-challenge/attempt", {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` }
       });
       if (data.success) {
         setDailyStreak(data.streak);
+        setHighestDailyStreak(data.highestStreak);
         setAlreadyPlayedDaily(true);
         // Refresh account metadata (updates Level/XP)
         apiRequest<{ user: Account }>("/me", { headers: { Authorization: `Bearer ${token}` } })
@@ -2028,10 +2162,13 @@ export default function Home() {
                             <span className="rounded bg-gradient-to-r from-teal-400 to-emerald-400 border border-teal-300 px-1.5 py-0.5 text-[10px] font-mono font-black text-slate-950 shadow-[0_0_10px_rgba(45,212,191,0.2)]">
                               Lvl {viewingUser.level || 1}
                             </span>
-                            {viewingUser.dailyStreak ? (
-                              <span className="shrink-0 rounded border border-orange-500/30 bg-orange-950/50 px-1.5 py-0.5 text-[10px] font-mono font-black text-orange-405 flex items-center gap-1 shadow-[0_0_10px_rgba(249,115,22,0.2)] animate-pulse">
-                                <Flame size={11} fill="currentColor" />
-                                {viewingUser.dailyStreak}D STREAK
+                            {viewingUser.dailyStreak || viewingUser.highestDailyStreak ? (
+                              <span className="shrink-0 rounded border border-orange-500/30 bg-orange-950/40 px-1.5 py-0.5 text-[10px] font-mono font-black text-orange-400 flex items-center gap-1.5 shadow-[0_0_10px_rgba(249,115,22,0.2)]">
+                                <Flame size={11} fill="currentColor" className="animate-pulse" />
+                                <span>{viewingUser.dailyStreak || 0}D</span>
+                                <span className="h-2.5 w-[1px] bg-orange-500/30 mx-0.5" />
+                                <Trophy size={10} className="text-amber-400" fill="currentColor" />
+                                <span className="text-amber-400">{Math.max(viewingUser.highestDailyStreak || 0, viewingUser.dailyStreak || 0)}D</span>
                               </span>
                             ) : null}
                           </div>
@@ -2896,6 +3033,15 @@ export default function Home() {
                       </span>
                     </div>
 
+                    {Math.max(highestDailyStreak || 0, dailyStreak || 0) > 0 && (
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="text-slate-400">Highest Streak:</span>
+                        <span className="text-amber-400 font-mono font-black uppercase flex items-center gap-1.5">
+                          <Trophy size={14} fill="currentColor" /> {Math.max(highestDailyStreak || 0, dailyStreak || 0)} Day Best
+                        </span>
+                      </div>
+                    )}
+
                     <div className="flex justify-between items-center text-xs border-t border-white/5 pt-3">
                       <span className="text-slate-400">XP Reward:</span>
                       <span className="text-teal-400 font-mono font-black uppercase">
@@ -2916,6 +3062,162 @@ export default function Home() {
                   </button>
                 </div>
               ) : null}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Tournament Bracket Modal */}
+      <AnimatePresence>
+        {showBracketModal && activeBracket && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-slate-950/85 backdrop-blur-md"
+              onClick={() => setShowBracketModal(false)}
+            />
+            <motion.div
+              initial={{ scale: 0.95, y: 15, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.95, y: 15, opacity: 0 }}
+              className="relative flex max-h-[90dvh] w-full max-w-5xl flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-slate-900/95 p-6 shadow-2xl backdrop-blur-2xl z-10"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="mb-6 flex items-start justify-between">
+                <div>
+                  <span className="rounded bg-purple-500/10 border border-purple-500/20 px-2 py-0.5 text-[9px] font-black uppercase text-purple-400 font-mono tracking-wider">
+                    Tournament Championship Bracket
+                  </span>
+                  <h3 className="text-xl font-black uppercase text-white mt-1.5 tracking-wide">
+                    {activeTournament?.name}
+                  </h3>
+                  <p className="text-xs text-purple-300 font-mono mt-0.5">
+                    {activeBracket.champion ? "Tournament Concluded" : `Round ${activeBracket.currentRound + 1} • Round ends in ${roundCountdown}s`}
+                  </p>
+                </div>
+                <button
+                  onClick={() => { playSound("select"); setShowBracketModal(false); }}
+                  className="rounded-lg border border-white/5 bg-white/[0.02] p-1.5 text-slate-400 hover:text-white transition"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              {activeBracket.champion && (
+                <div className="mb-6 rounded-2xl bg-amber-500/10 border border-amber-500/20 p-4 text-center flex flex-col items-center justify-center relative overflow-hidden animate-pulse shadow-[0_0_20px_rgba(245,158,11,0.1)]">
+                  <div className="absolute inset-0 bg-gradient-to-r from-amber-500/5 to-yellow-500/5 pointer-events-none" />
+                  <Trophy size={36} className="text-amber-400 animate-bounce" fill="currentColor" />
+                  <h4 className="text-md font-black uppercase text-amber-300 mt-2 font-mono tracking-widest">
+                    Tournament Champion
+                  </h4>
+                  <div className="mt-2 flex items-center gap-2">
+                    <img
+                      src={activeBracket.champion.avatarUrl || "https://api.dicebear.com/9.x/bottts/svg?seed=fallback"}
+                      alt="Champion Avatar"
+                      className="h-8 w-8 rounded-full border border-amber-500/30"
+                    />
+                    <span className="text-lg font-black text-white font-mono uppercase tracking-wide">
+                      {activeBracket.champion.username}
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {/* Bracket Tree Layout */}
+              <div className="flex-1 w-full overflow-auto pr-0.5 py-4 scrollbar-thin">
+                <div 
+                  className="grid gap-8 items-stretch relative h-full"
+                  style={{ 
+                    gridTemplateColumns: `repeat(${activeBracket.rounds.length}, minmax(0, 1fr))`,
+                    minWidth: `${activeBracket.rounds.length * 220}px`
+                  }}
+                >
+                  {activeBracket.rounds.map((round) => (
+                    <div key={round.roundIndex} className="flex flex-col gap-6 w-full h-full justify-center">
+                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 font-mono text-center border-b border-white/5 pb-2">
+                        {round.name}
+                      </p>
+                      {round.matches.map((match) => {
+                        const isUserMatch = match.p1?.userId === account?.id || match.p2?.userId === account?.id;
+                        const hasQueued = match.queued?.includes(account?.id || "");
+                        return (
+                          <div
+                            key={match.id}
+                            className={`rounded-2xl border p-4 bg-black/35 shadow-lg relative ${
+                              isUserMatch ? "border-purple-500/40 bg-purple-950/5 shadow-[0_0_15px_rgba(168,85,247,0.05)]" : "border-white/[0.06]"
+                            }`}
+                          >
+                            <div className="space-y-3">
+                              {/* Player 1 Slot */}
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                  {match.p1 ? (
+                                    <>
+                                      <img src={match.p1.avatarUrl} className="h-6 w-6 rounded-full border border-white/10" />
+                                      <span className={`text-xs font-mono font-bold ${match.winner?.userId === match.p1.userId ? "text-amber-400" : "text-slate-200"}`}>
+                                        {match.p1.username}
+                                      </span>
+                                    </>
+                                  ) : (
+                                    <span className="text-xs text-slate-500 font-mono">TBD</span>
+                                  )}
+                                </div>
+                                {match.winner?.userId === match.p1?.userId && <Trophy size={12} className="text-amber-400" fill="currentColor" />}
+                              </div>
+
+                              <div className="h-px bg-white/[0.04] w-full" />
+
+                              {/* Player 2 Slot */}
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                  {match.p2 ? (
+                                    <>
+                                      <img src={match.p2.avatarUrl} className="h-6 w-6 rounded-full border border-white/10" />
+                                      <span className={`text-xs font-mono font-bold ${match.winner?.userId === match.p2.userId ? "text-amber-400" : "text-slate-200"}`}>
+                                        {match.p2.username}
+                                      </span>
+                                    </>
+                                  ) : (
+                                    <span className="text-xs text-slate-500 font-mono">TBD</span>
+                                  )}
+                                </div>
+                                {match.winner?.userId === match.p2?.userId && <Trophy size={12} className="text-amber-400" fill="currentColor" />}
+                              </div>
+                            </div>
+
+                            {/* Match Actions */}
+                            {isUserMatch && match.status === "scheduled" && match.p1 && match.p2 && (
+                              <div className="mt-4">
+                                {hasQueued ? (
+                                  <div className="w-full flex items-center justify-center gap-2 bg-purple-950/20 border border-purple-500/20 rounded-lg py-2 text-xs font-black uppercase text-purple-400 animate-pulse">
+                                    <span className="h-1.5 w-1.5 rounded-full bg-purple-400 animate-ping" />
+                                    Waiting for Opponent...
+                                  </div>
+                                ) : (
+                                  <button
+                                    onClick={() => queueTournamentMatch(match.id)}
+                                    className="w-full rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-450 hover:to-teal-450 text-slate-950 font-black uppercase text-xs py-2 shadow-[0_0_15px_rgba(16,185,129,0.15)] transition duration-200"
+                                  >
+                                    Play Match
+                                  </button>
+                                )}
+                              </div>
+                            )}
+
+                            {match.status === "playing" && (
+                              <div className="mt-4 text-center text-[10px] font-black uppercase tracking-wider text-purple-400 font-mono animate-pulse">
+                                Match In Progress
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ))}
+                </div>
+              </div>
             </motion.div>
           </div>
         )}
@@ -3638,10 +3940,13 @@ export default function Home() {
                     </span>
                   )}
                   <span className="rounded bg-gradient-to-r from-teal-400 to-emerald-400 border border-teal-300 px-2 py-0.5 text-xs font-mono font-black text-slate-950 shadow-[0_0_12px_rgba(45,212,191,0.25)]">Lvl {account.level || 1}</span>
-                  {account.dailyStreak ? (
-                    <span className="shrink-0 rounded border border-orange-500/30 bg-orange-950/50 px-2 py-0.5 text-xs font-mono font-black text-orange-405 flex items-center gap-1 shadow-[0_0_12px_rgba(249,115,22,0.3)] animate-pulse">
-                      <Flame size={12} fill="currentColor" />
-                      {account.dailyStreak}D STREAK
+                  {account.dailyStreak || account.highestDailyStreak ? (
+                    <span className="shrink-0 rounded border border-orange-500/30 bg-orange-950/40 px-2 py-0.5 text-xs font-mono font-black text-orange-400 flex items-center gap-1.5 shadow-[0_0_12px_rgba(249,115,22,0.25)]">
+                      <Flame size={12} fill="currentColor" className="animate-pulse" />
+                      <span>{account.dailyStreak || 0}D</span>
+                      <span className="h-3 w-[1px] bg-orange-500/30 mx-0.5" />
+                      <Trophy size={11} className="text-amber-400" fill="currentColor" />
+                      <span className="text-amber-400">{Math.max(account.highestDailyStreak || 0, account.dailyStreak || 0)}D</span>
                     </span>
                   ) : null}
                 </div>
@@ -3667,10 +3972,10 @@ export default function Home() {
               </div>
             </div>
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-3">
-              <Stat icon={<Zap size={18} />} label="Elo" value={String(account.elo)} />
-              <Stat icon={<Trophy size={18} />} label="Best" value={String(account.bestElo)} />
-              <Stat icon={<Swords size={18} />} label="Games" value={String(account.gamesPlayed)} />
-              <Stat icon={<Flame size={18} />} label="Win Rate" value={`${winRate}%`} />
+              <Stat icon={<Zap size={18} />} label="Elo" value={String(account.elo)} type="teal" />
+              <Stat icon={<Trophy size={18} />} label="Best" value={String(account.bestElo)} type="amber" />
+              <Stat icon={<Swords size={18} />} label="Games" value={String(account.gamesPlayed)} type="purple" />
+              <Stat icon={<Flame size={18} />} label="Win Rate" value={`${winRate}%`} type="rose" />
             </div>
           </div>
         </div>
@@ -3680,9 +3985,9 @@ export default function Home() {
             <h2 className="mb-4 flex items-center gap-2 text-xl font-black uppercase"> Battle Record</h2>
             <p className="mb-2 text-[9px] font-black uppercase tracking-widest text-teal-400/80">Ranked</p>
             <div className="grid grid-cols-3 gap-2 sm:gap-3">
-              <Stat icon={<Trophy size={18} />} label="Wins" value={String(account.wins)} />
-              <Stat icon={<Skull size={18} />} label="Losses" value={String(account.losses)} />
-              <Stat icon={<Award size={18} />} label="Draws" value={String(Math.max(0, (account.gamesPlayed || 0) - (account.wins || 0) - (account.losses || 0)))} />
+              <Stat icon={<Trophy size={18} />} label="Wins" value={String(account.wins)} type="teal" />
+              <Stat icon={<Skull size={18} />} label="Losses" value={String(account.losses)} type="rose" />
+              <Stat icon={<Award size={18} />} label="Draws" value={String(Math.max(0, (account.gamesPlayed || 0) - (account.wins || 0) - (account.losses || 0)))} type="amber" />
             </div>
             <div className="mt-4 rounded-xl border border-slate-700/40 bg-black/25 p-3">
               <p className="mb-2.5 text-[9px] font-black uppercase tracking-widest text-slate-500 flex items-center gap-1.5"><span className="inline-block h-1.5 w-1.5 rounded-full bg-slate-600"></span>Practice vs AI Bot</p>
@@ -4278,7 +4583,10 @@ export default function Home() {
           {gameState === "menu" && (
             <motion.div key="menu" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="grid min-w-0 items-center gap-4 py-2 sm:gap-6 lg:min-h-[calc(100vh-120px)] lg:grid-cols-[1.05fr_0.95fr]">
               <div className="space-y-5">
-                <div className="glass-panel overflow-hidden rounded-2xl scanline-overlay relative">
+                <div className="cyber-panel cyber-panel-teal overflow-hidden scanline-overlay relative border border-teal-500/20 shadow-[0_0_40px_rgba(45,212,191,0.04)]">
+                  {/* Corner Brackets */}
+                  <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-teal-400 z-20 pointer-events-none" />
+                  <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-teal-400 z-20 pointer-events-none" />
                   <BannerContainer bannerUrl={account?.bannerUrl} className="h-32 bg-cover bg-center relative opacity-80">
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 to-transparent" />
                   </BannerContainer>
@@ -4301,14 +4609,17 @@ export default function Home() {
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-4">
-                  <Stat icon={<Zap size={20} />} label="Elo" value={String(account?.elo || player.elo)} delay={0} />
-                  <Stat icon={<Trophy size={20} />} label="Best" value={String(account?.bestElo || player.elo)} delay={0.05} />
-                  <Stat icon={<Swords size={20} />} label="Games" value={String(account?.gamesPlayed || 0)} delay={0.1} />
-                  <Stat icon={<Flame size={20} />} label="Win Rate" value={`${winRate}%`} delay={0.15} />
+                  <Stat icon={<Zap size={20} />} label="Elo" value={String(account?.elo || player.elo)} type="teal" delay={0} />
+                  <Stat icon={<Trophy size={20} />} label="Best" value={String(account?.bestElo || player.elo)} type="amber" delay={0.05} />
+                  <Stat icon={<Swords size={20} />} label="Games" value={String(account?.gamesPlayed || 0)} type="purple" delay={0.1} />
+                  <Stat icon={<Flame size={20} />} label="Win Rate" value={`${winRate}%`} type="rose" delay={0.15} />
                 </div>
 
                 {/* Daily Challenge Quest Widget */}
-                <div className="glass-panel rounded-2xl border-orange-500/10 bg-orange-950/[0.04] p-5 shadow-[0_0_30px_rgba(249,115,22,0.02)]">
+                <div className="cyber-panel cyber-panel-orange p-5 border border-orange-500/25 shadow-[0_0_40px_rgba(249,115,22,0.04)]">
+                  {/* Corner Brackets */}
+                  <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-orange-400 z-20 pointer-events-none" />
+                  <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-orange-400 z-20 pointer-events-none" />
                   <div className="flex items-start justify-between">
                     <div>
                       <span className="rounded bg-orange-500/10 border border-orange-500/20 px-2 py-0.5 text-[9px] font-black uppercase text-orange-400 font-mono tracking-wider">
@@ -4322,13 +4633,17 @@ export default function Home() {
                       </p>
                     </div>
 
-                    <div className="flex flex-col items-center shrink-0">
-                      <div className="relative flex items-center justify-center h-11 w-11 rounded-xl bg-orange-500/10 border border-orange-500/25 text-orange-400 shadow-[0_0_15px_rgba(249,115,22,0.15)]">
-                        <Flame size={20} fill="currentColor" className="animate-pulse" />
+                    <div className="flex flex-col gap-1.5 shrink-0 justify-center">
+                      <div className="flex items-center gap-1.5 bg-orange-500/10 border border-orange-500/20 rounded-lg px-2 py-1 text-orange-400 shadow-[0_0_10px_rgba(249,115,22,0.05)]">
+                        <Flame size={12} fill="currentColor" className="animate-pulse" />
+                        <span className="font-mono text-[9px] font-black uppercase tracking-wider">{dailyStreak}d streak</span>
                       </div>
-                      <span className="font-mono text-[10px] font-black text-orange-300 mt-1.5 uppercase tracking-wider">
-                        {dailyStreak}d streak
-                      </span>
+                      {Math.max(highestDailyStreak || 0, dailyStreak || 0) > 0 && (
+                        <div className="flex items-center gap-1.5 bg-amber-500/10 border border-amber-500/20 rounded-lg px-2 py-1 text-amber-400 shadow-[0_0_10px_rgba(245,158,11,0.05)]">
+                          <Trophy size={11} fill="currentColor" />
+                          <span className="font-mono text-[9px] font-black uppercase tracking-wider">{Math.max(highestDailyStreak || 0, dailyStreak || 0)}d best</span>
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -4364,7 +4679,10 @@ export default function Home() {
               </div>
 
               <div className="space-y-4">
-                <div className="glass-panel rounded-2xl border-teal-500/20 bg-teal-950/25 p-5 shadow-[0_0_40px_rgba(45,212,191,0.06)]">
+                <div className="cyber-panel cyber-panel-teal p-5 border border-teal-500/30 shadow-[0_0_50px_rgba(45,212,191,0.08)]">
+                  {/* Corner Brackets */}
+                  <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-teal-400 z-20 pointer-events-none" />
+                  <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-teal-400 z-20 pointer-events-none" />
                   <h2 className="font-display text-3xl font-black uppercase tracking-normal text-teal-100">Choose your queue</h2>
                   <p className="mt-2 text-sm text-slate-300 leading-relaxed">Ranked uses your account Elo. Bot matches are safe practice, they do not affect your elo.</p>
 
@@ -4427,76 +4745,118 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Timed Tournament Arena Widget */}
-                {activeTournament && (
-                  <div className="glass-panel rounded-2xl border-purple-500/20 bg-purple-950/20 p-5 shadow-[0_0_30px_rgba(168,85,247,0.06)] relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/5 rounded-full blur-xl pointer-events-none" />
-                    
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <div className="flex items-center gap-2">
+                {/* Tournament Bracket / Lobby Arena Widget */}
+                <div className="cyber-panel cyber-panel-purple p-5 border border-purple-500/25 shadow-[0_0_40px_rgba(168,85,247,0.05)] relative overflow-hidden">
+                  {/* Corner Brackets */}
+                  <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-purple-400 z-20 pointer-events-none" />
+                  <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-purple-400 z-20 pointer-events-none" />
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/5 rounded-full blur-xl pointer-events-none" />
+                  
+                  {activeBracket ? (
+                    <div>
+                      <div className="flex items-start justify-between">
+                        <div>
                           <span className="rounded bg-purple-500/10 border border-purple-500/20 px-2 py-0.5 text-[9px] font-black uppercase text-purple-400 font-mono tracking-wider">
-                            Timed Event
+                            Championship Arena
                           </span>
-                          <span className="rounded bg-slate-900 border border-white/5 px-2 py-0.5 text-[9px] font-mono text-slate-400">
-                            {getFieldLabel(activeTournament.domain)}
-                          </span>
+                          <h3 className="text-lg font-black uppercase tracking-wide text-white mt-2">
+                            {activeTournament?.name || "Active Championship"}
+                          </h3>
+                          <p className="text-xs text-purple-300 font-mono mt-1 flex items-center gap-1.5 font-semibold">
+                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-ping" />
+                            Bracket Active &bull; Round {activeBracket.currentRound + 1}
+                          </p>
                         </div>
-                        <h3 className="text-lg font-black uppercase tracking-wide text-white mt-2">
-                          {activeTournament.name}
-                        </h3>
-                        <p className="text-xs text-purple-300 font-mono mt-1 flex items-center gap-1.5 font-semibold">
-                          <span className="h-1.5 w-1.5 rounded-full bg-purple-400 animate-pulse" />
-                          {tournamentTimeLeftStr || "Loading timer..."}
+                        <div className="relative flex items-center justify-center h-11 w-11 rounded-xl bg-purple-500/10 border border-purple-500/25 text-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.15)]">
+                          <Trophy size={20} fill="currentColor" />
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={() => { playSound("confirm"); setShowBracketModal(true); }}
+                        className="w-full mt-5 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 text-slate-950 hover:from-purple-450 hover:to-pink-450 py-3 text-xs font-black uppercase tracking-wider transition-all duration-300 shadow-md"
+                      >
+                        Open Bracket View
+                      </button>
+                    </div>
+                  ) : tournamentLobby.length > 0 ? (
+                    <div>
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <span className="rounded bg-purple-500/10 border border-purple-500/20 px-2 py-0.5 text-[9px] font-black uppercase text-purple-400 font-mono tracking-wider animate-pulse">
+                            Tournament Lobby
+                          </span>
+                          <h3 className="text-lg font-black uppercase tracking-wide text-white mt-2">
+                            Waiting for Players
+                          </h3>
+                          <p className="text-xs text-purple-300 font-mono mt-1 flex items-center gap-1.5 font-semibold">
+                            <span className="h-1.5 w-1.5 rounded-full bg-purple-500 animate-pulse" />
+                            Starts in {lobbyCountdown}s
+                          </p>
+                        </div>
+                        <div className="relative flex items-center justify-center h-11 w-11 rounded-xl bg-purple-500/10 border border-purple-500/25 text-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.15)]">
+                          <Users size={20} />
+                        </div>
+                      </div>
+
+                      <div className="mt-4 rounded-xl border border-white/[0.04] bg-black/40 p-3.5 space-y-2">
+                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 font-mono">
+                          Lobby Participants ({tournamentLobby.length} / 8)
                         </p>
+                        <div className="flex flex-wrap gap-2">
+                          {tournamentLobby.map(p => (
+                            <div key={p.userId} className="flex items-center gap-1.5 bg-white/[0.03] border border-white/5 rounded-lg px-2.5 py-1 text-slate-300 text-xs font-bold font-mono">
+                              <span className="h-1.5 w-1.5 rounded-full bg-purple-400" />
+                              {p.username}
+                            </div>
+                          ))}
+                        </div>
                       </div>
 
-                      <div className="relative flex items-center justify-center h-11 w-11 rounded-xl bg-purple-500/10 border border-purple-500/25 text-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.15)]">
-                        <Trophy size={20} fill="currentColor" />
-                      </div>
+                      {isInTournamentLobby ? (
+                        <button
+                          onClick={leaveTournamentLobby}
+                          className="w-full mt-4 rounded-lg border border-red-500/20 bg-red-950/20 hover:bg-red-900/20 text-red-400 hover:text-red-300 transition-all py-2.5 text-xs font-black uppercase tracking-wider"
+                        >
+                          Leave Lobby
+                        </button>
+                      ) : (
+                        <button
+                          onClick={joinTournamentLobby}
+                          className="w-full mt-4 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 text-slate-950 hover:from-purple-450 hover:to-pink-450 py-3 text-xs font-black uppercase tracking-wider transition-all duration-300 shadow-md"
+                        >
+                          Join Tournament Lobby
+                        </button>
+                      )}
                     </div>
-
-                    <div className="mt-4 rounded-xl border border-white/[0.04] bg-black/40 p-3.5 space-y-2">
-                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 font-mono">
-                        Your Event Performance
-                      </p>
-                      <div className="grid grid-cols-3 gap-2 text-center">
-                        <div className="rounded-lg bg-white/[0.02] border border-white/5 p-2">
-                          <p className="text-[9.5px] font-bold text-slate-500 uppercase">Wins</p>
-                          <p className="font-mono text-sm font-black text-emerald-400 mt-0.5">{myTournamentScore?.wins ?? 0}</p>
+                  ) : (
+                    <div>
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <span className="rounded bg-purple-500/10 border border-purple-500/20 px-2 py-0.5 text-[9px] font-black uppercase text-purple-400 font-mono tracking-wider">
+                            Championship Format
+                          </span>
+                          <h3 className="text-lg font-black uppercase tracking-wide text-white mt-2">
+                            Bracket Tournament
+                          </h3>
+                          <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+                            Compete in a dynamic knockout bracket against other players. No bots, 8-Player single-elimination.
+                          </p>
                         </div>
-                        <div className="rounded-lg bg-white/[0.02] border border-white/5 p-2">
-                          <p className="text-[9.5px] font-bold text-slate-500 uppercase">Losses</p>
-                          <p className="font-mono text-sm font-black text-rose-400 mt-0.5">{myTournamentScore?.losses ?? 0}</p>
-                        </div>
-                        <div className="rounded-lg bg-white/[0.02] border border-white/5 p-2">
-                          <p className="text-[9.5px] font-bold text-slate-500 uppercase">Points</p>
-                          <p className="font-mono text-sm font-black text-purple-400 mt-0.5">{myTournamentScore?.points ?? 0}</p>
+                        <div className="relative flex items-center justify-center h-11 w-11 rounded-xl bg-purple-500/10 border border-purple-500/25 text-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.15)]">
+                          <Swords size={20} />
                         </div>
                       </div>
-                    </div>
 
-                    <div className="mt-4 border-t border-white/[0.06] pt-4 grid gap-3 sm:grid-cols-2">
                       <button
-                        onClick={joinTournamentQueue}
-                        disabled={isTournamentMatchmaking}
-                        className={`rounded-lg py-2.5 text-xs font-black uppercase tracking-wider transition-all duration-300 shadow-md ${
-                          isTournamentMatchmaking 
-                            ? "bg-purple-900/40 border border-purple-500/30 text-purple-300 animate-pulse cursor-wait"
-                            : "bg-gradient-to-r from-purple-500 to-pink-500 text-slate-950 hover:from-purple-450 hover:to-pink-450"
-                        }`}
+                        onClick={joinTournamentLobby}
+                        className="w-full mt-5 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 text-slate-950 hover:from-purple-450 hover:to-pink-450 py-3 text-xs font-black uppercase tracking-wider transition-all duration-300 shadow-md"
                       >
-                        {isTournamentMatchmaking ? "Searching Match..." : "Join Event Queue"}
-                      </button>
-                      <button
-                        onClick={() => { playSound("confirm"); setShowTournamentLeaderboardModal(true); }}
-                        className="rounded-lg border border-white/10 bg-white/[0.02] hover:bg-white/[0.04] text-slate-200 hover:text-white transition-all py-2.5 text-xs font-black uppercase tracking-wider"
-                      >
-                        Leaderboard
+                        Join Tournament Lobby
                       </button>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
 
               {/* Creator / Community Promo Footer */}
@@ -5327,24 +5687,51 @@ function VersusPlayer({ profile, side }: { profile: FighterProfile; side: "left"
   );
 }
 
-function Stat({ icon, label, value, delay = 0 }: { icon: React.ReactNode; label: string; value: string; delay?: number }) {
+function Stat({ icon, label, value, type = "teal", delay = 0 }: { icon: React.ReactNode; label: string; value: string; type?: "teal" | "amber" | "purple" | "rose"; delay?: number }) {
+  const cardClass = 
+    type === "teal" ? "border-teal-500/30 hover:border-teal-400/80 hover:shadow-[0_12px_30px_rgba(45,212,191,0.18)]" :
+    type === "amber" ? "border-amber-500/30 hover:border-amber-400/80 hover:shadow-[0_12px_30px_rgba(245,158,11,0.18)]" :
+    type === "purple" ? "border-purple-500/30 hover:border-purple-400/80 hover:shadow-[0_12px_30px_rgba(168,85,247,0.18)]" :
+    "border-rose-500/30 hover:border-rose-400/80 hover:shadow-[0_12px_30px_rgba(244,63,94,0.18)]";
+    
+  const colorClass = 
+    type === "teal" ? "text-teal-400" :
+    type === "amber" ? "text-amber-400" :
+    type === "purple" ? "text-purple-400" :
+    "text-rose-450";
+    
+  const glowTextClass = 
+    type === "teal" ? "group-hover:text-teal-200 text-teal-400" :
+    type === "amber" ? "group-hover:text-amber-200 text-amber-450" :
+    type === "purple" ? "group-hover:text-purple-200 text-purple-450" :
+    "group-hover:text-rose-200 text-rose-500";
+
+  const cornerBorderColor = 
+    type === "teal" ? "border-teal-400" :
+    type === "amber" ? "border-amber-400" :
+    type === "purple" ? "border-purple-400" :
+    "border-rose-450";
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay }}
-      whileHover={{ y: -3, transition: { duration: 0.2 } }}
-      className="group relative overflow-hidden rounded-xl border border-white/[0.08] bg-slate-950/45 p-4 card-hover-lift"
+      whileHover={{ y: -4 }}
+      className={`group relative rounded-xl border bg-slate-950/65 p-5 transition-all duration-300 overflow-hidden shadow-lg ${cardClass}`}
     >
-      <div className="absolute -right-2 -bottom-2 opacity-[0.07] text-teal-400 group-hover:scale-125 transition-transform duration-500">
+      {/* Corner Brackets */}
+      <div className={`absolute top-0 left-0 w-3.5 h-3.5 border-t-2 border-l-2 ${cornerBorderColor} pointer-events-none`} />
+      <div className={`absolute bottom-0 right-0 w-3.5 h-3.5 border-b-2 border-r-2 ${cornerBorderColor} pointer-events-none`} />
+
+      <div className={`absolute -right-3 -bottom-3 opacity-[0.06] ${colorClass} group-hover:scale-125 transition-transform duration-500`}>
         {icon}
       </div>
-      <div className="absolute inset-0 bg-gradient-to-br from-teal-400/0 via-teal-400/0 to-teal-400/[0.04] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       <div className="relative mb-3 flex items-center justify-between">
-        <span className="text-teal-400/90 group-hover:text-teal-300 transition-colors">{icon}</span>
+        <span className={`${colorClass} transition-colors`}>{icon}</span>
       </div>
-      <p className="relative text-[10px] font-black uppercase tracking-widest text-slate-400">{label}</p>
-      <p className="relative mt-1.5 font-mono text-2xl font-black text-white group-hover:text-teal-200 transition-colors">{value}</p>
+      <p className="relative text-[10px] font-black uppercase tracking-widest text-slate-400 font-mono">{label}</p>
+      <p className={`relative mt-1.5 font-mono text-2xl font-black ${glowTextClass} transition-colors tech-readout`}>{value}</p>
     </motion.div>
   );
 }
