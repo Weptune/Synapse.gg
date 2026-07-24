@@ -5698,19 +5698,19 @@ function Stat({ icon, label, value, type = "teal", delay = 0 }: { icon: React.Re
     type === "teal" ? "text-teal-400" :
     type === "amber" ? "text-amber-400" :
     type === "purple" ? "text-purple-400" :
-    "text-rose-450";
+    "text-rose-400";
     
   const glowTextClass = 
     type === "teal" ? "group-hover:text-teal-200 text-teal-400" :
-    type === "amber" ? "group-hover:text-amber-200 text-amber-450" :
-    type === "purple" ? "group-hover:text-purple-200 text-purple-450" :
-    "group-hover:text-rose-200 text-rose-500";
+    type === "amber" ? "group-hover:text-amber-200 text-amber-400" :
+    type === "purple" ? "group-hover:text-purple-200 text-purple-400" :
+    "group-hover:text-rose-200 text-rose-400";
 
   const cornerBorderColor = 
     type === "teal" ? "border-teal-400" :
     type === "amber" ? "border-amber-400" :
     type === "purple" ? "border-purple-400" :
-    "border-rose-450";
+    "border-rose-400";
 
   return (
     <motion.div
