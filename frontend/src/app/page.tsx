@@ -4584,9 +4584,11 @@ export default function Home() {
             <motion.div key="menu" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="grid min-w-0 items-center gap-4 py-2 sm:gap-6 lg:min-h-[calc(100vh-120px)] lg:grid-cols-[1.05fr_0.95fr]">
               <div className="space-y-5">
                 <div className="cyber-panel cyber-panel-teal overflow-hidden scanline-overlay relative border border-teal-500/20 shadow-[0_0_40px_rgba(45,212,191,0.04)]">
-                  {/* Corner Brackets */}
-                  <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-teal-400 z-20 pointer-events-none" />
-                  <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-teal-400 z-20 pointer-events-none" />
+                  {/* Inner HUD Brackets */}
+                  <div className="absolute top-3 left-3 w-3 h-3 border-t-2 border-l-2 border-teal-400/50 z-20 pointer-events-none" />
+                  <div className="absolute top-3 right-3 w-3 h-3 border-t-2 border-r-2 border-teal-400/50 z-20 pointer-events-none" />
+                  <div className="absolute bottom-3 left-3 w-3 h-3 border-b-2 border-l-2 border-teal-400/50 z-20 pointer-events-none" />
+                  <div className="absolute bottom-3 right-3 w-3 h-3 border-b-2 border-r-2 border-teal-400/50 z-20 pointer-events-none" />
                   <BannerContainer bannerUrl={account?.bannerUrl} className="h-32 bg-cover bg-center relative opacity-80">
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 to-transparent" />
                   </BannerContainer>
@@ -4617,9 +4619,11 @@ export default function Home() {
 
                 {/* Daily Challenge Quest Widget */}
                 <div className="cyber-panel cyber-panel-orange p-5 border border-orange-500/25 shadow-[0_0_40px_rgba(249,115,22,0.04)]">
-                  {/* Corner Brackets */}
-                  <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-orange-400 z-20 pointer-events-none" />
-                  <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-orange-400 z-20 pointer-events-none" />
+                  {/* Inner HUD Brackets */}
+                  <div className="absolute top-3 left-3 w-3 h-3 border-t-2 border-l-2 border-orange-500/50 z-20 pointer-events-none" />
+                  <div className="absolute top-3 right-3 w-3 h-3 border-t-2 border-r-2 border-orange-500/50 z-20 pointer-events-none" />
+                  <div className="absolute bottom-3 left-3 w-3 h-3 border-b-2 border-l-2 border-orange-500/50 z-20 pointer-events-none" />
+                  <div className="absolute bottom-3 right-3 w-3 h-3 border-b-2 border-r-2 border-orange-500/50 z-20 pointer-events-none" />
                   <div className="flex items-start justify-between">
                     <div>
                       <span className="rounded bg-orange-500/10 border border-orange-500/20 px-2 py-0.5 text-[9px] font-black uppercase text-orange-400 font-mono tracking-wider">
@@ -4668,7 +4672,7 @@ export default function Home() {
                         </span>
                         <button
                           onClick={startDailyChallenge}
-                          className="rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 px-5 py-2.5 text-xs font-black uppercase tracking-wider text-slate-950 shadow-[0_0_15px_rgba(249,115,22,0.2)] hover:from-orange-450 hover:to-amber-450 transition duration-300"
+                          className="btn-cyber-orange px-5 py-2.5 text-xs"
                         >
                           Start Challenge
                         </button>
@@ -4680,9 +4684,11 @@ export default function Home() {
 
               <div className="space-y-4">
                 <div className="cyber-panel cyber-panel-teal p-5 border border-teal-500/30 shadow-[0_0_50px_rgba(45,212,191,0.08)]">
-                  {/* Corner Brackets */}
-                  <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-teal-400 z-20 pointer-events-none" />
-                  <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-teal-400 z-20 pointer-events-none" />
+                  {/* Inner HUD Brackets */}
+                  <div className="absolute top-3 left-3 w-3 h-3 border-t-2 border-l-2 border-teal-400/50 z-20 pointer-events-none" />
+                  <div className="absolute top-3 right-3 w-3 h-3 border-t-2 border-r-2 border-teal-400/50 z-20 pointer-events-none" />
+                  <div className="absolute bottom-3 left-3 w-3 h-3 border-b-2 border-l-2 border-teal-400/50 z-20 pointer-events-none" />
+                  <div className="absolute bottom-3 right-3 w-3 h-3 border-b-2 border-r-2 border-teal-400/50 z-20 pointer-events-none" />
                   <h2 className="font-display text-3xl font-black uppercase tracking-normal text-teal-100">Choose your queue</h2>
                   <p className="mt-2 text-sm text-slate-300 leading-relaxed">Ranked uses your account Elo. Bot matches are safe practice, they do not affect your elo.</p>
 
@@ -4736,20 +4742,22 @@ export default function Home() {
                   </div>
 
                   <div className="grid gap-3 sm:grid-cols-2">
-                    <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={() => joinQueue(false)} className="btn-arena-primary px-6 py-5">
-                      <span className="relative z-10">Find Ranked Match</span>
-                    </motion.button>
-                    <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={() => joinQueue(true)} className="btn-arena-ghost px-6 py-5">
+                    <button onClick={() => joinQueue(false)} className="btn-cyber-primary w-full text-center">
+                      Find Ranked Match
+                    </button>
+                    <button onClick={() => joinQueue(true)} className="btn-cyber-ghost w-full text-center">
                       Play vs AI Bot
-                    </motion.button>
+                    </button>
                   </div>
                 </div>
 
                 {/* Tournament Bracket / Lobby Arena Widget */}
                 <div className="cyber-panel cyber-panel-purple p-5 border border-purple-500/25 shadow-[0_0_40px_rgba(168,85,247,0.05)] relative overflow-hidden">
-                  {/* Corner Brackets */}
-                  <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-purple-400 z-20 pointer-events-none" />
-                  <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-purple-400 z-20 pointer-events-none" />
+                  {/* Inner HUD Brackets */}
+                  <div className="absolute top-3 left-3 w-3 h-3 border-t-2 border-l-2 border-purple-500/50 z-20 pointer-events-none" />
+                  <div className="absolute top-3 right-3 w-3 h-3 border-t-2 border-r-2 border-purple-500/50 z-20 pointer-events-none" />
+                  <div className="absolute bottom-3 left-3 w-3 h-3 border-b-2 border-l-2 border-purple-500/50 z-20 pointer-events-none" />
+                  <div className="absolute bottom-3 right-3 w-3 h-3 border-b-2 border-r-2 border-purple-500/50 z-20 pointer-events-none" />
                   <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/5 rounded-full blur-xl pointer-events-none" />
                   
                   {activeBracket ? (
@@ -4816,14 +4824,14 @@ export default function Home() {
                       {isInTournamentLobby ? (
                         <button
                           onClick={leaveTournamentLobby}
-                          className="w-full mt-4 rounded-lg border border-red-500/20 bg-red-950/20 hover:bg-red-900/20 text-red-400 hover:text-red-300 transition-all py-2.5 text-xs font-black uppercase tracking-wider"
+                          className="btn-cyber-ghost border-red-500/30 text-red-400 hover:bg-red-500/10 hover:text-red-300 w-full mt-4 py-3.5 text-xs font-black uppercase tracking-wider"
                         >
                           Leave Lobby
                         </button>
                       ) : (
                         <button
                           onClick={joinTournamentLobby}
-                          className="w-full mt-4 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 text-slate-950 hover:from-purple-450 hover:to-pink-450 py-3 text-xs font-black uppercase tracking-wider transition-all duration-300 shadow-md"
+                          className="btn-cyber-purple w-full mt-4 py-3.5 text-xs"
                         >
                           Join Tournament Lobby
                         </button>
@@ -4850,7 +4858,7 @@ export default function Home() {
 
                       <button
                         onClick={joinTournamentLobby}
-                        className="w-full mt-5 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 text-slate-950 hover:from-purple-450 hover:to-pink-450 py-3 text-xs font-black uppercase tracking-wider transition-all duration-300 shadow-md"
+                        className="btn-cyber-purple w-full mt-5 py-3.5 text-xs"
                       >
                         Join Tournament Lobby
                       </button>

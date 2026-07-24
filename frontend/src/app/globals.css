@@ -83,7 +83,7 @@
 .arena-orb {
   position: absolute;
   border-radius: 9999px;
-  filter: blur(72px);
+  filter: blur(140px);
   animation: arena-float 14s ease-in-out infinite;
   pointer-events: none;
   will-change: transform;
@@ -452,6 +452,62 @@
   font-family: var(--font-mono), monospace;
   letter-spacing: 0.06em;
   text-shadow: 0 0 10px currentColor;
+}
+
+/* ── Premium High-Tech Buttons ── */
+.btn-cyber-primary {
+  @apply relative overflow-hidden rounded-xl bg-gradient-to-r from-teal-500 to-emerald-400 font-mono text-xs font-black uppercase tracking-widest text-slate-950 px-6 py-4 shadow-[0_0_20px_rgba(45,212,191,0.2)] hover:from-teal-400 hover:to-emerald-300 hover:shadow-[0_0_35px_rgba(45,212,191,0.45)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300;
+}
+.btn-cyber-primary::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: all 0.6s;
+}
+.btn-cyber-primary:hover::before {
+  left: 100%;
+}
+
+.btn-cyber-ghost {
+  @apply relative overflow-hidden rounded-xl border border-white/10 bg-white/[0.02] font-mono text-xs font-black uppercase tracking-widest text-slate-300 px-6 py-4 hover:bg-white/[0.06] hover:border-white/20 hover:text-white hover:scale-[1.02] active:scale-[0.98] transition-all duration-300;
+}
+
+.btn-cyber-orange {
+  @apply relative overflow-hidden rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 font-mono text-xs font-black uppercase tracking-widest text-slate-950 px-6 py-4 shadow-[0_0_20px_rgba(249,115,22,0.2)] hover:from-orange-400 hover:to-amber-400 hover:shadow-[0_0_35px_rgba(249,115,22,0.45)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300;
+}
+.btn-cyber-orange::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+  transition: all 0.6s;
+}
+.btn-cyber-orange:hover::before {
+  left: 100%;
+}
+
+.btn-cyber-purple {
+  @apply relative overflow-hidden rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 font-mono text-xs font-black uppercase tracking-widest text-white px-6 py-4 shadow-[0_0_20px_rgba(168,85,247,0.2)] hover:from-purple-400 hover:to-pink-400 hover:shadow-[0_0_35px_rgba(168,85,247,0.45)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300;
+}
+.btn-cyber-purple::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+  transition: all 0.6s;
+}
+.btn-cyber-purple:hover::before {
+  left: 100%;
 }
 
 @media (prefers-reduced-motion: reduce) {
