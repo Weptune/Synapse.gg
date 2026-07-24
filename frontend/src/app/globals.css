@@ -15,11 +15,14 @@
 
 @layer base {
   body {
-    @apply bg-[#030712] text-slate-50 antialiased overflow-x-hidden min-h-screen;
-    background-image:
-      radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
-      radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 0.2) 0, transparent 50%),
-      radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 0.2) 0, transparent 50%);
+    @apply bg-[#020208] text-slate-50 antialiased overflow-x-hidden min-h-screen relative;
+    background-image: 
+      radial-gradient(circle at 15% 20%, rgba(20, 184, 166, 0.16) 0%, transparent 45%),
+      radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.18) 0%, transparent 45%),
+      radial-gradient(circle at 50% 80%, rgba(45, 212, 191, 0.12) 0%, transparent 50%),
+      radial-gradient(circle at 25% 85%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
+      radial-gradient(circle at 75% 80%, rgba(249, 115, 22, 0.06) 0%, transparent 35%);
+    background-attachment: fixed;
   }
 
 }
