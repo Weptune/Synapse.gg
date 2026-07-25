@@ -403,10 +403,11 @@ app.get('/daily-challenge', requireAuth, async (req, res) => {
     const user = await storage.getUserById(req.user.id);
     const alreadyPlayed = user.lastDailyChallengeAt === todayStr;
 
-    // Send the questions with answers stripped for security
+    // Send the questions with answers included for client-side grading
     const strippedQuestions = questions.map(q => ({
       prompt: q.prompt,
       options: q.options,
+      answer: q.answer,
       subject: q.subject,
       timeLimit: q.timeLimit
     }));
