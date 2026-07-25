@@ -937,7 +937,35 @@ setInterval(() => {
   }
 }, 1500);
 
+function cleanupMatch(matchId) {
+  if (!matchId) return;
+  const match = matches[matchId];
+  if (!match) return;
+
+  if (match.draftTimer) {
+    clearTimeout(match.draftTimer);
+    match.draftTimer = null;
+  }
+  if (match.roundTimer) {
+    clearTimeout(match.roundTimer);
+    match.roundTimer = null;
+  }
+
+  // Remove match references from players if they point to this match
+  if (match.p1 && players[match.p1.id] && players[match.p1.id].matchId === matchId) {
+    players[match.p1.id].matchId = null;
+  }
+  if (match.p2 && players[match.p2.id] && players[match.p2.id].matchId === matchId) {
+    players[match.p2.id].matchId = null;
+  }
+
+  delete matches[matchId];
+}
+
 function createMatch(p1, p2, domain = 'all') {
+  if (p1.matchId) cleanupMatch(p1.matchId);
+  if (p2.matchId) cleanupMatch(p2.matchId);
+
   const normalizedDomain = normalizeDomain(domain);
   const subjectPool = getSubjectPool(normalizedDomain);
   const matchId = `match_${p1.id}_${p2.id}`;
@@ -1595,7 +1623,7 @@ io.on('connection', (socket) => {
         if (match.state !== 'finished') {
           // If it's a practice bot match, we can just delete it immediately
           if (match.p1.isBot || match.p2.isBot) {
-            delete matches[player.matchId];
+            cleanupMatch(player.matchId);
           } else {
             // It's a ranked match! Handle forfeit to prevent disconnect exploit.
             const disconnectedPlayer = match.p1.id === socket.id ? match.p1 : match.p2;
@@ -1614,7 +1642,7 @@ io.on('connection', (socket) => {
             endMatch(match).catch(err => console.error("Error ending match on disconnect forfeit:", err));
           }
         } else {
-          delete matches[player.matchId];
+          cleanupMatch(player.matchId);
         }
       }
       delete players[socket.id];
@@ -2070,6 +2098,8 @@ async function endMatch(match) {
     roundsHistory: match.roundsHistory || []
   });
 
+  if (match.draftTimer) clearTimeout(match.draftTimer);
+  if (match.roundTimer) clearTimeout(match.roundTimer);
   delete matches[match.id];
 }
 
