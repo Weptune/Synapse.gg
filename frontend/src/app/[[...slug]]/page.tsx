@@ -669,6 +669,16 @@ function VsEmblem({ size = "lg" }: { size?: "sm" | "lg" }) {
 }
 
 export default function Home() {
+  const getScreenFromPath = (): Screen => {
+    if (typeof window === "undefined") return "play";
+    const path = window.location.pathname;
+    if (path === "/social") return "social";
+    if (path === "/profile") return "profile";
+    if (path === "/ranks" || path === "/leaderboard") return "leaderboard";
+    if (path === "/play" || path === "/game") return "play";
+    return "play";
+  };
+
   const socketRef = useRef<Socket | null>(null);
   const chatBottomRef = useRef<HTMLDivElement>(null);
   const [socketId, setSocketId] = useState<string | undefined>();
@@ -677,6 +687,47 @@ export default function Home() {
   const [screen, setScreen] = useState<Screen>("auth");
   const [authMode, setAuthMode] = useState<"login" | "signup">("signup");
   const [token, setToken] = useState<string | null>(null);
+
+  // Synchronize browser URL pathname with screen state
+  useEffect(() => {
+    const handlePopState = () => {
+      const path = window.location.pathname;
+      if (path === "/social") {
+        setScreen("social");
+      } else if (path === "/profile") {
+        setScreen("profile");
+      } else if (path === "/ranks" || path === "/leaderboard") {
+        setScreen("leaderboard");
+      } else if (path === "/play" || path === "/game") {
+        setScreen("play");
+      } else if (path === "/") {
+        const hasToken = localStorage.getItem("synapse_token") || token;
+        setScreen(hasToken ? "play" : "auth");
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    handlePopState();
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [token]);
+
+  useEffect(() => {
+    if (screen === "auth") {
+      if (window.location.pathname !== "/") {
+        window.history.pushState({ screen }, "", "/");
+      }
+      return;
+    }
+    let path = "/";
+    if (screen === "social") path = "/social";
+    else if (screen === "profile") path = "/profile";
+    else if (screen === "leaderboard") path = "/ranks";
+    else if (screen === "play") path = "/play";
+
+    if (window.location.pathname !== path) {
+      window.history.pushState({ screen }, "", path);
+    }
+  }, [screen]);
 
   useEffect(() => {
     const t = localStorage.getItem("synapse_token");
@@ -1282,7 +1333,7 @@ export default function Home() {
           avatarUrl: data.user.avatarUrl,
           bannerUrl: data.user.bannerUrl,
         });
-        setScreen("play");
+        setScreen(getScreenFromPath());
         refreshPlayerMeta(token);
       })
       .catch(() => {
@@ -1660,7 +1711,7 @@ export default function Home() {
         avatarUrl: data.user.avatarUrl,
         bannerUrl: data.user.bannerUrl,
       });
-      setScreen("play");
+      setScreen(getScreenFromPath());
       refreshPlayerMeta(data.token);
       playSound("confirm");
     } catch (error) {
