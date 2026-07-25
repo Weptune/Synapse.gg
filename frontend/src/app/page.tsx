@@ -3923,59 +3923,103 @@ export default function Home() {
 
     return (
       <motion.section key="profile" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -16 }} className="min-w-0 space-y-4 sm:space-y-6">
-        <div className="glass-panel overflow-hidden rounded-2xl scanline-overlay relative">
-          <BannerContainer bannerUrl={account.bannerUrl} className="h-56 bg-cover bg-center relative">
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 to-transparent" />
+        {/* Banner header container */}
+        <div className="relative rounded-2xl border border-white/[0.08] bg-slate-950/40 overflow-hidden shadow-lg h-44 sm:h-56 scanline-overlay">
+          <BannerContainer bannerUrl={account.bannerUrl} className="h-full bg-cover bg-center relative opacity-85">
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent" />
           </BannerContainer>
-          <div className="relative z-10 -mt-10 flex flex-col gap-4 px-4 pb-6 sm:gap-6 sm:px-6 md:flex-row md:items-end md:justify-between">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-4">
-              <AvatarImage username={account.username} avatarUrl={account.avatarUrl} alt={`${account.username} avatar`} className="h-24 w-24 rounded-2xl border-4 border-slate-900/80 bg-slate-800 object-cover shadow-2xl sm:h-32 sm:w-32" />
-              <div className="min-w-0 pb-1">
-                <p className="font-mono text-sm text-teal-300">@{account.username}</p>
-                <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                  <h1 className="text-2xl font-black uppercase tracking-normal text-white break-all sm:text-4xl">{account.username}</h1>
+          {/* Subtle decoration overlay */}
+          <div className="absolute top-3 right-3 text-[10px] font-mono text-slate-500 bg-slate-950/60 border border-white/5 px-2.5 py-1 rounded">
+            SYS_LOC: SYN_SECTOR_06
+          </div>
+        </div>
+
+        {/* Profile Details & Stats Layout */}
+        <div className="grid gap-4 sm:gap-6 lg:grid-cols-[1fr_1fr] items-stretch">
+          {/* Profile Card details */}
+          <div className="cyber-panel cyber-panel-teal p-6 border border-teal-500/20 shadow-xl flex flex-col justify-between relative overflow-hidden">
+            {/* Inner HUD Brackets */}
+            <div className="absolute top-3 left-3 w-3 h-3 border-t-2 border-l-2 border-teal-400/40 pointer-events-none" />
+            <div className="absolute top-3 right-3 w-3 h-3 border-t-2 border-r-2 border-teal-400/40 pointer-events-none" />
+            <div className="absolute bottom-3 left-3 w-3 h-3 border-b-2 border-l-2 border-teal-400/40 pointer-events-none" />
+            <div className="absolute bottom-3 right-3 w-3 h-3 border-b-2 border-r-2 border-teal-400/40 pointer-events-none" />
+
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5">
+              <AvatarImage 
+                username={account.username} 
+                avatarUrl={account.avatarUrl} 
+                alt={`${account.username} avatar`} 
+                className="h-28 w-28 rounded-2xl border-2 border-teal-400/30 bg-slate-900 object-cover shadow-xl shrink-0" 
+              />
+              <div className="min-w-0 text-center sm:text-left flex-1">
+                <p className="font-mono text-xs text-teal-400">@{account.username}</p>
+                <div className="flex flex-wrap justify-center sm:justify-start items-center gap-2 mt-1">
+                  <h1 className="text-2xl font-black uppercase text-white tracking-wide break-all">{account.username}</h1>
                   {account.username.toLowerCase() === "weptune" && (
-                    <span className="shrink-0 rounded border border-purple-500/30 bg-purple-950/50 px-2 py-0.8 text-[11px] font-mono font-black text-purple-300 shadow-[0_0_12px_rgba(168,85,247,0.5)] animate-pulse">
+                    <span className="shrink-0 rounded border border-purple-500/30 bg-purple-950/50 px-2 py-0.5 text-[9px] font-mono font-black text-purple-300 shadow-[0_0_12px_rgba(168,85,247,0.4)] animate-pulse">
                       CREATOR
                     </span>
                   )}
-                  <span className="rounded bg-gradient-to-r from-teal-400 to-emerald-400 border border-teal-300 px-2 py-0.5 text-xs font-mono font-black text-slate-950 shadow-[0_0_12px_rgba(45,212,191,0.25)]">Lvl {account.level || 1}</span>
-                  {account.dailyStreak || account.highestDailyStreak ? (
-                    <span className="shrink-0 rounded border border-orange-500/30 bg-orange-950/40 px-2 py-0.5 text-xs font-mono font-black text-orange-400 flex items-center gap-1.5 shadow-[0_0_12px_rgba(249,115,22,0.25)]">
-                      <Flame size={12} fill="currentColor" className="animate-pulse" />
-                      <span>{account.dailyStreak || 0}D</span>
-                      <span className="h-3 w-[1px] bg-orange-500/30 mx-0.5" />
-                      <Trophy size={11} className="text-amber-400" fill="currentColor" />
-                      <span className="text-amber-400">{Math.max(account.highestDailyStreak || 0, account.dailyStreak || 0)}D</span>
+                </div>
+                
+                <div className="flex flex-wrap justify-center sm:justify-start items-center gap-2 mt-2">
+                  <span className="rounded bg-gradient-to-r from-teal-400 to-emerald-400 border border-teal-300 px-2 py-0.5 text-[10px] font-mono font-black text-slate-950 shadow-[0_0_10px_rgba(45,212,191,0.2)]">Lvl {account.level || 1}</span>
+                  {(account.dailyStreak || 0) > 0 && (
+                    <span className="shrink-0 rounded border border-orange-500/30 bg-orange-950/40 px-2 py-0.5 text-[10px] font-mono font-black text-orange-400 flex items-center gap-1.5 shadow-[0_0_10px_rgba(249,115,22,0.2)]">
+                      <Flame size={11} fill="currentColor" className="animate-pulse" />
+                      <span>{account.dailyStreak}D STREAK</span>
                     </span>
-                  ) : null}
+                  )}
                 </div>
-
-                {/* XP Progress Bar */}
-                <div className="mt-3 max-w-sm">
-                  <div className="flex justify-between text-[9px] font-mono font-black uppercase text-slate-400 mb-1">
-                    <span>Progression XP</span>
-                    <span>{(account.xp || 0) % 500} / 500 XP</span>
-                  </div>
-                  <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-950/60 border border-white/5">
-                    <div className="h-full bg-gradient-to-r from-teal-400 to-emerald-400 shadow-[0_0_8px_rgba(45,212,191,0.3)] transition-all duration-500" style={{ width: `${(((account.xp || 0) % 500) / 500) * 100}%` }} />
-                  </div>
-                </div>
-
-                <p className="mt-4 max-w-xl text-slate-300">{account.bio}</p>
-                <button
-                  onClick={() => { playSound("select"); setShowFieldElosModal(true); }}
-                  className="mt-4 flex items-center gap-2 rounded-lg border border-teal-400/30 bg-teal-400/5 px-3.5 py-2 text-xs font-black uppercase tracking-widest text-teal-300 hover:bg-teal-400/10 hover:text-white transition duration-300 shadow-[0_0_12px_rgba(45,212,191,0.05)]"
-                >
-                  View Discipline Elos
-                </button>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-3">
-              <Stat icon={<Zap size={18} />} label="Elo" value={String(account.elo)} type="teal" />
-              <Stat icon={<Trophy size={18} />} label="Best" value={String(account.bestElo)} type="amber" />
-              <Stat icon={<Swords size={18} />} label="Games" value={String(account.gamesPlayed)} type="purple" />
-              <Stat icon={<Flame size={18} />} label="Win Rate" value={`${winRate}%`} type="rose" />
+
+            {/* XP Progress Bar */}
+            <div className="mt-5 bg-slate-950/40 border border-white/5 rounded-xl p-3.5">
+              <div className="flex justify-between text-[9px] font-mono font-black uppercase text-slate-400 mb-1.5">
+                <span>Progression XP</span>
+                <span>{(account.xp || 0) % 500} / 500 XP</span>
+              </div>
+              <div className="h-2 w-full overflow-hidden rounded-full bg-slate-950/80 border border-white/5">
+                <div className="h-full bg-gradient-to-r from-teal-400 to-emerald-400 shadow-[0_0_8px_rgba(45,212,191,0.3)] transition-all duration-500" style={{ width: `${(((account.xp || 0) % 500) / 500) * 100}%` }} />
+              </div>
+            </div>
+
+            {account.bio && (
+              <p className="mt-4 text-xs text-slate-350 font-medium italic border-l-2 border-teal-500/30 pl-3 py-0.5 leading-relaxed text-center sm:text-left">
+                "{account.bio}"
+              </p>
+            )}
+
+            <div className="mt-5">
+              <button
+                onClick={() => { playSound("select"); setShowFieldElosModal(true); }}
+                className="btn-cyber-primary w-full py-2.5 text-xs text-center"
+              >
+                View Discipline Elos
+              </button>
+            </div>
+          </div>
+
+          {/* Stats Summary Card */}
+          <div className="cyber-panel cyber-panel-purple p-6 border border-purple-500/20 shadow-xl flex flex-col justify-between relative overflow-hidden">
+            {/* Inner HUD Brackets */}
+            <div className="absolute top-3 left-3 w-3 h-3 border-t-2 border-l-2 border-purple-400/40 pointer-events-none" />
+            <div className="absolute top-3 right-3 w-3 h-3 border-t-2 border-r-2 border-purple-400/40 pointer-events-none" />
+            <div className="absolute bottom-3 left-3 w-3 h-3 border-b-2 border-l-2 border-purple-400/40 pointer-events-none" />
+            <div className="absolute bottom-3 right-3 w-3 h-3 border-b-2 border-r-2 border-purple-400/40 pointer-events-none" />
+
+            <div className="flex flex-col h-full justify-between">
+              <p className="text-[10px] font-mono font-black uppercase tracking-widest text-purple-450 flex items-center gap-1.5 mb-4">
+                <span className="h-1.5 w-1.5 rounded-full bg-purple-500 animate-pulse" />
+                Performance Metrics
+              </p>
+              <div className="grid grid-cols-2 gap-3 flex-1 items-stretch">
+                <Stat icon={<Zap size={18} />} label="Elo" value={String(account.elo)} type="teal" />
+                <Stat icon={<Trophy size={18} />} label="Best" value={String(account.bestElo)} type="amber" />
+                <Stat icon={<Swords size={18} />} label="Games" value={String(account.gamesPlayed)} type="purple" />
+                <Stat icon={<Flame size={18} />} label="Win Rate" value={`${winRate}%`} type="rose" />
+              </div>
             </div>
           </div>
         </div>
