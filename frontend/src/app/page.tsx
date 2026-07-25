@@ -3928,10 +3928,7 @@ export default function Home() {
           <BannerContainer bannerUrl={account.bannerUrl} className="h-full bg-cover bg-center relative opacity-85">
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent" />
           </BannerContainer>
-          {/* Subtle decoration overlay */}
-          <div className="absolute top-3 right-3 text-[10px] font-mono text-slate-500 bg-slate-950/60 border border-white/5 px-2.5 py-1 rounded">
-            SYS_LOC: SYN_SECTOR_06
-          </div>
+          {/* Banner decoration empty */}
         </div>
 
         {/* Profile Details & Stats Layout */}
@@ -3964,12 +3961,15 @@ export default function Home() {
                 
                 <div className="flex flex-wrap justify-center sm:justify-start items-center gap-2 mt-2">
                   <span className="rounded bg-gradient-to-r from-teal-400 to-emerald-400 border border-teal-300 px-2 py-0.5 text-[10px] font-mono font-black text-slate-950 shadow-[0_0_10px_rgba(45,212,191,0.2)]">Lvl {account.level || 1}</span>
-                  {(account.dailyStreak || 0) > 0 && (
+                  {account.dailyStreak || account.highestDailyStreak ? (
                     <span className="shrink-0 rounded border border-orange-500/30 bg-orange-950/40 px-2 py-0.5 text-[10px] font-mono font-black text-orange-400 flex items-center gap-1.5 shadow-[0_0_10px_rgba(249,115,22,0.2)]">
                       <Flame size={11} fill="currentColor" className="animate-pulse" />
-                      <span>{account.dailyStreak}D STREAK</span>
+                      <span>{account.dailyStreak || 0}D</span>
+                      <span className="h-3 w-[1px] bg-orange-500/20 mx-0.5" />
+                      <Trophy size={11} className="text-amber-400" fill="currentColor" />
+                      <span>{Math.max(account.highestDailyStreak || 0, account.dailyStreak || 0)}D BEST</span>
                     </span>
-                  )}
+                  ) : null}
                 </div>
               </div>
             </div>
