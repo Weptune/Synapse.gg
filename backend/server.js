@@ -1715,7 +1715,20 @@ function startNextRound(match) {
 
   if (match.p1.isBot || match.p2.isBot) {
     const botId = match.p1.isBot ? match.p1.id : match.p2.id;
-    const delay = 3500 + Math.random() * 4500;
+    
+    // Dynamically calculate bot answer delay based on question text and option lengths
+    const totalChars = (question.prompt || "").length + 
+                       (question.options || []).reduce((sum, opt) => sum + (opt || "").length, 0);
+    const readTimeBuffer = Math.min(6000, Math.max(1000, totalChars * 15));
+    const baseDelay = 2000 + Math.random() * 3000;
+    let delay = baseDelay + readTimeBuffer;
+
+    // Cap delay safely below the question's total timeLimit to ensure bot doesn't time out
+    const maxAllowedDelay = Math.max(2000, (question.timeLimit * 1000) - 1500);
+    if (delay > maxAllowedDelay) {
+      delay = maxAllowedDelay;
+    }
+
     setTimeout(() => {
       const liveMatch = matches[match.id];
       if (!liveMatch || liveMatch.state !== 'battle' || !liveMatch.roundState) return;
