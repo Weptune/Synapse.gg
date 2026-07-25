@@ -2141,113 +2141,149 @@ export default function Home() {
                       <X size={16} />
                     </button>
                   </BannerContainer>
-
                   {/* Profile details */}
-                  <div className="relative z-10 -mt-12 flex-1 overflow-y-auto overscroll-contain px-4 pb-6 scrollbar-thin sm:px-6">
-                    <div className="flex flex-col gap-4 sm:flex-row sm:items-end justify-between mb-6">
-                      <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-end">
-                        <AvatarImage
-                          username={viewingUser.username}
-                          avatarUrl={viewingUser.avatarUrl}
-                          className="h-24 w-24 rounded-xl border-4 border-slate-950 bg-slate-800 object-cover shadow-lg"
-                        />
-                        <div className="pb-1">
-                          <div className="flex flex-wrap items-center gap-2">
-                            <h3 className="text-xl font-black uppercase tracking-tight text-white break-all sm:text-2xl">{viewingUser.username}</h3>
-                            {viewingUser.username.toLowerCase() === "weptune" && (
-                              <span className="shrink-0 rounded border border-purple-500/30 bg-purple-950/50 px-1.5 py-0.5 text-[8px] font-mono font-black text-purple-300 shadow-[0_0_8px_rgba(168,85,247,0.4)] animate-pulse">
-                                CREATOR
-                              </span>
-                            )}
-                            <span className="rounded bg-gradient-to-r from-teal-400 to-emerald-400 border border-teal-300 px-1.5 py-0.5 text-[10px] font-mono font-black text-slate-950 shadow-[0_0_10px_rgba(45,212,191,0.2)]">
-                              Lvl {viewingUser.level || 1}
-                            </span>
-                            {viewingUser.dailyStreak || viewingUser.highestDailyStreak ? (
-                              <span className="shrink-0 rounded border border-orange-500/30 bg-orange-950/40 px-1.5 py-0.5 text-[10px] font-mono font-black text-orange-400 flex items-center gap-1.5 shadow-[0_0_10px_rgba(249,115,22,0.2)]">
-                                <Flame size={11} fill="currentColor" className="animate-pulse" />
-                                <span>{viewingUser.dailyStreak || 0}D</span>
-                                <span className="h-2.5 w-[1px] bg-orange-500/30 mx-0.5" />
-                                <Trophy size={10} className="text-amber-400" fill="currentColor" />
-                                <span className="text-amber-400">{Math.max(viewingUser.highestDailyStreak || 0, viewingUser.dailyStreak || 0)}D</span>
-                              </span>
-                            ) : null}
-                          </div>
-                          <p className="font-mono text-[10px] text-teal-400 mt-0.5">@{viewingUser.username}</p>
-                          <div className="mt-2 w-full max-w-[200px]">
-                            <div className="flex justify-between text-[9px] font-mono font-black text-slate-400 mb-0.5">
-                              <span>XP Progress</span>
-                              <span>{(viewingUser.xp || 0) % 500} / 500</span>
+                  <div className="relative z-10 flex-1 overflow-y-auto overscroll-contain px-4 py-5 scrollbar-thin sm:px-6">
+                    <div className="grid gap-5 md:grid-cols-[1.1fr_0.9fr] items-stretch mb-4">
+                      {/* Left Column: Info & Actions */}
+                      <div className="cyber-panel cyber-panel-teal p-5 border border-teal-500/20 shadow-md flex flex-col justify-between relative overflow-hidden">
+                        {/* Inner HUD Brackets */}
+                        <div className="absolute top-2.5 left-2.5 w-2 h-2 border-t border-l border-teal-400/40 pointer-events-none" />
+                        <div className="absolute top-2.5 right-2.5 w-2 h-2 border-t border-r border-teal-400/40 pointer-events-none" />
+                        <div className="absolute bottom-2.5 left-2.5 w-2 h-2 border-b border-l border-teal-400/40 pointer-events-none" />
+                        <div className="absolute bottom-2.5 right-2.5 w-2 h-2 border-b border-r border-teal-400/40 pointer-events-none" />
+
+                        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4">
+                          <AvatarImage
+                            username={viewingUser.username}
+                            avatarUrl={viewingUser.avatarUrl}
+                            className="h-20 w-20 rounded-xl border-2 border-teal-400/30 bg-slate-900 object-cover shadow-md shrink-0"
+                          />
+                          <div className="min-w-0 text-center sm:text-left flex-1">
+                            <p className="font-mono text-[10px] text-teal-400">@{viewingUser.username}</p>
+                            <div className="flex flex-wrap justify-center sm:justify-start items-center gap-1.5 mt-0.5">
+                              <h3 className="text-lg font-black uppercase text-white tracking-wide break-all">{viewingUser.username}</h3>
+                              {viewingUser.username.toLowerCase() === "weptune" && (
+                                <span className="shrink-0 rounded border border-purple-500/30 bg-purple-950/50 px-1.5 py-0.2 text-[8px] font-mono font-black text-purple-300 shadow-[0_0_8px_rgba(168,85,247,0.4)] animate-pulse">
+                                  CREATOR
+                                </span>
+                              )}
                             </div>
-                            <div className="h-1.5 w-full rounded-full bg-slate-800 overflow-hidden border border-white/5">
-                              <div
-                                className="h-full bg-gradient-to-r from-teal-400 to-emerald-400 transition-all duration-500"
-                                style={{ width: `${(((viewingUser.xp || 0) % 500) / 500) * 100}%` }}
-                              />
+                            
+                            <div className="flex flex-wrap justify-center sm:justify-start items-center gap-1.5 mt-1.5">
+                              <span className="rounded bg-gradient-to-r from-teal-400 to-emerald-400 border border-teal-300 px-1.5 py-0.2 text-[9px] font-mono font-black text-slate-950 shadow-[0_0_8px_rgba(45,212,191,0.15)]">Lvl {viewingUser.level || 1}</span>
+                              {viewingUser.dailyStreak || viewingUser.highestDailyStreak ? (
+                                <span className="shrink-0 rounded border border-orange-500/30 bg-orange-950/40 px-1.5 py-0.2 text-[9px] font-mono font-black text-orange-400 flex items-center gap-1 shadow-[0_0_8px_rgba(249,115,22,0.15)]">
+                                  <Flame size={9} fill="currentColor" className="animate-pulse" />
+                                  <span>{viewingUser.dailyStreak || 0}D</span>
+                                  <span className="h-2 w-[1px] bg-orange-500/20 mx-0.5" />
+                                  <Trophy size={9} className="text-amber-400" fill="currentColor" />
+                                  <span>{Math.max(viewingUser.highestDailyStreak || 0, viewingUser.dailyStreak || 0)}D BEST</span>
+                                </span>
+                              ) : null}
                             </div>
                           </div>
                         </div>
+
+                        {/* XP Progress Bar */}
+                        <div className="mt-4 bg-slate-950/40 border border-white/5 rounded-xl p-2.5">
+                          <div className="flex justify-between text-[8px] font-mono font-black uppercase text-slate-400 mb-1">
+                            <span>Progression XP</span>
+                            <span>{(viewingUser.xp || 0) % 500} / 500 XP</span>
+                          </div>
+                          <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-950/80 border border-white/5">
+                            <div className="h-full bg-gradient-to-r from-teal-400 to-emerald-400 shadow-[0_0_6px_rgba(45,212,191,0.25)] transition-all duration-500" style={{ width: `${(((viewingUser.xp || 0) % 500) / 500) * 100}%` }} />
+                          </div>
+                        </div>
+
+                        {viewingUser.bio && (
+                          <p className="mt-3 text-[11px] text-slate-350 font-medium italic border-l-2 border-teal-500/30 pl-2.5 py-0.2 leading-relaxed text-center sm:text-left">
+                            "{viewingUser.bio}"
+                          </p>
+                        )}
+
+                        {/* Friendship & Duel actions */}
+                        <div className="flex flex-wrap gap-2 mt-4">
+                          {account && viewingUser.id !== account.id && (
+                            <>
+                              {friendshipStatus === "none" && (
+                                <button
+                                  onClick={() => addFriend(viewingUser.username)}
+                                  className="flex items-center gap-1.5 rounded-lg bg-teal-400 px-3.5 py-2 text-xs font-black uppercase tracking-wider text-slate-950 hover:bg-teal-350 transition duration-300"
+                                >
+                                  <UserPlus size={14} />
+                                  Add Friend
+                                </button>
+                              )}
+                              {friendshipStatus === "incoming" && (
+                                <div className="flex gap-1.5">
+                                  <button
+                                    onClick={() => acceptFriend(viewingUser.id)}
+                                    className="flex items-center gap-1 rounded-lg bg-emerald-500 px-3 py-2 text-xs font-black uppercase tracking-wider text-white hover:bg-emerald-400 transition"
+                                  >
+                                    <Check size={14} /> Accept
+                                  </button>
+                                  <button
+                                    onClick={() => removeFriend(viewingUser.id)}
+                                    className="flex items-center gap-1 rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-xs font-black uppercase tracking-wider text-slate-300 hover:bg-white/10 transition"
+                                  >
+                                    Ignore
+                                  </button>
+                                </div>
+                              )}
+                              {friendshipStatus === "outgoing" && (
+                                <button
+                                  onClick={() => removeFriend(viewingUser.id)}
+                                  className="flex items-center gap-1.5 rounded-lg bg-white/5 border border-white/10 px-3.5 py-2 text-xs font-black uppercase tracking-wider text-slate-300 hover:bg-white/10 transition"
+                                >
+                                  <X size={14} />
+                                  Cancel Request
+                                </button>
+                              )}
+                              {friendshipStatus === "friend" && (
+                                <div className="flex gap-2 w-full">
+                                  <button
+                                    onClick={() => removeFriend(viewingUser.id)}
+                                    className="flex items-center gap-1.5 rounded-lg bg-red-500/10 border border-red-500/30 px-3 py-2 text-xs font-black uppercase tracking-wider text-red-400 hover:bg-red-500 hover:text-white transition duration-300"
+                                  >
+                                    <UserMinus size={14} />
+                                    Unfriend
+                                  </button>
+                                  {onlineFriends.has(viewingUser.id) && !isChallenging && (
+                                    <button
+                                      onClick={() => { playSound("select"); setIsChallenging(true); }}
+                                      className="flex items-center gap-1.5 rounded-lg bg-teal-400/10 border border-teal-400/30 px-3.5 py-2 text-xs font-black uppercase tracking-wider text-teal-300 hover:bg-teal-400 hover:text-slate-950 transition duration-300"
+                                    >
+                                      <Swords size={14} />
+                                      Duel Challenge
+                                    </button>
+                                  )}
+                                </div>
+                              )}
+                            </>
+                          )}
+                        </div>
                       </div>
 
-                      {/* Friendship & Duel actions */}
-                      <div className="flex flex-wrap gap-2">
-                        {account && viewingUser.id !== account.id && (
-                          <>
-                            {friendshipStatus === "none" && (
-                              <button
-                                onClick={() => addFriend(viewingUser.username)}
-                                className="flex items-center gap-1.5 rounded-lg bg-teal-400 px-3.5 py-2 text-xs font-black uppercase tracking-wider text-slate-950 hover:bg-teal-350 transition duration-300"
-                              >
-                                <UserPlus size={14} />
-                                Add Friend
-                              </button>
-                            )}
-                            {friendshipStatus === "incoming" && (
-                              <div className="flex gap-1.5">
-                                <button
-                                  onClick={() => acceptFriend(viewingUser.id)}
-                                  className="flex items-center gap-1 rounded-lg bg-emerald-500 px-3 py-2 text-xs font-black uppercase tracking-wider text-white hover:bg-emerald-400 transition"
-                                >
-                                  <Check size={14} /> Accept
-                                </button>
-                                <button
-                                  onClick={() => removeFriend(viewingUser.id)}
-                                  className="flex items-center gap-1 rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-xs font-black uppercase tracking-wider text-slate-300 hover:bg-white/10 transition"
-                                >
-                                  Ignore
-                                </button>
-                              </div>
-                            )}
-                            {friendshipStatus === "outgoing" && (
-                              <button
-                                onClick={() => removeFriend(viewingUser.id)}
-                                className="flex items-center gap-1.5 rounded-lg bg-white/5 border border-white/10 px-3.5 py-2 text-xs font-black uppercase tracking-wider text-slate-300 hover:bg-white/10 transition"
-                              >
-                                <X size={14} />
-                                Cancel Request
-                              </button>
-                            )}
-                            {friendshipStatus === "friend" && (
-                              <>
-                                <button
-                                  onClick={() => removeFriend(viewingUser.id)}
-                                  className="flex items-center gap-1.5 rounded-lg bg-red-500/10 border border-red-500/30 px-3.5 py-2 text-xs font-black uppercase tracking-wider text-red-400 hover:bg-red-500 hover:text-white transition duration-300"
-                                >
-                                  <UserMinus size={14} />
-                                  Unfriend
-                                </button>
-                                {onlineFriends.has(viewingUser.id) && !isChallenging && (
-                                  <button
-                                    onClick={() => { playSound("select"); setIsChallenging(true); }}
-                                    className="flex items-center gap-1.5 rounded-lg bg-teal-400/10 border border-teal-400/30 px-3.5 py-2 text-xs font-black uppercase tracking-wider text-teal-300 hover:bg-teal-400 hover:text-slate-950 transition duration-300"
-                                  >
-                                    <Swords size={14} />
-                                    Duel Challenge
-                                  </button>
-                                )}
-                              </>
-                            )}
-                          </>
-                        )}
+                      {/* Right Column: Performance Stats */}
+                      <div className="cyber-panel cyber-panel-purple p-5 border border-purple-500/20 shadow-md flex flex-col justify-between relative overflow-hidden">
+                        {/* Inner HUD Brackets */}
+                        <div className="absolute top-2.5 left-2.5 w-2 h-2 border-t border-l border-purple-400/40 pointer-events-none" />
+                        <div className="absolute top-2.5 right-2.5 w-2 h-2 border-t border-r border-purple-400/40 pointer-events-none" />
+                        <div className="absolute bottom-2.5 left-2.5 w-2 h-2 border-b border-l border-purple-400/40 pointer-events-none" />
+                        <div className="absolute bottom-2.5 right-2.5 w-2 h-2 border-b border-r border-purple-400/40 pointer-events-none" />
+
+                        <div className="flex flex-col h-full justify-between">
+                          <p className="text-[9px] font-mono font-black uppercase tracking-widest text-purple-450 flex items-center gap-1.5 mb-3">
+                            <span className="h-1.5 w-1.5 rounded-full bg-purple-500 animate-pulse" />
+                            Performance Ratings
+                          </p>
+                          <div className="grid grid-cols-2 gap-2 flex-1 items-stretch">
+                            <Stat icon={<Zap size={16} />} label="Elo" value={String(viewingUser.elo)} type="teal" />
+                            <Stat icon={<Trophy size={16} />} label="Best" value={String(viewingUser.bestElo || viewingUser.elo)} type="amber" />
+                            <Stat icon={<Swords size={16} />} label="Games" value={String(viewingUser.gamesPlayed || 0)} type="purple" />
+                            <Stat icon={<Flame size={16} />} label="Win Rate" value={`${viewingUser.wins + viewingUser.losses > 0 ? Math.round((viewingUser.wins / (viewingUser.wins + viewingUser.losses)) * 100) : 0}%`} type="rose" />
+                          </div>
+                        </div>
                       </div>
                     </div>
 
@@ -2256,7 +2292,7 @@ export default function Home() {
                       <motion.div
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
-                        className="mb-6 rounded-xl border border-teal-400/30 bg-teal-400/5 p-4"
+                        className="mb-4 rounded-xl border border-teal-400/30 bg-teal-400/5 p-4"
                       >
                         <p className="text-[10px] font-black uppercase tracking-widest text-teal-300 mb-3">Select Duel Academic Subject:</p>
                         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 mb-4">
@@ -2301,9 +2337,6 @@ export default function Home() {
                       </motion.div>
                     )}
 
-                     {/* Bio text */}
-                    <p className="text-slate-300 text-sm mb-6 leading-relaxed bg-black/20 p-3 rounded-lg border border-white/5">{viewingUser.bio || "hi"}</p>
-
                     {/* Unlocked Badges collection overlay */}
                     {(() => {
                       const viewingUserBadges = getAchievementsForUser(viewingUser, 0).filter(ach => ach.unlocked);
@@ -2327,32 +2360,13 @@ export default function Home() {
                       return null;
                     })()}
 
-                    {/* Grid stats — Ranked only */}
-                    <p className="mb-2 text-[9px] font-black uppercase tracking-widest text-teal-400/80">Ranked</p>
-                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-5 mb-3">
-                      <div className="rounded-xl border border-white/[0.08] bg-slate-950/45 p-3.5 text-center">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Overall Elo</p>
-                        <p className="mt-1 font-mono text-xl font-black text-teal-300">{viewingUser.elo}</p>
-                      </div>
-                      <div className="rounded-xl border border-white/[0.08] bg-slate-950/45 p-3.5 text-center">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Wins</p>
-                        <p className="mt-1 font-mono text-xl font-black text-white">{viewingUser.wins}</p>
-                      </div>
-                      <div className="rounded-xl border border-white/[0.08] bg-slate-950/45 p-3.5 text-center">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Losses</p>
-                        <p className="mt-1 font-mono text-xl font-black text-white">{viewingUser.losses}</p>
-                      </div>
-                      <div className="rounded-xl border border-white/[0.08] bg-slate-950/45 p-3.5 text-center">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Draws</p>
-                        <p className="mt-1 font-mono text-xl font-black text-purple-300">{Math.max(0, (viewingUser.gamesPlayed || 0) - (viewingUser.wins || 0) - (viewingUser.losses || 0))}</p>
-                      </div>
-                      <div className="rounded-xl border border-white/[0.08] bg-slate-950/45 p-3.5 text-center col-span-2 sm:col-span-1">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Win Rate</p>
-                        <p className="mt-1 font-mono text-xl font-black text-teal-300">
-                          {viewingUser.wins + viewingUser.losses > 0
-                            ? `${Math.round((viewingUser.wins / (viewingUser.wins + viewingUser.losses)) * 100)}%`
-                            : "0%"}
-                        </p>
+                    {/* Battle Record detail row */}
+                    <div className="mb-4">
+                      <p className="mb-2 text-[9px] font-black uppercase tracking-widest text-teal-400/80">Battle Record</p>
+                      <div className="grid grid-cols-3 gap-2.5">
+                        <Stat icon={<Trophy size={16} />} label="Wins" value={String(viewingUser.wins || 0)} type="teal" />
+                        <Stat icon={<Skull size={16} />} label="Losses" value={String(viewingUser.losses || 0)} type="rose" />
+                        <Stat icon={<Award size={16} />} label="Draws" value={String(Math.max(0, (viewingUser.gamesPlayed || 0) - (viewingUser.wins || 0) - (viewingUser.losses || 0)))} type="amber" />
                       </div>
                     </div>
                     {/* Bot match stats */}
