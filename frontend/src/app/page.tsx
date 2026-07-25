@@ -4630,10 +4630,10 @@ export default function Home() {
                         Daily Arena Quest
                       </span>
                       <h3 className="text-lg font-black uppercase tracking-wide text-white mt-2">
-                        Seeded Trivia Run
+                        The Daily Gauntlet
                       </h3>
                       <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                        Test your discipline-wide knowledge today. Attempts maintain your active streak.
+                        Survive a rapid-fire sequence of academic challenges. Lock in correct answers to stack your streak and claim bonuses.
                       </p>
                     </div>
 
