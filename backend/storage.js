@@ -228,7 +228,21 @@ function rowToUser(row) {
     fieldStats: fieldStats,
     xp: row.xp || 0,
     level: row.level || 1,
-    dailyStreak: row.daily_streak || 0,
+    dailyStreak: (() => {
+      const lastChallenge = row.last_daily_challenge_at;
+      if (!lastChallenge) return 0;
+      const todayStr = new Date().toISOString().split('T')[0];
+      if (lastChallenge === todayStr) return row.daily_streak || 0;
+
+      const today = new Date(todayStr);
+      const prevDate = new Date(lastChallenge);
+      const diffTime = Math.abs(today - prevDate);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      if (diffDays === 1) {
+        return row.daily_streak || 0;
+      }
+      return 0;
+    })(),
     highestDailyStreak: row.highest_daily_streak || 0,
     lastDailyChallengeAt: row.last_daily_challenge_at || null,
     createdAt: row.created_at instanceof Date ? row.created_at.toISOString() : row.created_at,
