@@ -976,92 +976,115 @@ async function recalculateAllUsersStats() {
   }
 }
 
+// Advisory lock key for the legacy points-tournament lifecycle, so concurrent
+// GET /tournaments/active calls can't double-settle or double-create (P1-7).
+const POINTS_TOURNAMENT_LOCK = 918273645;
+
 async function getOrCreateActiveTournament() {
   await init();
-  const activeRes = await pool.query(
-    "SELECT * FROM tournaments WHERE status = 'active' AND ends_at > NOW() ORDER BY starts_at DESC LIMIT 1"
+
+  // Fast path outside the lock: an active points tournament already exists.
+  // (bracket IS NULL keeps this legacy system from ever reading a bracket
+  // tournament's row, which shares the same table.)
+  const fast = await pool.query(
+    "SELECT * FROM tournaments WHERE status = 'active' AND ends_at > NOW() AND bracket IS NULL ORDER BY starts_at DESC LIMIT 1"
   );
-  if (activeRes.rows.length > 0) {
-    return activeRes.rows[0];
-  }
+  if (fast.rows.length > 0) return fast.rows[0];
 
-  // None active! Close and resolve any expired active tournaments
-  const expiredRes = await pool.query(
-    "SELECT * FROM tournaments WHERE status = 'active' AND ends_at <= NOW()"
-  );
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    // Serialize settlement/creation so two requests can't both pay out or both
+    // create a tournament. Other callers block here until this txn commits.
+    await client.query('SELECT pg_advisory_xact_lock($1)', [POINTS_TOURNAMENT_LOCK]);
 
-  for (const tour of expiredRes.rows) {
-    // 1. Resolve standings
-    const leaderboard = await getTournamentLeaderboard(tour.id);
-    const totalParticipants = leaderboard.length;
-
-    for (let i = 0; i < leaderboard.length; i++) {
-      const p = leaderboard[i];
-      const placed = i + 1;
-
-      // 2. Record to history
-      await recordTournamentHistory(
-        p.user_id,
-        tour.name,
-        p.wins,
-        p.losses,
-        p.points,
-        placed,
-        totalParticipants
-      );
-
-      // 3. Award XP rewards based on standing
-      let xpReward = 100; // Participation reward
-      if (placed === 1) xpReward = 1000;
-      else if (placed <= 3) xpReward = 500;
-      else if (placed <= 10) xpReward = 250;
-
-      // Update user XP & Level
-      await pool.query(
-        `UPDATE users
-         SET xp = xp + $1,
-             level = FLOOR((xp + $1) / 500) + 1
-         WHERE id = $2`,
-        [xpReward, p.user_id]
-      );
+    // Re-check under the lock: another request may have just created one.
+    const activeRes = await client.query(
+      "SELECT * FROM tournaments WHERE status = 'active' AND ends_at > NOW() AND bracket IS NULL ORDER BY starts_at DESC LIMIT 1"
+    );
+    if (activeRes.rows.length > 0) {
+      await client.query('COMMIT');
+      return activeRes.rows[0];
     }
 
-    // 4. Set tournament status to finished
-    await pool.query("UPDATE tournaments SET status = 'finished' WHERE id = $1", [tour.id]);
+    // Settle any expired points tournaments exactly once.
+    const expiredRes = await client.query(
+      "SELECT * FROM tournaments WHERE status = 'active' AND ends_at <= NOW() AND bracket IS NULL"
+    );
+
+    for (const tour of expiredRes.rows) {
+      const lbRes = await client.query(
+        `SELECT tp.user_id, tp.wins, tp.losses, tp.points
+         FROM tournament_participants tp
+         JOIN users u ON tp.user_id = u.id
+         WHERE tp.tournament_id = $1 AND u.username NOT IN ('AlphaZero','DeepBlue','Stockfish','LeelaZero','Watson')
+         ORDER BY tp.points DESC, tp.wins DESC`,
+        [tour.id]
+      );
+      const leaderboard = lbRes.rows;
+      const totalParticipants = leaderboard.length;
+
+      for (let i = 0; i < leaderboard.length; i++) {
+        const p = leaderboard[i];
+        const placed = i + 1;
+
+        const histId = 'th_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
+        await client.query(
+          `INSERT INTO tournament_history (id, user_id, tournament_name, wins, losses, points, placed, total_participants, finished_at)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW())`,
+          [histId, p.user_id, tour.name, p.wins, p.losses, p.points, placed, totalParticipants]
+        );
+
+        let xpReward = 100;
+        if (placed === 1) xpReward = 1000;
+        else if (placed <= 3) xpReward = 500;
+        else if (placed <= 10) xpReward = 250;
+
+        await client.query(
+          `UPDATE users SET xp = xp + $1, level = FLOOR((xp + $1) / 500) + 1 WHERE id = $2`,
+          [xpReward, p.user_id]
+        );
+      }
+
+      await client.query("UPDATE tournaments SET status = 'finished' WHERE id = $1", [tour.id]);
+    }
+
+    const domains = ['all', 'Computer Science / AI / IT / Data', 'Electronics / Electrical / Embedded', 'Mechanical / Automobile / Aerospace', 'Civil / Chemical / Biotech / Biomedical', 'Common / First Year'];
+    const chosenDomain = domains[Math.floor(Math.random() * domains.length)];
+
+    const id = 'tour_' + Date.now();
+    const names = {
+      'all': 'Global Synapse Arena Championship',
+      'Computer Science / AI / IT / Data': 'Turing AI Invitational',
+      'Electronics / Electrical / Embedded': 'Maxwell Electromagnetics Open',
+      'Mechanical / Automobile / Aerospace': 'Newton Mechanical Propulsion Cup',
+      'Civil / Chemical / Biotech / Biomedical': 'Da Vinci Architecture & Bio Grand Prix',
+      'Common / First Year': 'First Year Freshman Scholar Challenge'
+    };
+    const name = names[chosenDomain] || 'Synapse Collegiate Challenge';
+
+    const startsAt = new Date();
+    const endsAt = new Date(startsAt.getTime() + 4 * 60 * 60 * 1000);
+
+    await client.query(
+      `INSERT INTO tournaments (id, name, domain, starts_at, ends_at, status)
+       VALUES ($1, $2, $3, $4, $5, 'active')`,
+      [id, name, chosenDomain, startsAt.toISOString(), endsAt.toISOString()]
+    );
+
+    await client.query('COMMIT');
+    return {
+      id, name, domain: chosenDomain,
+      starts_at: startsAt.toISOString(),
+      ends_at: endsAt.toISOString(),
+      status: 'active'
+    };
+  } catch (err) {
+    await client.query('ROLLBACK');
+    throw err;
+  } finally {
+    client.release();
   }
-
-  // Select a random domain for the tournament
-  const domains = ['all', 'Computer Science / AI / IT / Data', 'Electronics / Electrical / Embedded', 'Mechanical / Automobile / Aerospace', 'Civil / Chemical / Biotech / Biomedical', 'Common / First Year'];
-  const chosenDomain = domains[Math.floor(Math.random() * domains.length)];
-
-  const id = 'tour_' + Date.now();
-  const names = {
-    'all': 'Global Synapse Arena Championship',
-    'Computer Science / AI / IT / Data': 'Turing AI Invitational',
-    'Electronics / Electrical / Embedded': 'Maxwell Electromagnetics Open',
-    'Mechanical / Automobile / Aerospace': 'Newton Mechanical Propulsion Cup',
-    'Civil / Chemical / Biotech / Biomedical': 'Da Vinci Architecture & Bio Grand Prix',
-    'Common / First Year': 'First Year Freshman Scholar Challenge'
-  };
-  const name = names[chosenDomain] || 'Synapse Collegiate Challenge';
-
-  const startsAt = new Date();
-  const endsAt = new Date(startsAt.getTime() + 4 * 60 * 60 * 1000); // 4 hours from now
-
-  await pool.query(
-    `INSERT INTO tournaments (id, name, domain, starts_at, ends_at, status)
-     VALUES ($1, $2, $3, $4, $5, 'active')`,
-    [id, name, chosenDomain, startsAt.toISOString(), endsAt.toISOString()]
-  );
-
-  return {
-    id,
-    name,
-    domain: chosenDomain,
-    starts_at: startsAt.toISOString(),
-    ends_at: endsAt.toISOString(),
-    status: 'active'
-  };
 }
 
 async function getTournamentLeaderboard(tournamentId) {
