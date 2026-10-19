@@ -176,6 +176,19 @@ async function init() {
     UPDATE users SET highest_daily_streak = daily_streak WHERE highest_daily_streak < daily_streak;
     ALTER TABLE tournaments ADD COLUMN IF NOT EXISTS bracket TEXT;
     ALTER TABLE sessions ADD COLUMN IF NOT EXISTS expires_at TIMESTAMPTZ;
+
+    -- P2-13: indexes for the hot lookups (case-insensitive login, session
+    -- joins, match history, DMs, chat, friend reverse-lookup).
+    CREATE INDEX IF NOT EXISTS idx_users_lower_username ON users (lower(username));
+    CREATE INDEX IF NOT EXISTS idx_sessions_user_id ON sessions (user_id);
+    CREATE INDEX IF NOT EXISTS idx_sessions_expires_at ON sessions (expires_at);
+    CREATE INDEX IF NOT EXISTS idx_match_history_p1 ON match_history (player_one_id, finished_at DESC);
+    CREATE INDEX IF NOT EXISTS idx_match_history_p2 ON match_history (player_two_id, finished_at DESC);
+    CREATE INDEX IF NOT EXISTS idx_dm_pair ON direct_messages (sender_id, receiver_id, created_at DESC);
+    CREATE INDEX IF NOT EXISTS idx_arena_chat_created ON arena_chat_messages (created_at DESC);
+    CREATE INDEX IF NOT EXISTS idx_friendships_friend ON friendships (friend_id);
+    CREATE INDEX IF NOT EXISTS idx_tournament_participants_tour ON tournament_participants (tournament_id);
+    CREATE INDEX IF NOT EXISTS idx_tournament_history_user ON tournament_history (user_id, finished_at DESC);
   `);
 
   initialized = true;
