@@ -1492,12 +1492,24 @@ io.on('connection', (socket) => {
       const p2Socket = io.sockets.sockets.get(p2SocketId);
 
       if (p1Socket && p2Socket) {
+        // Use each player's current rating for tour.domain, so settlement
+        // adjusts the right field ELO instead of writing a lobby snapshot
+        // (often the global rating) into fieldElos[tour.domain].
+        const eloForDomain = (user) => {
+          if (!user) return 1200;
+          if (tour.domain && tour.domain !== 'all') {
+            return (user.fieldElos && user.fieldElos[tour.domain]) || 1200;
+          }
+          return user.elo || 1200;
+        };
+        const p1User = await storage.getUserById(match.p1.userId);
+        const p2User = await storage.getUserById(match.p2.userId);
         const p1Player = {
           id: p1SocketId,
           userId: match.p1.userId,
           name: match.p1.username,
           username: match.p1.username,
-          elo: match.p1.elo || 1200,
+          elo: eloForDomain(p1User),
           avatarUrl: match.p1.avatarUrl,
           hp: 100,
           socketId: p1SocketId,
@@ -1508,7 +1520,7 @@ io.on('connection', (socket) => {
           userId: match.p2.userId,
           name: match.p2.username,
           username: match.p2.username,
-          elo: match.p2.elo || 1200,
+          elo: eloForDomain(p2User),
           avatarUrl: match.p2.avatarUrl,
           hp: 100,
           socketId: p2SocketId,
