@@ -20,9 +20,24 @@ if (!databaseUrl) {
   process.exit(1);
 }
 
+// P2-15: verify the server certificate when a CA is provided (DATABASE_CA_CERT,
+// PEM text or a file path). Falls back to the previous permissive TLS only
+// when no CA is configured, since managed providers often use a private chain.
+function resolveSsl() {
+  if (process.env.DATABASE_SSL === 'false') return false;
+  const ca = process.env.DATABASE_CA_CERT;
+  if (ca) {
+    const pem = ca.includes('BEGIN CERTIFICATE') ? ca
+      : (fs.existsSync(ca) ? fs.readFileSync(ca, 'utf8') : null);
+    if (pem) return { ca: pem, rejectUnauthorized: true };
+    console.warn('DATABASE_CA_CERT set but could not be read; falling back to unverified TLS.');
+  }
+  return { rejectUnauthorized: false };
+}
+
 const pool = new Pool({
   connectionString: databaseUrl,
-  ssl: process.env.DATABASE_SSL === 'false' ? false : { rejectUnauthorized: false }
+  ssl: resolveSsl()
 });
 
 pool.on('error', (err) => {

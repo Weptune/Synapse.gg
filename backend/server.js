@@ -62,6 +62,12 @@ const allowedOrigins = process.env.CLIENT_ORIGIN
 
 const allowAllOrigins = allowedOrigins.includes('*');
 
+// P2-16: don't silently allow every origin in production. Require CLIENT_ORIGIN.
+if (process.env.NODE_ENV === 'production' && allowAllOrigins) {
+  console.error('🔴 CLIENT_ORIGIN must be set in production (refusing to allow all origins).');
+  process.exit(1);
+}
+
 const corsOptions = {
   origin(origin, callback) {
     if (allowAllOrigins || !origin || allowedOrigins.includes(normalizeOrigin(origin))) {
