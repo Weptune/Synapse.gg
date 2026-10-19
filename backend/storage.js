@@ -446,6 +446,16 @@ async function listUsers() {
   return result.rows.map(rowToUser);
 }
 
+// P2-12: paginated leaderboard slice.
+async function listUsersPaged(limit = 100, offset = 0) {
+  await init();
+  const result = await pool.query(
+    'SELECT * FROM users ORDER BY elo DESC, wins DESC, created_at ASC LIMIT $1 OFFSET $2',
+    [limit, offset]
+  );
+  return result.rows.map(rowToUser);
+}
+
 // P0-4: apply both players' match results in ONE transaction, as deltas, so
 // concurrent updates (a second match from the same account, a login-day write,
 // a tournament payout) can no longer be lost by a full-row overwrite, and elo
@@ -852,6 +862,7 @@ module.exports = {
   recordLoginDay,
   settleMatch,
   listUsers,
+  listUsersPaged,
   recordMatch,
   listRecentMatches,
   getFriendships,

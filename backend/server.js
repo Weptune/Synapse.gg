@@ -480,12 +480,15 @@ app.post('/auth/logout', requireAuth, async (req, res) => {
 });
 
 app.get('/leaderboard', async (req, res) => {
-  const users = await storage.listUsers();
+  const limit = Math.min(100, Math.max(1, parseInt(req.query.limit, 10) || 100));
+  const offset = Math.max(0, parseInt(req.query.offset, 10) || 0);
+  const users = await storage.listUsersPaged(limit, offset);
   res.json({
-    leaderboard: users.map((user, index) => ({
-      rank: index + 1,
-      user: publicUser(user)
-    }))
+    leaderboard: users.map((user, index) => {
+      const pub = publicUser(user);
+      delete pub.loggedDays; // not needed on the leaderboard; keeps payload small
+      return { rank: offset + index + 1, user: pub };
+    })
   });
 });
 
