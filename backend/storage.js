@@ -1161,48 +1161,48 @@ async function recordTournamentHistory(userId, tournamentName, wins, losses, poi
   );
 }
 
+// P1-4: claim today's daily streak atomically. The whole read-decide-write is
+// a single guarded UPDATE, so two concurrent attempts can't both advance the
+// streak or both award XP. Returns alreadyClaimed=true if today was taken.
 async function updateDailyStreak(userId, dateStr) {
   await init();
-  const userResult = await pool.query("SELECT daily_streak, highest_daily_streak, last_daily_challenge_at FROM users WHERE id = $1", [userId]);
-  if (userResult.rows.length === 0) return null;
-
-  const user = userResult.rows[0];
-  const lastChallenge = user.last_daily_challenge_at;
-  let currentStreak = user.daily_streak || 0;
-  let highestStreak = user.highest_daily_streak || 0;
-
-  if (lastChallenge === dateStr) {
-    // Already attempted today, keep streak as is
-    return { dailyStreak: currentStreak, highestDailyStreak: highestStreak };
-  }
-
-  // Check if last attempt was yesterday
-  let isYesterday = false;
-  if (lastChallenge) {
-    const today = new Date(dateStr);
-    const prevDate = new Date(lastChallenge);
-    const diffTime = Math.abs(today - prevDate);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    if (diffDays === 1) {
-      isYesterday = true;
-    }
-  }
-
-  if (isYesterday || currentStreak === 0 || !lastChallenge) {
-    currentStreak += 1;
-  } else {
-    // Streak broken
-    currentStreak = 1;
-  }
-
-  highestStreak = Math.max(highestStreak, currentStreak);
-
-  await pool.query(
-    "UPDATE users SET daily_streak = $1, highest_daily_streak = $2, last_daily_challenge_at = $3 WHERE id = $4",
-    [currentStreak, highestStreak, dateStr, userId]
+  const res = await pool.query(
+    `UPDATE users
+     SET daily_streak = CASE
+           WHEN last_daily_challenge_at = to_char(($2::date - INTERVAL '1 day'), 'YYYY-MM-DD')
+             THEN COALESCE(daily_streak, 0) + 1
+           ELSE 1 END,
+         last_daily_challenge_at = $2
+     WHERE id = $1 AND last_daily_challenge_at IS DISTINCT FROM $2
+     RETURNING daily_streak`,
+    [userId, dateStr]
   );
 
-  return { dailyStreak: currentStreak, highestDailyStreak: highestStreak };
+  if (res.rows.length === 0) {
+    // Already claimed today (or user missing); report current values, no change.
+    const cur = await pool.query(
+      'SELECT daily_streak, highest_daily_streak FROM users WHERE id = $1',
+      [userId]
+    );
+    if (cur.rows.length === 0) return null;
+    return {
+      dailyStreak: cur.rows[0].daily_streak || 0,
+      highestDailyStreak: cur.rows[0].highest_daily_streak || 0,
+      alreadyClaimed: true
+    };
+  }
+
+  const newStreak = res.rows[0].daily_streak;
+  const hs = await pool.query(
+    'UPDATE users SET highest_daily_streak = GREATEST(COALESCE(highest_daily_streak, 0), $2) WHERE id = $1 RETURNING highest_daily_streak',
+    [userId, newStreak]
+  );
+
+  return {
+    dailyStreak: newStreak,
+    highestDailyStreak: hs.rows[0].highest_daily_streak,
+    alreadyClaimed: false
+  };
 }
 
 // P1-10: bracket tournaments live only in server memory, so any still marked

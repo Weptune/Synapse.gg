@@ -431,16 +431,15 @@ app.get('/me/matches', requireAuth, async (req, res) => {
 app.get('/daily-challenge', requireAuth, async (req, res) => {
   try {
     const todayStr = new Date().toISOString().split('T')[0];
-    const questions = getDailyChallengeQuestions(todayStr);
+    const questions = getDailyChallengeForUser(req.user.id, todayStr);
 
     const user = await storage.getUserById(req.user.id);
     const alreadyPlayed = user.lastDailyChallengeAt === todayStr;
 
-    // Send the questions with answers included for client-side grading
-    const strippedQuestions = questions.map(q => ({
+    // Never send the correct answer to the client; grading happens on POST.
+    const clientQuestions = questions.map(q => ({
       prompt: q.prompt,
       options: q.options,
-      answer: q.answer,
       subject: q.subject,
       timeLimit: q.timeLimit
     }));
@@ -450,7 +449,7 @@ app.get('/daily-challenge', requireAuth, async (req, res) => {
       alreadyPlayed,
       streak: user.dailyStreak || 0,
       highestStreak: user.highestDailyStreak || 0,
-      questions: strippedQuestions
+      questions: clientQuestions
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -460,37 +459,46 @@ app.get('/daily-challenge', requireAuth, async (req, res) => {
 app.post('/daily-challenge/attempt', requireAuth, async (req, res) => {
   try {
     const todayStr = new Date().toISOString().split('T')[0];
-    const user = await storage.getUserById(req.user.id);
 
-    const alreadyPlayed = user.lastDailyChallengeAt === todayStr;
+    // Grade on the server against the per-user layout we served on GET.
+    const questions = getDailyChallengeForUser(req.user.id, todayStr);
+    const answers = Array.isArray(req.body.answers) ? req.body.answers : [];
+    let correct = 0;
+    questions.forEach((q, i) => {
+      if (Number(answers[i]) === q.correctIndex) correct++;
+    });
 
-    let newStreak = user.dailyStreak || 0;
-    let highestStreak = user.highestDailyStreak || 0;
-    let xpAwarded = 0;
-
-    if (!alreadyPlayed) {
-      const streakResult = await storage.updateDailyStreak(user.id, todayStr);
-      newStreak = streakResult.dailyStreak;
-      highestStreak = streakResult.highestDailyStreak;
-      xpAwarded = 150;
-
-      await storage.updateUserWith(user.id, current => {
-        const nextXp = (current.xp || 0) + xpAwarded;
-        const nextLevel = Math.floor(nextXp / 500) + 1;
-        return {
-          ...current,
-          xp: nextXp,
-          level: nextLevel
-        };
+    // Atomically claim today's attempt; if already claimed, award nothing.
+    const streakResult = await storage.updateDailyStreak(req.user.id, todayStr);
+    if (!streakResult || streakResult.alreadyClaimed) {
+      return res.json({
+        success: true,
+        alreadyPlayed: true,
+        streak: streakResult ? streakResult.dailyStreak : 0,
+        highestStreak: streakResult ? streakResult.highestDailyStreak : 0,
+        xpAwarded: 0,
+        correct,
+        total: questions.length
       });
+    }
+
+    // XP scales with how many were answered correctly (30 each, max 150).
+    const xpAwarded = correct * 30;
+    if (xpAwarded > 0) {
+      await storage.query(
+        'UPDATE users SET xp = xp + $1, level = FLOOR((xp + $1) / 500) + 1 WHERE id = $2',
+        [xpAwarded, req.user.id]
+      );
     }
 
     res.json({
       success: true,
-      streak: newStreak,
-      highestStreak: highestStreak,
+      alreadyPlayed: false,
+      streak: streakResult.dailyStreak,
+      highestStreak: streakResult.highestDailyStreak,
       xpAwarded,
-      alreadyPlayed
+      correct,
+      total: questions.length
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -707,6 +715,30 @@ function getDailyChallengeQuestions(dateStr) {
   }
 
   return selectedQuestions.slice(0, 5);
+}
+
+// P1-4: deterministically shuffle a question's options for a given user/day so
+// the correct answer isn't always option 0, and so GET and the grading POST
+// agree on the layout without the client ever seeing the answer index.
+function shuffleOptionsSeeded(options, correctIndex, seed) {
+  const order = options.map((_, i) => i);
+  const rnd = seededRandom(seed);
+  for (let i = order.length - 1; i > 0; i--) {
+    const j = Math.floor(rnd() * (i + 1));
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  return {
+    options: order.map(i => options[i]),
+    correctIndex: order.indexOf(correctIndex)
+  };
+}
+
+function getDailyChallengeForUser(userId, dateStr) {
+  return getDailyChallengeQuestions(dateStr).map((q, i) => {
+    const seed = hashString(`${userId}|${dateStr}|${i}`);
+    const { options, correctIndex } = shuffleOptionsSeeded(q.options, q.answer, seed);
+    return { prompt: q.prompt, options, subject: q.subject, timeLimit: q.timeLimit, correctIndex };
+  });
 }
 
 const ALL_SUBJECTS = Object.values(SUBJECT_CATEGORIES).flat();
