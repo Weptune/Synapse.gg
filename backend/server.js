@@ -6,6 +6,16 @@ const cors = require('cors');
 const crypto = require('crypto');
 const storage = require('./storage');
 
+// P0-1: Never let a single bad event or a transient DB error take down the
+// whole process (which would drop every live match, lobby and tournament).
+// A rejected promise or thrown error in an async handler is logged, not fatal.
+process.on('unhandledRejection', (reason) => {
+  console.error('Unhandled promise rejection (kept process alive):', reason);
+});
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught exception (kept process alive):', err);
+});
+
 const app = express();
 
 const path = require('path');
@@ -1016,7 +1026,20 @@ function emitMatchFound(match) {
 io.on('connection', (socket) => {
   console.log('A user connected:', socket.id);
 
-  socket.on('register_socket', async (data) => {
+  // P0-1: wrap every socket handler so a malformed payload or a DB error
+  // becomes a logged, isolated failure instead of an uncaught crash.
+  const safeOn = (event, handler) => {
+    socket.on(event, async (...args) => {
+      try {
+        await handler(...args);
+      } catch (err) {
+        console.error(`Socket handler error [${event}] (socket ${socket.id}):`, err);
+        try { socket.emit('server_error', { event }); } catch (_) { /* ignore */ }
+      }
+    });
+  };
+
+  safeOn('register_socket', async (data) => {
     if (!data || !data.authToken) return;
     const user = await storage.getUserByToken(data.authToken);
     if (user) {
@@ -1061,7 +1084,7 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('send_chat_message', async (data) => {
+  safeOn('send_chat_message', async (data) => {
     if (!socket.userId || !data || !data.message) return;
     const user = await storage.getUserById(socket.userId);
     if (!user) return;
@@ -1090,7 +1113,7 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('send_direct_message', async (data) => {
+  safeOn('send_direct_message', async (data) => {
     if (!socket.userId || !data || !data.recipientId || !data.message) return;
     const user = await storage.getUserById(socket.userId);
     if (!user) return;
@@ -1125,7 +1148,7 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('chat_typing', (data) => {
+  safeOn('chat_typing', (data) => {
     if (!socket.userId || !data) return;
     socket.broadcast.emit('chat_typing', {
       userId: socket.userId,
@@ -1134,7 +1157,7 @@ io.on('connection', (socket) => {
     });
   });
 
-  socket.on('dm_typing', (data) => {
+  safeOn('dm_typing', (data) => {
     if (!socket.userId || !data || !data.recipientId) return;
     const recipientSocketId = userSockets.get(data.recipientId);
     if (recipientSocketId) {
@@ -1145,7 +1168,7 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('battle_reaction', (data) => {
+  safeOn('battle_reaction', (data) => {
     if (!socket.userId || !data || !data.reaction) return;
     const player = players[socket.id];
     if (!player || !player.matchId) return;
@@ -1186,7 +1209,7 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('challenge_friend', async (data) => {
+  safeOn('challenge_friend', async (data) => {
     if (!socket.userId || !data || !data.friendId) return;
     const Alice = await storage.getUserById(socket.userId);
     const BobId = data.friendId;
@@ -1231,7 +1254,7 @@ io.on('connection', (socket) => {
     });
   });
 
-  socket.on('decline_challenge', (data) => {
+  safeOn('decline_challenge', (data) => {
     if (!data || !data.challengeId) return;
     const challenge = activeChallenges.get(data.challengeId);
     if (challenge) {
@@ -1243,7 +1266,7 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('accept_challenge', async (data) => {
+  safeOn('accept_challenge', async (data) => {
     if (!data || !data.challengeId) return;
     const challenge = activeChallenges.get(data.challengeId);
     if (!challenge) {
@@ -1317,7 +1340,7 @@ io.on('connection', (socket) => {
     startDiscardTimer(match.id);
   });
 
-  socket.on('join_queue', async (data) => {
+  safeOn('join_queue', async (data) => {
     removeFromQueue(socket.id);
     const player = await createPlayer(socket, data);
     if (!player) {
@@ -1340,7 +1363,7 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('join_tournament_lobby', async (data) => {
+  safeOn('join_tournament_lobby', async (data) => {
     const player = await createPlayer(socket, data);
     if (!player) {
       socket.emit('auth_required');
@@ -1398,7 +1421,7 @@ io.on('connection', (socket) => {
     });
   });
 
-  socket.on('leave_tournament_lobby', () => {
+  safeOn('leave_tournament_lobby', () => {
     tournamentLobby = tournamentLobby.filter(p => p.socketId !== socket.id);
     console.log(`Socket ${socket.id} left tournament lobby. Size: ${tournamentLobby.length}`);
 
@@ -1418,7 +1441,7 @@ io.on('connection', (socket) => {
     });
   });
 
-  socket.on('queue_tournament_match', async (data) => {
+  safeOn('queue_tournament_match', async (data) => {
     if (!data || !data.tournamentId || !data.matchId) return;
     const tour = activeTournaments[data.tournamentId];
     if (!tour) {
@@ -1516,7 +1539,7 @@ io.on('connection', (socket) => {
     }
   }
 
-  socket.on('join_bot_queue', async (data) => {
+  safeOn('join_bot_queue', async (data) => {
     removeFromQueue(socket.id);
     const player = await createPlayer(socket, data);
     if (!player) {
@@ -1545,7 +1568,7 @@ io.on('connection', (socket) => {
     startDiscardTimer(match.id);
   });
 
-  socket.on('discard_action', (data) => {
+  safeOn('discard_action', (data) => {
     const player = players[socket.id];
     if (player && player.matchId && matches[player.matchId]) {
       const match = matches[player.matchId];
@@ -1571,7 +1594,7 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('skip_discard', () => {
+  safeOn('skip_discard', () => {
     const player = players[socket.id];
     if (player && player.matchId && matches[player.matchId]) {
       const match = matches[player.matchId];
@@ -1582,18 +1605,20 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('draft_action', (data) => {
+  safeOn('draft_action', (data) => {
+    if (!data || typeof data.subject !== 'string') return;
     const player = players[socket.id];
     if (player && player.matchId && matches[player.matchId]) {
       processDraft(matches[player.matchId], socket.id, data.subject);
     }
   });
 
-  socket.on('submit_answer', (data) => {
+  safeOn('submit_answer', (data) => {
+    if (!data) return;
     handleAnswer(socket.id, data.answerIndex);
   });
 
-  socket.on('disconnect', () => {
+  safeOn('disconnect', () => {
     console.log('User disconnected:', socket.id);
     
     // Clean up tournament lobby
