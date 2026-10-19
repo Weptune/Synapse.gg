@@ -2345,53 +2345,6 @@ function checkDiscardPhase(match) {
   }
 }
 
-async function simulateTournamentScores(tournamentId) {
-  try {
-    const botUsernames = ['AlphaZero', 'DeepBlue', 'Stockfish', 'LeelaZero', 'Watson'];
-    const botIds = [];
-
-    for (const name of botUsernames) {
-      let u = await storage.getUserByUsername(name);
-      if (!u) {
-        const salt = crypto.randomBytes(16).toString('hex');
-        const hash = crypto.randomBytes(32).toString('hex');
-        const botUser = {
-          id: crypto.randomUUID(),
-          username: name,
-          passwordSalt: salt,
-          passwordHash: hash,
-          elo: 1300 + Math.floor(Math.random() * 500),
-          bestElo: 1300,
-          wins: 0,
-          losses: 0,
-          gamesPlayed: 0,
-          avatarUrl: `https://api.dicebear.com/9.x/bottts/svg?seed=${name}`,
-          bannerUrl: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1400&q=80',
-          bio: `Collegiate grandmaster bot participating in Synapse timed events.`,
-          fieldElos: {},
-          fieldStats: {}
-        };
-        u = await storage.createUser(botUser);
-      }
-      botIds.push(u.id);
-    }
-
-    for (const bid of botIds) {
-      await storage.joinTournament(tournamentId, bid);
-    }
-
-    // Give a 30% chance for bot scores to change, representing live active matches
-    for (const bid of botIds) {
-      if (Math.random() > 0.7) {
-        const isWin = Math.random() > 0.45;
-        await storage.updateTournamentScore(tournamentId, bid, isWin);
-      }
-    }
-  } catch (err) {
-    console.error("Failed to simulate tournament scores:", err);
-  }
-}
-
 function propagateBracketWinners(bracket) {
   for (let r = 0; r < bracket.rounds.length - 1; r++) {
     const curRound = bracket.rounds[r];
