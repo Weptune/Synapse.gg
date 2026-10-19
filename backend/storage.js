@@ -447,6 +447,95 @@ async function listUsers() {
   return result.rows.map(rowToUser);
 }
 
+// P0-4: apply both players' match results in ONE transaction, as deltas, so
+// concurrent updates (a second match from the same account, a login-day write,
+// a tournament payout) can no longer be lost by a full-row overwrite, and elo
+// is adjusted relative to its current value instead of a stale snapshot.
+// Each patch: { userId, domain, eloDelta, xpDelta, winInc, lossInc, drawInc,
+// gameInc, botWinInc, botLossInc, botGameInc, winStreakOp:'inc'|'reset'|'keep',
+// flawlessInc, recordFieldStats }
+async function settleMatch(patches) {
+  await init();
+  const list = (patches || []).filter(p => p && p.userId);
+  if (list.length === 0) return;
+  // Lock rows in a stable order to avoid deadlocks between two concurrent matches.
+  list.sort((a, b) => (a.userId < b.userId ? -1 : a.userId > b.userId ? 1 : 0));
+
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    for (const p of list) {
+      const res = await client.query(
+        'SELECT elo, best_elo, field_elos, field_stats FROM users WHERE id = $1 FOR UPDATE',
+        [p.userId]
+      );
+      if (res.rows.length === 0) continue;
+      const row = res.rows[0];
+
+      let fieldElos = {};
+      let fieldStats = {};
+      try { fieldElos = row.field_elos ? JSON.parse(row.field_elos) : {}; } catch (_) {}
+      try { fieldStats = row.field_stats ? JSON.parse(row.field_stats) : {}; } catch (_) {}
+
+      const domain = p.domain || 'all';
+      let newElo = row.elo;
+      let newBestElo = row.best_elo;
+      if (p.eloDelta) {
+        if (domain !== 'all') {
+          const cur = Number.isFinite(Number(fieldElos[domain])) ? Number(fieldElos[domain]) : 1200;
+          fieldElos[domain] = Math.max(0, cur + p.eloDelta);
+        } else {
+          newElo = Math.max(0, row.elo + p.eloDelta);
+          newBestElo = Math.max(row.best_elo || 0, newElo);
+        }
+      }
+
+      if (p.recordFieldStats) {
+        if (!fieldStats[domain]) fieldStats[domain] = { wins: 0, losses: 0, draws: 0 };
+        fieldStats[domain].wins = (fieldStats[domain].wins || 0) + (p.winInc || 0);
+        fieldStats[domain].losses = (fieldStats[domain].losses || 0) + (p.lossInc || 0);
+        fieldStats[domain].draws = (fieldStats[domain].draws || 0) + (p.drawInc || 0);
+      }
+
+      const streakExpr = p.winStreakOp === 'inc' ? 'win_streak + 1'
+        : p.winStreakOp === 'reset' ? '0' : 'win_streak';
+
+      await client.query(
+        `UPDATE users SET
+           elo = $2,
+           best_elo = $3,
+           field_elos = $4,
+           field_stats = $5,
+           xp = xp + $6,
+           level = FLOOR((xp + $6) / 500) + 1,
+           wins = wins + $7,
+           losses = losses + $8,
+           games_played = games_played + $9,
+           bot_wins = bot_wins + $10,
+           bot_losses = bot_losses + $11,
+           bot_games_played = bot_games_played + $12,
+           win_streak = ${streakExpr},
+           flawless_wins = flawless_wins + $13,
+           updated_at = now()
+         WHERE id = $1`,
+        [
+          p.userId, newElo, newBestElo,
+          JSON.stringify(fieldElos), JSON.stringify(fieldStats),
+          p.xpDelta || 0, p.winInc || 0, p.lossInc || 0, p.gameInc || 0,
+          p.botWinInc || 0, p.botLossInc || 0, p.botGameInc || 0,
+          p.flawlessInc || 0
+        ]
+      );
+    }
+    await client.query('COMMIT');
+  } catch (err) {
+    await client.query('ROLLBACK');
+    throw err;
+  } finally {
+    client.release();
+  }
+}
+
 async function recordMatch(match) {
   await init();
   await pool.query(
@@ -761,6 +850,7 @@ module.exports = {
   updateUser,
   updateUserWith,
   recordLoginDay,
+  settleMatch,
   listUsers,
   recordMatch,
   listRecentMatches,
