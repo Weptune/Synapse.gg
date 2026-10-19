@@ -947,6 +947,17 @@ function removeFromQueue(playerId) {
   tournamentQueue = tournamentQueue.filter(p => p.id !== playerId);
 }
 
+// P1-2: a user already in a live match must not be pulled into another one
+// (which would orphan the first and settle both from stale snapshots).
+function userHasActiveMatch(userId) {
+  return Object.values(players).some(p =>
+    p.userId === userId &&
+    p.matchId &&
+    matches[p.matchId] &&
+    matches[p.matchId].state !== 'finished'
+  );
+}
+
 function findRankedOpponent(player) {
   let bestIndex = -1;
   let bestDiff = Infinity;
@@ -1381,6 +1392,12 @@ io.on('connection', (socket) => {
     // Only the invited player can accept.
     if (socket.userId !== challenge.receiverId) return;
 
+    if (userHasActiveMatch(challenge.challengerId) || userHasActiveMatch(challenge.receiverId)) {
+      socket.emit('challenge_error', { error: 'One of the players is already in a match.' });
+      activeChallenges.delete(data.challengeId);
+      return;
+    }
+
     const AliceId = challenge.challengerId;
     const BobId = challenge.receiverId;
     const domain = challenge.domain;
@@ -1452,6 +1469,10 @@ io.on('connection', (socket) => {
     const player = await createPlayer(socket, data);
     if (!player) {
       socket.emit('auth_required');
+      return;
+    }
+    if (userHasActiveMatch(player.userId)) {
+      socket.emit('queue_error', { error: 'You are already in a match.' });
       return;
     }
     // Symmetrically clear any other sockets with the exact same userId from the queue
@@ -1564,6 +1585,11 @@ io.on('connection', (socket) => {
     const userId = socket.userId;
     if (match.p1?.userId !== userId && match.p2?.userId !== userId) return;
 
+    if (userHasActiveMatch(userId)) {
+      socket.emit('tournament_error', { error: 'Finish your current match first.' });
+      return;
+    }
+
     if (!match.queued) match.queued = [];
     if (!match.queued.includes(userId)) {
       match.queued.push(userId);
@@ -1663,6 +1689,10 @@ io.on('connection', (socket) => {
     const player = await createPlayer(socket, data);
     if (!player) {
       socket.emit('auth_required');
+      return;
+    }
+    if (userHasActiveMatch(player.userId)) {
+      socket.emit('queue_error', { error: 'You are already in a match.' });
       return;
     }
     players[socket.id] = player;
