@@ -1176,6 +1176,7 @@ io.on('connection', (socket) => {
     if (user) {
       userSockets.set(user.id, socket.id);
       socket.userId = user.id;
+      socket.username = user.username;
       console.log(`Registered socket ${socket.id} to user ${user.username}`);
       io.emit('online_count', userSockets.size);
       await notifyFriendsStatusChange(user.id, true);
@@ -1246,6 +1247,16 @@ io.on('connection', (socket) => {
     const user = await storage.getUserById(socket.userId);
     if (!user) return;
 
+    // Only accepted friends can DM each other.
+    const friendships = await storage.getFriendships(user.id);
+    const isFriend = friendships.some(
+      f => f.status === 'accepted' && f.friend.id === data.recipientId
+    );
+    if (!isFriend) {
+      socket.emit('chat_error', { error: 'You can only message accepted friends.' });
+      return;
+    }
+
     const text = String(data.message).trim().slice(0, 500);
     if (!text) return;
 
@@ -1280,7 +1291,7 @@ io.on('connection', (socket) => {
     if (!socket.userId || !data) return;
     socket.broadcast.emit('chat_typing', {
       userId: socket.userId,
-      username: data.username,
+      username: socket.username, // from the session, not client-supplied
       isTyping: !!data.isTyping
     });
   });
