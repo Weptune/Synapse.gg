@@ -105,6 +105,18 @@ const RESERVED_USERNAMES = new Set(
   ['AlphaZero', 'DeepBlue', 'Stockfish', 'LeelaZero', 'Watson', 'bot'].map(n => n.toLowerCase())
 );
 
+const CHALLENGE_TTL_MS = 60000;
+// Fetch a challenge only if it exists and has not expired; prune it otherwise.
+function getLiveChallenge(challengeId) {
+  const challenge = activeChallenges.get(challengeId);
+  if (!challenge) return null;
+  if (Date.now() - challenge.createdAt > CHALLENGE_TTL_MS) {
+    activeChallenges.delete(challengeId);
+    return null;
+  }
+  return challenge;
+}
+
 async function notifyFriendsStatusChange(userId, isOnline) {
   try {
     const friendships = await storage.getFriendships(userId);
@@ -1244,7 +1256,7 @@ io.on('connection', (socket) => {
       return;
     }
 
-    const challengeId = 'challenge_' + Date.now();
+    const challengeId = crypto.randomUUID();
     activeChallenges.set(challengeId, {
       id: challengeId,
       challengerId: Alice.id,
@@ -1261,24 +1273,28 @@ io.on('connection', (socket) => {
   });
 
   safeOn('decline_challenge', (data) => {
-    if (!data || !data.challengeId) return;
-    const challenge = activeChallenges.get(data.challengeId);
-    if (challenge) {
-      const challengerSocketId = userSockets.get(challenge.challengerId);
-      if (challengerSocketId) {
-        io.to(challengerSocketId).emit('challenge_declined');
-      }
-      activeChallenges.delete(data.challengeId);
+    if (!socket.userId || !data || !data.challengeId) return;
+    const challenge = getLiveChallenge(data.challengeId);
+    if (!challenge) return;
+    // Only the two parties can cancel/decline this challenge.
+    if (socket.userId !== challenge.receiverId && socket.userId !== challenge.challengerId) return;
+
+    const challengerSocketId = userSockets.get(challenge.challengerId);
+    if (challengerSocketId) {
+      io.to(challengerSocketId).emit('challenge_declined');
     }
+    activeChallenges.delete(data.challengeId);
   });
 
   safeOn('accept_challenge', async (data) => {
-    if (!data || !data.challengeId) return;
-    const challenge = activeChallenges.get(data.challengeId);
+    if (!socket.userId || !data || !data.challengeId) return;
+    const challenge = getLiveChallenge(data.challengeId);
     if (!challenge) {
       socket.emit('challenge_error', { error: 'Challenge has expired or was cancelled.' });
       return;
     }
+    // Only the invited player can accept.
+    if (socket.userId !== challenge.receiverId) return;
 
     const AliceId = challenge.challengerId;
     const BobId = challenge.receiverId;
