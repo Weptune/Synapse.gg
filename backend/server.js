@@ -1081,7 +1081,9 @@ function createMatch(p1, p2, domain = 'all') {
 
   const normalizedDomain = normalizeDomain(domain);
   const subjectPool = getSubjectPool(normalizedDomain);
-  const matchId = `match_${p1.id}_${p2.id}`;
+  // Unique per match so a rematch between the same two sockets can't collide
+  // with a stale match id (and its lingering timers).
+  const matchId = `match_${crypto.randomUUID()}`;
 
   const match = {
     id: matchId,
@@ -1710,7 +1712,8 @@ io.on('connection', (socket) => {
       domain: player.domain,
       level: 99
     };
-    players[bot.id] = bot;
+    // Bots are not real connections: keep them out of `players` so they don't
+    // leak (never removed) or inflate the player count in /health.
 
     const match = createMatch(bot, player, player.domain);
     emitMatchFound(match);
