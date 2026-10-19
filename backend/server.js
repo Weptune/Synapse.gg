@@ -173,24 +173,18 @@ async function requireAuth(req, res, next) {
     return;
   }
 
-  // Symmetrically record unique calendar days logged in on HTTP load
+  // Record today's unique login day atomically (never a full-row overwrite).
   try {
     const todayStr = new Date().toISOString().split('T')[0];
-    const loggedDays = [...(user.loggedDays || [])];
-    if (!loggedDays.includes(todayStr)) {
-      loggedDays.push(todayStr);
-      const updatedUser = await storage.updateUser(user.id, {
-        ...user,
-        loggedDays
-      });
-      req.user = updatedUser;
-    } else {
-      req.user = user;
+    if (!(user.loggedDays || []).includes(todayStr)) {
+      await storage.recordLoginDay(user.id, todayStr);
+      if (!user.loggedDays) user.loggedDays = [];
+      user.loggedDays.push(todayStr);
     }
   } catch (e) {
     console.error('Failed to update loggedDays in requireAuth:', e);
-    req.user = user;
   }
+  req.user = user;
 
   req.authToken = token;
   next();
@@ -1058,16 +1052,11 @@ io.on('connection', (socket) => {
         countdown: lobbyCountdown
       });
 
-      // Track unique days logged in
+      // Track unique days logged in (atomic, column-scoped)
       try {
         const todayStr = new Date().toISOString().split('T')[0];
-        const loggedDays = [...(user.loggedDays || [])];
-        if (!loggedDays.includes(todayStr)) {
-          loggedDays.push(todayStr);
-          await storage.updateUser(user.id, {
-            ...user,
-            loggedDays
-          });
+        if (!(user.loggedDays || []).includes(todayStr)) {
+          await storage.recordLoginDay(user.id, todayStr);
         }
       } catch (e) {
         console.error('Failed to update loggedDays for user:', e);

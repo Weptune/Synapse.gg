@@ -411,6 +411,30 @@ async function updateUser(userId, patch) {
   return rowToUser(result.rows[0]);
 }
 
+// P0-4: append today's login day with a single statement that touches only
+// the logged_days column, so it can never clobber a concurrent match write to
+// elo/xp/wins (the old full-row updateUser did exactly that on the first
+// request of each day).
+async function recordLoginDay(userId, day) {
+  await init();
+  await pool.query(
+    `UPDATE users
+       SET logged_days = (
+         SELECT to_jsonb(array_agg(DISTINCT d ORDER BY d))::text
+         FROM (
+           SELECT jsonb_array_elements_text(
+             CASE WHEN logged_days IS NULL OR logged_days = ''
+                  THEN '[]'::jsonb ELSE logged_days::jsonb END) AS d
+           UNION
+           SELECT $2::text
+         ) s
+       ),
+       updated_at = now()
+     WHERE id = $1`,
+    [userId, day]
+  );
+}
+
 async function updateUserWith(userId, updater) {
   const user = await getUserById(userId);
   if (!user) return null;
@@ -736,6 +760,7 @@ module.exports = {
   deleteSession,
   updateUser,
   updateUserWith,
+  recordLoginDay,
   listUsers,
   recordMatch,
   listRecentMatches,
