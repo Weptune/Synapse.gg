@@ -2501,7 +2501,11 @@ storage.init()
     }
     return storage.recalculateAllUsersStats();
   })
-  .then(() => {
+  .then(() => storage.abandonStaleBracketTournaments())
+  .then(({ abandoned }) => {
+    if (abandoned > 0) {
+      console.log(`Abandoned ${abandoned} stale bracket tournament(s) left over from a previous run.`);
+    }
     server.listen(PORT, HOST, () => {
       console.log(`Server listening on ${HOST}:${PORT}`);
     });

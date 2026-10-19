@@ -875,6 +875,7 @@ module.exports = {
   recordTournamentHistory,
   updateDailyStreak,
   updateTournamentBracket,
+  abandonStaleBracketTournaments,
   query
 };
 
@@ -1179,6 +1180,17 @@ async function updateDailyStreak(userId, dateStr) {
   );
 
   return { dailyStreak: currentStreak, highestDailyStreak: highestStreak };
+}
+
+// P1-10: bracket tournaments live only in server memory, so any still marked
+// 'active' after a restart are dead. Abandon them on boot so they neither
+// linger nor get picked up as the "active" tournament by the legacy path.
+async function abandonStaleBracketTournaments() {
+  await init();
+  const res = await pool.query(
+    "UPDATE tournaments SET status = 'abandoned' WHERE status = 'active' AND bracket IS NOT NULL"
+  );
+  return { abandoned: res.rowCount || 0 };
 }
 
 async function updateTournamentBracket(tournamentId, bracket) {
