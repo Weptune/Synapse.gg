@@ -333,13 +333,33 @@ app.patch('/me', requireAuth, async (req, res) => {
     return;
   }
 
+  // P2-10: accept only our own asset paths or https(dicebear/unsplash-style)
+  // URLs for avatar/banner, capped in length, so arbitrary strings/urls
+  // can't ride along into chat, leaderboard and match payloads.
+  const sanitizeImageUrl = (value, current) => {
+    const v = String(value == null ? current : value).trim();
+    if (!v) return current;
+    const ok = (v.startsWith('/assets/') || v.startsWith('/uploads/') || /^https:\/\/[^\s]+$/i.test(v)) && v.length <= 512;
+    if (!ok) { const e = new Error('Invalid image URL.'); e.status = 400; throw e; }
+    return v;
+  };
+
+  let nextAvatar, nextBanner;
+  try {
+    nextAvatar = sanitizeImageUrl(req.body.avatarUrl, req.user.avatarUrl);
+    nextBanner = sanitizeImageUrl(req.body.bannerUrl, req.user.bannerUrl);
+  } catch (e) {
+    res.status(e.status || 400).json({ error: e.message });
+    return;
+  }
+
   const updated = await storage.updateUserWith(req.user.id, user => ({
     ...user,
     username: requestedUsername,
     displayName: requestedUsername,
     bio: String(req.body.bio || user.bio || '').trim().slice(0, 140),
-    avatarUrl: String(req.body.avatarUrl || user.avatarUrl).trim(),
-    bannerUrl: String(req.body.bannerUrl || user.bannerUrl).trim()
+    avatarUrl: nextAvatar,
+    bannerUrl: nextBanner
   }));
 
   res.json({ user: publicUser(updated) });
