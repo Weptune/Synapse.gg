@@ -680,8 +680,15 @@ app.get('/users/:id', requireAuth, async (req, res) => {
 
 const SUBJECT_CATEGORIES = require('./subjects');
 const RAW_QUESTIONS = require('./questions');
+const { sanitizeQuestionBank } = require('./validateQuestions');
 
-const QUESTIONS = RAW_QUESTIONS;
+// P1-11: drop any malformed question at load so a missing answer/timeLimit can
+// never reach a live round (which previously made the round timer NaN and dealt
+// instant damage). Run `npm run validate:questions` in CI to catch them earlier.
+const { bank: QUESTIONS, removed: REMOVED_QUESTIONS } = sanitizeQuestionBank(RAW_QUESTIONS);
+if (REMOVED_QUESTIONS > 0) {
+  console.warn(`⚠️  Dropped ${REMOVED_QUESTIONS} invalid question(s) at load; run "npm run validate:questions" to list them.`);
+}
 
 function seededRandom(seed) {
   return function() {
