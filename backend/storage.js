@@ -29,6 +29,13 @@ pool.on('error', (err) => {
   console.error('⚠️ Unexpected error on idle client:', err.message || err);
 });
 
+// P0-2: session tokens are stored only as a SHA-256 hash, so a database dump
+// no longer hands out working credentials, and they expire.
+const SESSION_TTL_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
+function hashToken(token) {
+  return crypto.createHash('sha256').update(String(token)).digest('hex');
+}
+
 let initialized = false;
 
 async function init() {
@@ -169,17 +176,18 @@ async function init() {
     UPDATE users SET highest_daily_streak = daily_streak WHERE highest_daily_streak < daily_streak;
     DELETE FROM users WHERE username IN ('AlphaZero', 'DeepBlue', 'Stockfish', 'LeelaZero', 'Watson');
     ALTER TABLE tournaments ADD COLUMN IF NOT EXISTS bracket TEXT;
+    ALTER TABLE sessions ADD COLUMN IF NOT EXISTS expires_at TIMESTAMPTZ;
   `);
 
   initialized = true;
 
-  // Keep-alive query every 2 minutes to prevent connection timeouts/spin-downs
+  // Keep-alive ping + opportunistic prune of expired sessions, every 2 minutes.
   setInterval(async () => {
     try {
       await pool.query('SELECT 1');
-      console.log('Database keep-alive ping successful');
+      await pool.query('DELETE FROM sessions WHERE expires_at IS NOT NULL AND expires_at < now()');
     } catch (err) {
-      console.error('Database keep-alive ping failed:', err);
+      console.error('Database keep-alive/prune failed:', err);
     }
   }, 120000); // 2 minutes
 }
@@ -333,7 +341,11 @@ async function createUser(user) {
 
 async function createSession(token, userId) {
   await init();
-  await pool.query('INSERT INTO sessions (token, user_id) VALUES ($1, $2)', [token, userId]);
+  const expiresAt = new Date(Date.now() + SESSION_TTL_MS).toISOString();
+  await pool.query(
+    'INSERT INTO sessions (token, user_id, expires_at) VALUES ($1, $2, $3)',
+    [hashToken(token), userId, expiresAt]
+  );
 }
 
 async function getUserByToken(token) {
@@ -341,8 +353,9 @@ async function getUserByToken(token) {
   if (!token) return null;
 
   const result = await pool.query(
-    'SELECT users.* FROM sessions JOIN users ON users.id = sessions.user_id WHERE sessions.token = $1',
-    [token]
+    `SELECT users.* FROM sessions JOIN users ON users.id = sessions.user_id
+     WHERE sessions.token = $1 AND (sessions.expires_at IS NULL OR sessions.expires_at > now())`,
+    [hashToken(token)]
   );
   return rowToUser(result.rows[0]);
 }
@@ -350,7 +363,7 @@ async function getUserByToken(token) {
 async function deleteSession(token) {
   await init();
   if (!token) return;
-  await pool.query('DELETE FROM sessions WHERE token = $1', [token]);
+  await pool.query('DELETE FROM sessions WHERE token = $1', [hashToken(token)]);
 }
 
 async function updateUser(userId, patch) {
