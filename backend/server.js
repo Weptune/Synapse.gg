@@ -2152,40 +2152,30 @@ async function endMatch(match) {
   let p2Delta = 0;
 
   if (!isBotMatch) {
-    let K_p1 = match.p1.elo < 1300 ? 50 : (match.p1.elo > 1800 ? 16 : 32);
-    let K_p2 = match.p2.elo < 1300 ? 50 : (match.p2.elo > 1800 ? 16 : 32);
-
+    // P2-6: zero-sum Elo. One K (by the average rating tier) and a single
+    // transfer, so the winner gains exactly what the loser loses and ratings
+    // don't inflate. The decisive-win (HP margin) bonus is applied to that one
+    // transfer, symmetrically. NOTE: this changes ladder magnitudes from the
+    // previous per-player-K + double-margin formula.
+    const avgElo = (match.p1.elo + match.p2.elo) / 2;
+    const K = avgElo < 1300 ? 50 : (avgElo > 1800 ? 16 : 32);
     const expectedP1 = 1 / (1 + Math.pow(10, (match.p2.elo - match.p1.elo) / 400));
-    const expectedP2 = 1 / (1 + Math.pow(10, (match.p1.elo - match.p2.elo) / 400));
 
     if (winner && loser) {
-      const K_winner = winner.elo < 1300 ? 50 : (winner.elo > 1800 ? 16 : 32);
-      const K_loser = loser.elo < 1300 ? 50 : (loser.elo > 1800 ? 16 : 32);
-      const expectedWinner = winner.id === match.p1.id ? expectedP1 : expectedP2;
-      const expectedLoser = loser.id === match.p1.id ? expectedP1 : expectedP2;
+      const expectedWinner = winner.id === match.p1.id ? expectedP1 : (1 - expectedP1);
       const marginMultiplier = 1 + (winner.hp / 100) * 0.5;
-
-      const winnerDelta = Math.round(K_winner * marginMultiplier * (1 - expectedWinner));
-      const loserDelta = Math.round(K_loser * marginMultiplier * (0 - expectedLoser));
-
-      winner.elo = winner.elo + winnerDelta;
-      loser.elo = Math.max(0, loser.elo + loserDelta);
-
-      if (winner.id === match.p1.id) {
-        p1Delta = winnerDelta;
-        p2Delta = loserDelta;
-      } else {
-        p1Delta = loserDelta;
-        p2Delta = winnerDelta;
-      }
+      const transfer = Math.max(1, Math.round(K * marginMultiplier * (1 - expectedWinner)));
+      if (winner.id === match.p1.id) { p1Delta = transfer; p2Delta = -transfer; }
+      else { p1Delta = -transfer; p2Delta = transfer; }
     } else {
-      // Draw ELO calculation
-      p1Delta = Math.round(K_p1 * (0.5 - expectedP1));
-      p2Delta = Math.round(K_p2 * (0.5 - expectedP2));
-
-      match.p1.elo = Math.max(0, match.p1.elo + p1Delta);
-      match.p2.elo = Math.max(0, match.p2.elo + p2Delta);
+      // Draw: symmetric adjustment toward the expected result.
+      const d = Math.round(K * (0.5 - expectedP1));
+      p1Delta = d;
+      p2Delta = -d;
     }
+
+    match.p1.elo = Math.max(0, match.p1.elo + p1Delta);
+    match.p2.elo = Math.max(0, match.p2.elo + p2Delta);
   }
 
   match.p1.eloDelta = p1Delta;
