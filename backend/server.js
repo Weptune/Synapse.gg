@@ -1050,19 +1050,31 @@ setInterval(() => {
   }
 }, 1500);
 
+// P2-3: schedule a match-flow timer that is tracked on the match, so every
+// pending callback can be cancelled when the match is cleaned up (no more
+// zombie rounds firing after a disconnect). Fired timers remove themselves.
+function schedule(match, fn, ms) {
+  if (!match.timers) match.timers = [];
+  const id = setTimeout(() => {
+    if (match.timers) match.timers = match.timers.filter(t => t !== id);
+    fn();
+  }, ms);
+  match.timers.push(id);
+  return id;
+}
+
+function clearMatchTimers(match) {
+  if (match.draftTimer) { clearTimeout(match.draftTimer); match.draftTimer = null; }
+  if (match.roundTimer) { clearTimeout(match.roundTimer); match.roundTimer = null; }
+  if (match.timers) { match.timers.forEach(clearTimeout); match.timers = []; }
+}
+
 function cleanupMatch(matchId) {
   if (!matchId) return;
   const match = matches[matchId];
   if (!match) return;
 
-  if (match.draftTimer) {
-    clearTimeout(match.draftTimer);
-    match.draftTimer = null;
-  }
-  if (match.roundTimer) {
-    clearTimeout(match.roundTimer);
-    match.roundTimer = null;
-  }
+  clearMatchTimers(match);
 
   // Remove match references from players if they point to this match
   if (match.p1 && players[match.p1.id] && players[match.p1.id].matchId === matchId) {
@@ -1100,6 +1112,7 @@ function createMatch(p1, p2, domain = 'all') {
     currentRound: 0,
     questions: [],
     roundsHistory: [],
+    timers: [],
   };
 
   matches[matchId] = match;
@@ -1857,10 +1870,11 @@ function processDraft(match, playerId, subject) {
   emitToPlayer(match.p1, 'draft_complete', { subject: match.selectedSubject, pickerId: playerId });
   emitToPlayer(match.p2, 'draft_complete', { subject: match.selectedSubject, pickerId: playerId });
 
-  setTimeout(() => startNextRound(match), 2000);
+  schedule(match, () => startNextRound(match), 2000);
 }
 
 function startNextRound(match) {
+  if (!matches[match.id] || matches[match.id] !== match) return;
   if (match.p1.hp <= 0 || match.p2.hp <= 0) {
     endMatch(match);
     return;
@@ -1906,9 +1920,9 @@ function startNextRound(match) {
       delay = maxAllowedDelay;
     }
 
-    setTimeout(() => {
+    schedule(match, () => {
       const liveMatch = matches[match.id];
-      if (!liveMatch || liveMatch.state !== 'battle' || !liveMatch.roundState) return;
+      if (!liveMatch || liveMatch !== match || liveMatch.state !== 'battle' || !liveMatch.roundState) return;
       if (liveMatch.roundState.answers[botId]) return;
 
       const isCorrect = Math.random() > 0.58;
@@ -2032,13 +2046,14 @@ function resolveRound(match) {
   emitToPlayer(match.p2, 'round_result', resultPayload);
 
   if (match.p1.hp === 0 || match.p2.hp === 0) {
-    setTimeout(() => endMatch(match), 3000);
+    schedule(match, () => endMatch(match), 3000);
   } else {
     match.currentRound++;
     match.draftTurn = match.draftTurn === match.p1.id ? match.p2.id : match.p1.id;
     match.state = 'drafting';
 
-    setTimeout(() => {
+    schedule(match, () => {
+      if (!matches[match.id] || matches[match.id] !== match) return;
       emitToPlayer(match.p1, 'back_to_draft', { draftTurn: match.draftTurn, round: match.currentRound + 1 });
       emitToPlayer(match.p2, 'back_to_draft', { draftTurn: match.draftTurn, round: match.currentRound + 1 });
 
@@ -2046,8 +2061,8 @@ function resolveRound(match) {
 
       const botId = match.p1.isBot ? match.p1.id : match.p2.isBot ? match.p2.id : null;
       if (botId && match.draftTurn === botId) {
-        setTimeout(() => {
-          if (matches[match.id] && matches[match.id].state === 'drafting') {
+        schedule(match, () => {
+          if (matches[match.id] && matches[match.id] === match && matches[match.id].state === 'drafting') {
             const botPlayer = match.p1.isBot ? match.p1 : match.p2;
             const randomSubject = botPlayer.hand[Math.floor(Math.random() * botPlayer.hand.length)];
             processDraft(matches[match.id], botId, randomSubject);
@@ -2212,8 +2227,7 @@ async function endMatch(match) {
       roundsHistory: match.roundsHistory || []
     });
 
-    if (match.draftTimer) clearTimeout(match.draftTimer);
-    if (match.roundTimer) clearTimeout(match.roundTimer);
+    clearMatchTimers(match);
     delete matches[match.id];
   }
 }
@@ -2256,8 +2270,8 @@ function checkDiscardPhase(match) {
 
     const botId = match.p1.isBot ? match.p1.id : match.p2.isBot ? match.p2.id : null;
     if (botId && match.draftTurn === botId) {
-      setTimeout(() => {
-        if (matches[match.id] && matches[match.id].state === 'drafting') {
+      schedule(match, () => {
+        if (matches[match.id] && matches[match.id] === match && matches[match.id].state === 'drafting') {
           const botPlayer = match.p1.isBot ? match.p1 : match.p2;
           const randomSubject = botPlayer.hand[Math.floor(Math.random() * botPlayer.hand.length)];
           processDraft(matches[match.id], botId, randomSubject);
