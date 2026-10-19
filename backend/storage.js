@@ -174,7 +174,6 @@ async function init() {
     ALTER TABLE users ADD COLUMN IF NOT EXISTS highest_daily_streak INTEGER DEFAULT 0;
     ALTER TABLE users ADD COLUMN IF NOT EXISTS last_daily_challenge_at TEXT;
     UPDATE users SET highest_daily_streak = daily_streak WHERE highest_daily_streak < daily_streak;
-    DELETE FROM users WHERE username IN ('AlphaZero', 'DeepBlue', 'Stockfish', 'LeelaZero', 'Watson');
     ALTER TABLE tournaments ADD COLUMN IF NOT EXISTS bracket TEXT;
     ALTER TABLE sessions ADD COLUMN IF NOT EXISTS expires_at TIMESTAMPTZ;
   `);

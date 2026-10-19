@@ -99,6 +99,12 @@ let matches = {};
 const userSockets = new Map();
 const activeChallenges = new Map();
 
+// Reserved so a real player can never register a bot name and be wiped
+// (the server previously DELETE'd these usernames on every boot).
+const RESERVED_USERNAMES = new Set(
+  ['AlphaZero', 'DeepBlue', 'Stockfish', 'LeelaZero', 'Watson', 'bot'].map(n => n.toLowerCase())
+);
+
 async function notifyFriendsStatusChange(userId, isOnline) {
   try {
     const friendships = await storage.getFriendships(userId);
@@ -208,6 +214,11 @@ app.post('/auth/signup', async (req, res) => {
     return;
   }
 
+  if (RESERVED_USERNAMES.has(username.toLowerCase())) {
+    res.status(409).json({ error: 'That username is reserved.' });
+    return;
+  }
+
   if (password.length < 6) {
     res.status(400).json({ error: 'Password must be at least 6 characters.' });
     return;
@@ -263,6 +274,12 @@ app.patch('/me', requireAuth, async (req, res) => {
 
   if (!/^[a-zA-Z0-9_]{3,20}$/.test(requestedUsername)) {
     res.status(400).json({ error: 'Username must be 3-20 characters: letters, numbers, or underscore.' });
+    return;
+  }
+
+  if (RESERVED_USERNAMES.has(requestedUsername.toLowerCase()) &&
+      requestedUsername.toLowerCase() !== req.user.username.toLowerCase()) {
+    res.status(409).json({ error: 'That username is reserved.' });
     return;
   }
 
