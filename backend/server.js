@@ -4,7 +4,11 @@ const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
 const crypto = require('crypto');
+const { promisify } = require('util');
+const rateLimit = require('express-rate-limit');
 const storage = require('./storage');
+
+const scryptAsync = promisify(crypto.scrypt);
 
 // P0-1: Never let a single bad event or a transient DB error take down the
 // whole process (which would drop every live match, lobby and tournament).
@@ -69,8 +73,29 @@ const corsOptions = {
   allowedHeaders: ['Content-Type', 'Authorization']
 };
 
+// Behind Render/Railway's proxy, so the client IP is in X-Forwarded-For.
+app.set('trust proxy', 1);
+
 app.use(cors(corsOptions));
 app.use(express.json({ limit: '6mb' }));
+
+// P1-5: throttle auth and upload endpoints against brute force / spam.
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 50,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many attempts. Please try again in a few minutes.' }
+});
+const uploadLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many uploads. Please slow down.' }
+});
+app.use('/auth', authLimiter);
+app.use('/upload', uploadLimiter);
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: corsOptions
@@ -165,14 +190,19 @@ function publicUser(user) {
   };
 }
 
-function hashPassword(password, salt = crypto.randomBytes(16).toString('hex')) {
-  const hash = crypto.scryptSync(password, salt, 64).toString('hex');
-  return { salt, hash };
+// P1-5: hash off the event loop. scryptSync blocked the single thread for
+// every signup/login, stalling all live match timers and inflating answer
+// timings; the async variant keeps the loop free.
+async function hashPassword(password, salt = crypto.randomBytes(16).toString('hex')) {
+  const buf = await scryptAsync(password, salt, 64);
+  return { salt, hash: buf.toString('hex') };
 }
 
-function verifyPassword(password, user) {
-  const { hash } = hashPassword(password, user.passwordSalt);
-  return crypto.timingSafeEqual(Buffer.from(hash, 'hex'), Buffer.from(user.passwordHash, 'hex'));
+async function verifyPassword(password, user) {
+  const { hash } = await hashPassword(password, user.passwordSalt);
+  const a = Buffer.from(hash, 'hex');
+  const b = Buffer.from(user.passwordHash, 'hex');
+  return a.length === b.length && crypto.timingSafeEqual(a, b);
 }
 
 async function createSession(userId) {
@@ -242,7 +272,7 @@ app.post('/auth/signup', async (req, res) => {
     return;
   }
 
-  const { salt, hash } = hashPassword(password);
+  const { salt, hash } = await hashPassword(password);
   const user = {
     id: crypto.randomUUID(),
     username,
@@ -269,7 +299,7 @@ app.post('/auth/login', async (req, res) => {
   const password = String(req.body.password || '');
   const user = await storage.getUserByUsername(username);
 
-  if (!user || !verifyPassword(password, user)) {
+  if (!user || !(await verifyPassword(password, user))) {
     res.status(401).json({ error: 'Invalid username or password.' });
     return;
   }
@@ -1081,6 +1111,19 @@ function emitMatchFound(match) {
 io.on('connection', (socket) => {
   console.log('A user connected:', socket.id);
 
+  // P1-5: cheap per-socket fixed-window limiter for spammy events.
+  const rateLimited = (key, max, windowMs) => {
+    const now = Date.now();
+    if (!socket._rl) socket._rl = {};
+    const b = socket._rl[key];
+    if (!b || now > b.reset) {
+      socket._rl[key] = { count: 1, reset: now + windowMs };
+      return false;
+    }
+    b.count += 1;
+    return b.count > max;
+  };
+
   // P0-1: wrap every socket handler so a malformed payload or a DB error
   // becomes a logged, isolated failure instead of an uncaught crash.
   const safeOn = (event, handler) => {
@@ -1136,6 +1179,7 @@ io.on('connection', (socket) => {
 
   safeOn('send_chat_message', async (data) => {
     if (!socket.userId || !data || !data.message) return;
+    if (rateLimited('chat', 5, 10000)) return;
     const user = await storage.getUserById(socket.userId);
     if (!user) return;
 
@@ -1165,6 +1209,7 @@ io.on('connection', (socket) => {
 
   safeOn('send_direct_message', async (data) => {
     if (!socket.userId || !data || !data.recipientId || !data.message) return;
+    if (rateLimited('dm', 10, 10000)) return;
     const user = await storage.getUserById(socket.userId);
     if (!user) return;
 
@@ -1220,6 +1265,7 @@ io.on('connection', (socket) => {
 
   safeOn('battle_reaction', (data) => {
     if (!socket.userId || !data || !data.reaction) return;
+    if (rateLimited('reaction', 5, 5000)) return;
     const player = players[socket.id];
     if (!player || !player.matchId) return;
     const match = matches[player.matchId];
