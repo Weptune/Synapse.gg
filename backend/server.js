@@ -1750,6 +1750,10 @@ io.on('connection', (socket) => {
     if (!Number.isInteger(idx) || idx < 0 || idx > 3) return;
 
     const timeTaken = Date.now() - roundData.startTime;
+    // P2-5: ignore answers that land after the question's time limit (plus a
+    // small network grace) so a late submission can't still score.
+    const limitMs = ((roundData.question && roundData.question.timeLimit) || 30) * 1000;
+    if (timeTaken > limitMs + 1000) return;
     roundData.answers[playerId] = {
       answer: idx,
       timeTaken
