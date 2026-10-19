@@ -542,7 +542,8 @@ async function recordMatch(match) {
       id, winner_id, loser_id, player_one_id, player_two_id, player_one_name, player_two_name,
       player_one_elo_before, player_two_elo_before, player_one_elo_after, player_two_elo_after,
       player_one_delta, player_two_delta, rounds, finished_at, domain, rounds_history
-    ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)`,
+    ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)
+    ON CONFLICT (id) DO NOTHING`,
     [
       match.id, match.winnerId, match.loserId, match.playerOneId, match.playerTwoId,
       match.playerOneName, match.playerTwoName, match.playerOneEloBefore, match.playerTwoEloBefore,

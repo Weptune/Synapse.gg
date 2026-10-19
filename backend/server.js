@@ -2143,69 +2143,76 @@ async function endMatch(match) {
   const patches = [];
   if (!match.p1.isBot && match.p1.userId) patches.push(buildPatch(match.p1, p1Delta));
   if (!match.p2.isBot && match.p2.userId) patches.push(buildPatch(match.p2, p2Delta));
-  await storage.settleMatch(patches);
 
-  await storage.recordMatch({
-    id: match.id,
-    winnerId: winner ? (winner.isBot ? null : winner.userId) : null,
-    loserId: loser ? (loser.isBot ? null : loser.userId) : null,
-    playerOneId: match.p1.isBot ? null : match.p1.userId,
-    playerTwoId: match.p2.isBot ? null : match.p2.userId,
-    playerOneName: match.p1.name,
-    playerTwoName: match.p2.name,
-    playerOneEloBefore: match.p1.eloBeforeMatch || match.p1.elo,
-    playerTwoEloBefore: match.p2.eloBeforeMatch || match.p2.elo,
-    playerOneEloAfter: match.p1.elo,
-    playerTwoEloAfter: match.p2.elo,
-    playerOneDelta: match.p1.eloDelta || 0,
-    playerTwoDelta: match.p2.eloDelta || 0,
-    rounds: match.currentRound + 1,
-    finishedAt: new Date().toISOString(),
-    domain: match.domain || 'all',
-    roundsHistory: match.roundsHistory || []
-  });
+  // P1-8: persist the result, but always notify both clients and clean the
+  // match out of memory afterwards (in finally) even if a write throws, so a
+  // DB hiccup can't leave a zombie match or hang the players on a result screen.
+  try {
+    await storage.settleMatch(patches);
 
-  if (match.tournamentId && match.tournamentMatchId) {
-    const tour = activeTournaments[match.tournamentId];
-    if (tour) {
-      const bracket = tour.bracket;
-      // Look the bracket match up across all rounds, not just the current one,
-      // so a result that arrives late (after the round advanced) is never dropped.
-      const bracketMatch = findBracketMatch(bracket, match.tournamentMatchId);
-      if (bracketMatch) {
-        const winnerObj = winner && winner.id === match.p1.id ? bracketMatch.p1 : bracketMatch.p2;
-        bracketMatch.winner = winnerObj;
-        bracketMatch.status = 'completed';
-        
-        await storage.updateTournamentBracket(match.tournamentId, bracket);
-        io.emit('bracket_updated', { tournamentId: match.tournamentId, bracket });
-        
-        // Check if round done & advance
-        await advanceBracketOrFinish(match.tournamentId);
+    await storage.recordMatch({
+      id: match.id,
+      winnerId: winner ? (winner.isBot ? null : winner.userId) : null,
+      loserId: loser ? (loser.isBot ? null : loser.userId) : null,
+      playerOneId: match.p1.isBot ? null : match.p1.userId,
+      playerTwoId: match.p2.isBot ? null : match.p2.userId,
+      playerOneName: match.p1.name,
+      playerTwoName: match.p2.name,
+      playerOneEloBefore: match.p1.eloBeforeMatch || match.p1.elo,
+      playerTwoEloBefore: match.p2.eloBeforeMatch || match.p2.elo,
+      playerOneEloAfter: match.p1.elo,
+      playerTwoEloAfter: match.p2.elo,
+      playerOneDelta: match.p1.eloDelta || 0,
+      playerTwoDelta: match.p2.eloDelta || 0,
+      rounds: match.currentRound + 1,
+      finishedAt: new Date().toISOString(),
+      domain: match.domain || 'all',
+      roundsHistory: match.roundsHistory || []
+    });
+
+    if (match.tournamentId && match.tournamentMatchId) {
+      const tour = activeTournaments[match.tournamentId];
+      if (tour) {
+        const bracket = tour.bracket;
+        // Look the bracket match up across all rounds, not just the current
+        // one, so a result that arrives late is never dropped.
+        const bracketMatch = findBracketMatch(bracket, match.tournamentMatchId);
+        if (bracketMatch) {
+          const winnerObj = winner && winner.id === match.p1.id ? bracketMatch.p1 : bracketMatch.p2;
+          bracketMatch.winner = winnerObj;
+          bracketMatch.status = 'completed';
+
+          await storage.updateTournamentBracket(match.tournamentId, bracket);
+          io.emit('bracket_updated', { tournamentId: match.tournamentId, bracket });
+
+          await advanceBracketOrFinish(match.tournamentId);
+        }
       }
     }
+  } catch (err) {
+    console.error(`Failed to persist match ${match.id} result:`, err);
+  } finally {
+    emitToPlayer(match.p1, 'match_end', {
+      winner: winner ? winner.id : 'draw',
+      elo: match.p1.elo,
+      eloDelta: match.p1.eloDelta || 0,
+      domain: match.domain || 'all',
+      reason: match.endReason,
+      roundsHistory: match.roundsHistory || []
+    });
+    emitToPlayer(match.p2, 'match_end', {
+      winner: winner ? winner.id : 'draw',
+      elo: match.p2.elo,
+      eloDelta: match.p2.eloDelta || 0,
+      domain: match.domain || 'all',
+      reason: match.endReason,
+      roundsHistory: match.roundsHistory || []
+    });
+
+    if (match.draftTimer) clearTimeout(match.draftTimer);
+    if (match.roundTimer) clearTimeout(match.roundTimer);
+    delete matches[match.id];
   }
-
-  emitToPlayer(match.p1, 'match_end', {
-    winner: winner ? winner.id : 'draw',
-    elo: match.p1.elo,
-    eloDelta: match.p1.eloDelta || 0,
-    domain: match.domain || 'all',
-    reason: match.endReason,
-    roundsHistory: match.roundsHistory || []
-  });
-  emitToPlayer(match.p2, 'match_end', {
-    winner: winner ? winner.id : 'draw',
-    elo: match.p2.elo,
-    eloDelta: match.p2.eloDelta || 0,
-    domain: match.domain || 'all',
-    reason: match.endReason,
-    roundsHistory: match.roundsHistory || []
-  });
-
-  if (match.draftTimer) clearTimeout(match.draftTimer);
-  if (match.roundTimer) clearTimeout(match.roundTimer);
-  delete matches[match.id];
 }
 
 function startDraftTimer(matchId) {
