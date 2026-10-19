@@ -2212,7 +2212,16 @@ async function endMatch(match) {
         // one, so a result that arrives late is never dropped.
         const bracketMatch = findBracketMatch(bracket, match.tournamentMatchId);
         if (bracketMatch) {
-          const winnerObj = winner && winner.id === match.p1.id ? bracketMatch.p1 : bracketMatch.p2;
+          let winnerObj;
+          if (winner) {
+            winnerObj = winner.id === match.p1.id ? bracketMatch.p1 : bracketMatch.p2;
+          } else {
+            // Draw: advance the higher seed (rating) deterministically rather
+            // than always player 2.
+            const e1 = bracketMatch.p1 ? (bracketMatch.p1.elo || 0) : -Infinity;
+            const e2 = bracketMatch.p2 ? (bracketMatch.p2.elo || 0) : -Infinity;
+            winnerObj = e2 > e1 ? bracketMatch.p2 : bracketMatch.p1;
+          }
           bracketMatch.winner = winnerObj;
           bracketMatch.status = 'completed';
 
@@ -2366,13 +2375,36 @@ function propagateBracketWinners(bracket) {
   }
 }
 
+// Standard single-elimination seed order (1-indexed seeds) for a bracket of
+// `size` slots, so the top seed meets the lowest, etc., and byes land on the
+// strongest players.
+function standardSeedOrder(size) {
+  let seeds = [1, 2];
+  while (seeds.length < size) {
+    const sum = seeds.length * 2 + 1;
+    const next = [];
+    for (const s of seeds) {
+      next.push(s);
+      next.push(sum - s);
+    }
+    seeds = next;
+  }
+  return seeds;
+}
+
 function generateBracket(players) {
   const count = players.length;
   let size = 2;
   if (count > 8) size = 16;
   else if (count > 4) size = 8;
   else if (count > 2) size = 4;
-  
+
+  // Seed by rating: order the slots so higher-rated players are spread out and
+  // get the byes, instead of pairing by lobby-join order.
+  const ranked = [...players].sort((a, b) => (b.elo || 0) - (a.elo || 0));
+  const seedOrder = standardSeedOrder(size);
+  players = seedOrder.map(seed => ranked[seed - 1] || null);
+
   const rounds = [];
   let currentMatchesCount = size / 2;
   let roundIdx = 0;
