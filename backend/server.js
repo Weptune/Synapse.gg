@@ -40,6 +40,8 @@ app.get('/assets/:assetId', async (req, res) => {
 
     const buffer = Buffer.from(asset.dataBase64, 'base64');
     res.set('Cache-Control', 'public, max-age=31536000, immutable');
+    // Don't let the browser sniff a different (e.g. script/HTML) type.
+    res.set('X-Content-Type-Options', 'nosniff');
     res.type(asset.mimeType).send(buffer);
   } catch (error) {
     console.error('Failed to serve asset:', error);
@@ -401,10 +403,33 @@ function uploadToCloudinary(base64Image) {
   });
 }
 
+// P2-9: only accept real raster images (no SVG, which can carry script), and
+// cap the decoded size.
+const ALLOWED_IMAGE_SUBTYPES = { png: 'png', jpeg: 'jpeg', jpg: 'jpeg', webp: 'webp' };
+const MAX_IMAGE_BYTES = 3 * 1024 * 1024; // 3 MB decoded
+
 app.post('/upload', requireAuth, async (req, res) => {
   const { image } = req.body;
-  if (!image) {
+  if (!image || typeof image !== 'string') {
     res.status(400).json({ error: 'No image data provided.' });
+    return;
+  }
+
+  const matches = image.match(/^data:image\/([A-Za-z0-9+.-]+);base64,(.+)$/);
+  if (!matches) {
+    res.status(400).json({ error: 'Invalid base64 image data format.' });
+    return;
+  }
+  const subtype = ALLOWED_IMAGE_SUBTYPES[matches[1].toLowerCase()];
+  if (!subtype) {
+    res.status(400).json({ error: 'Only PNG, JPEG and WebP images are allowed.' });
+    return;
+  }
+  const data = matches[2];
+  // base64 is ~4/3 the byte size; estimate decoded length.
+  const approxBytes = Math.floor(data.length * 3 / 4);
+  if (approxBytes > MAX_IMAGE_BYTES) {
+    res.status(413).json({ error: 'Image is too large (max 3 MB).' });
     return;
   }
 
@@ -420,16 +445,7 @@ app.post('/upload', requireAuth, async (req, res) => {
   }
 
   try {
-    const matches = image.match(/^data:image\/([A-Za-z0-9+.-]+);base64,(.+)$/);
-    if (!matches || matches.length !== 3) {
-      res.status(400).json({ error: 'Invalid base64 image data format.' });
-      return;
-    }
-
-    const subtype = matches[1] === 'jpeg' ? 'jpeg' : matches[1].replace('xml+svg', 'svg');
     const mimeType = `image/${subtype}`;
-    const data = matches[2];
-
     const assetId = await storage.saveUserAsset(req.user.id, mimeType, data);
     res.json({ url: `/assets/${assetId}` });
   } catch (error) {
