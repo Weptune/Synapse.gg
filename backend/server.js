@@ -691,6 +691,9 @@ app.post('/friends/remove', requireAuth, async (req, res) => {
 
     const friendSocketId = userSockets.get(friendId);
     if (friendSocketId) {
+      // Distinct event for a removal; keep the old one for clients that still
+      // refresh on it.
+      io.to(friendSocketId).emit('friend_removed', { friendId: req.user.id });
       io.to(friendSocketId).emit('friend_request_received');
     }
 
