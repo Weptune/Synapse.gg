@@ -862,6 +862,9 @@ export default function Home() {
   const [dailyChallengeSelectedOpt, setDailyChallengeSelectedOpt] = useState<number | null>(null);
   const [dailyChallengeRevealed, setDailyChallengeRevealed] = useState<boolean>(false);
   const [dailyChallengeStartTime, setDailyChallengeStartTime] = useState<number>(0);
+  // Server-graded result for the daily challenge (the client no longer knows
+  // the correct answers; grading happens on submit).
+  const [dailyServerResult, setDailyServerResult] = useState<{ correct: number; total: number; xpAwarded: number } | null>(null);
 
   useEffect(() => {
     setExpandedRound(null);
@@ -1867,22 +1870,39 @@ export default function Home() {
     setDailyChallengeIndex(0);
     setDailyChallengeSelectedOpt(null);
     setDailyChallengeRevealed(false);
+    setDailyServerResult(null);
     setDailyChallengeStatus("playing");
     setDailyChallengeTimeLeft(15);
     setDailyChallengeStartTime(Date.now());
     setIsDailyChallengeActive(true);
+    // Submission now happens once, at the end, with the chosen answers so the
+    // server can grade them and award XP by score.
+  };
 
+  const submitDailyChallenge = async (
+    collected: { questionIndex: number; selectedIndex: number; correct: boolean; timeTaken: number }[]
+  ) => {
+    const activeToken = token;
+    // Answers ordered by question index; -1 for any the player didn't answer.
+    const answers = dailyQuestions.map((_, i) => {
+      const a = collected.find(x => x.questionIndex === i);
+      return a ? a.selectedIndex : -1;
+    });
     try {
-      const data = await apiRequest<{ success: boolean; streak: number; highestStreak: number; xpAwarded: number }>("/daily-challenge/attempt", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const data = await apiRequest<{ success: boolean; alreadyPlayed: boolean; streak: number; highestStreak: number; xpAwarded: number; correct: number; total: number }>(
+        "/daily-challenge/attempt",
+        {
+          method: "POST",
+          headers: { Authorization: `Bearer ${activeToken}` },
+          body: JSON.stringify({ answers })
+        }
+      );
       if (data.success) {
         setDailyStreak(data.streak);
         setHighestDailyStreak(data.highestStreak);
         setAlreadyPlayedDaily(true);
-        // Refresh account metadata (updates Level/XP)
-        apiRequest<{ user: Account }>("/me", { headers: { Authorization: `Bearer ${token}` } })
+        setDailyServerResult({ correct: data.correct ?? 0, total: data.total ?? dailyQuestions.length, xpAwarded: data.xpAwarded ?? 0 });
+        apiRequest<{ user: Account }>("/me", { headers: { Authorization: `Bearer ${activeToken}` } })
           .then(res => setAccount(res.user))
           .catch(() => {});
       }
@@ -1895,27 +1915,21 @@ export default function Home() {
     if (dailyChallengeRevealed) return;
 
     const timeTaken = Date.now() - dailyChallengeStartTime;
-    const currentQuestion = dailyQuestions[dailyChallengeIndex];
-    const isCorrect = optIdx === currentQuestion.answer;
-
-    if (isCorrect) {
-      playSound("confirm");
-    } else {
-      playSound("damage");
-    }
+    playSound("confirm");
 
     setDailyChallengeSelectedOpt(optIdx);
     setDailyChallengeRevealed(true);
 
-    setDailyChallengeAnswers(prev => [
-      ...prev,
-      {
-        questionIndex: dailyChallengeIndex,
-        selectedIndex: optIdx,
-        correct: isCorrect,
-        timeTaken
-      }
-    ]);
+    // The client can't know correctness (answers aren't sent to it); just
+    // record the selection. Correctness/score comes back from the server.
+    const recorded = {
+      questionIndex: dailyChallengeIndex,
+      selectedIndex: optIdx,
+      correct: false,
+      timeTaken
+    };
+    const allAnswers = [...dailyChallengeAnswers, recorded];
+    setDailyChallengeAnswers(allAnswers);
 
     setTimeout(() => {
       if (dailyChallengeIndex + 1 < dailyQuestions.length) {
@@ -1926,6 +1940,7 @@ export default function Home() {
         setDailyChallengeStartTime(Date.now());
       } else {
         setDailyChallengeStatus("summary");
+        submitDailyChallenge(allAnswers);
       }
     }, 2000);
   };
@@ -3036,18 +3051,15 @@ export default function Home() {
 
                   <div className="space-y-2.5 mb-2 overflow-y-auto pr-0.5 flex-1 scrollbar-thin">
                     {dailyQuestions[dailyChallengeIndex].options.map((opt: string, optIdx: number) => {
-                      const isCorrect = optIdx === dailyQuestions[dailyChallengeIndex].answer;
                       const isSelected = dailyChallengeSelectedOpt === optIdx;
-                      
+
+                      // Correctness isn't known client-side (graded on submit),
+                      // so a revealed selection is just highlighted as chosen.
                       let btnStyle = "border-white/5 bg-white/[0.02] text-slate-300 hover:border-white/10 hover:bg-white/[0.04]";
                       if (dailyChallengeRevealed) {
-                        if (isCorrect) {
-                          btnStyle = "border-emerald-500/40 bg-emerald-500/[0.1] text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.15)]";
-                        } else if (isSelected) {
-                          btnStyle = "border-red-500/40 bg-red-500/[0.1] text-red-300";
-                        } else {
-                          btnStyle = "border-white/5 bg-white/[0.01] text-slate-500 opacity-60";
-                        }
+                        btnStyle = isSelected
+                          ? "border-teal-500/40 bg-teal-500/[0.1] text-teal-300 shadow-[0_0_15px_rgba(20,184,166,0.15)]"
+                          : "border-white/5 bg-white/[0.01] text-slate-500 opacity-60";
                       }
 
                       return (
@@ -3058,8 +3070,8 @@ export default function Home() {
                           className={`w-full flex items-center justify-between rounded-xl border p-3 text-xs leading-normal font-medium transition-all duration-200 text-left ${btnStyle}`}
                         >
                           <span className="pr-4">{opt}</span>
-                          {dailyChallengeRevealed && isCorrect && (
-                            <Check size={16} className="text-emerald-400 shrink-0 font-black" />
+                          {dailyChallengeRevealed && isSelected && (
+                            <Check size={16} className="text-teal-400 shrink-0 font-black" />
                           )}
                         </button>
                       );
@@ -3087,7 +3099,7 @@ export default function Home() {
                     <div className="flex justify-between items-center text-xs">
                       <span className="text-slate-400">Score Achieved:</span>
                       <span className="text-white font-mono font-black">
-                        {dailyChallengeAnswers.filter(a => a.correct).length} / {dailyQuestions.length} Correct
+                        {dailyServerResult ? dailyServerResult.correct : "…"} / {dailyServerResult ? dailyServerResult.total : dailyQuestions.length} Correct
                       </span>
                     </div>
 
@@ -3110,7 +3122,7 @@ export default function Home() {
                     <div className="flex justify-between items-center text-xs border-t border-white/5 pt-3">
                       <span className="text-slate-400">XP Reward:</span>
                       <span className="text-teal-400 font-mono font-black uppercase">
-                        +150 XP Earned
+                        +{dailyServerResult ? dailyServerResult.xpAwarded : 0} XP Earned
                       </span>
                     </div>
                   </div>
