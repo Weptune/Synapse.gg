@@ -2103,8 +2103,9 @@ async function endMatch(match) {
     const tour = activeTournaments[match.tournamentId];
     if (tour) {
       const bracket = tour.bracket;
-      const currentRoundMatches = bracket.rounds[bracket.currentRound].matches;
-      const bracketMatch = currentRoundMatches.find(m => m.id === match.tournamentMatchId);
+      // Look the bracket match up across all rounds, not just the current one,
+      // so a result that arrives late (after the round advanced) is never dropped.
+      const bracketMatch = findBracketMatch(bracket, match.tournamentMatchId);
       if (bracketMatch) {
         const winnerObj = winner && winner.id === match.p1.id ? bracketMatch.p1 : bracketMatch.p2;
         bracketMatch.winner = winnerObj;
@@ -2378,17 +2379,30 @@ async function startTournamentBracket() {
   }
 }
 
+function findBracketMatch(bracket, matchId) {
+  for (const round of bracket.rounds) {
+    const m = round.matches.find(x => x.id === matchId);
+    if (m) return m;
+  }
+  return null;
+}
+
 function startRoundTimer(tournamentId) {
   const tour = activeTournaments[tournamentId];
   if (!tour) return;
 
   if (tour.timerId) clearTimeout(tour.timerId);
 
-  tour.timerId = setTimeout(async () => {
-    await resolveRoundForfeits(tournamentId);
+  tour.timerId = setTimeout(() => {
+    resolveRoundForfeits(tournamentId).catch(err =>
+      console.error('resolveRoundForfeits failed:', err));
   }, 90000);
 }
 
+// The round deadline only forfeits players who never showed up. A match that
+// is actually being played is left alone to report its real result, and a
+// result is never decided by coin flip (both of which the old timer did,
+// discarding real games that ran past 90s).
 async function resolveRoundForfeits(tournamentId) {
   const tour = activeTournaments[tournamentId];
   if (!tour) return;
@@ -2398,24 +2412,29 @@ async function resolveRoundForfeits(tournamentId) {
   let changed = false;
 
   for (const match of currentRoundMatches) {
-    if (match.status !== 'completed') {
-      changed = true;
-      const queued = match.queued || [];
-      const hasP1 = queued.includes(match.p1?.userId);
-      const hasP2 = queued.includes(match.p2?.userId);
+    if (match.status === 'completed' || match.status === 'playing') continue;
+    if (!match.p1 && !match.p2) continue; // empty slot
 
-      if (hasP1 && !hasP2) {
-        match.winner = match.p1;
-        match.status = 'completed';
-      } else if (hasP2 && !hasP1) {
-        match.winner = match.p2;
-        match.status = 'completed';
-      } else {
-        const winner = Math.random() > 0.5 ? match.p1 : (match.p2 || match.p1);
-        match.winner = winner;
-        match.status = 'completed';
-      }
+    const queued = match.queued || [];
+    const hasP1 = match.p1 && queued.includes(match.p1.userId);
+    const hasP2 = match.p2 && queued.includes(match.p2.userId);
+
+    if (match.p1 && !match.p2) {
+      match.winner = match.p1;            // bye
+    } else if (hasP1 && !hasP2) {
+      match.winner = match.p1;            // opponent no-show
+    } else if (hasP2 && !hasP1) {
+      match.winner = match.p2;            // opponent no-show
+    } else {
+      // Neither showed (or a rare queue race left no live game): advance the
+      // higher seed deterministically so the bracket never stalls and the
+      // outcome is reproducible.
+      const e1 = match.p1 ? match.p1.elo : -Infinity;
+      const e2 = match.p2 ? match.p2.elo : -Infinity;
+      match.winner = e2 > e1 ? match.p2 : match.p1;
     }
+    match.status = 'completed';
+    changed = true;
   }
 
   if (changed) {
