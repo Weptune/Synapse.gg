@@ -1299,6 +1299,9 @@ io.on('connection', (socket) => {
   safeOn('battle_reaction', (data) => {
     if (!socket.userId || !data || !data.reaction) return;
     if (rateLimited('reaction', 5, 5000)) return;
+    // Bound the relayed reaction (short string only) so it can't be abused as
+    // an arbitrary broadcast channel. Kept permissive to not drop real ones.
+    if (typeof data.reaction !== 'string' || data.reaction.length > 24) return;
     const player = players[socket.id];
     if (!player || !player.matchId) return;
     const match = matches[player.matchId];
@@ -1327,7 +1330,9 @@ io.on('connection', (socket) => {
           }, 1200);
         }
       } else {
-        const opponentSocketId = userSockets.get(opponent.id);
+        // opponent.socketId is the live socket; opponent.id is also the socket
+        // id, so the old userSockets.get(opponent.id) always missed.
+        const opponentSocketId = opponent.socketId;
         if (opponentSocketId) {
           io.to(opponentSocketId).emit('battle_reaction', {
             senderId: player.id,
